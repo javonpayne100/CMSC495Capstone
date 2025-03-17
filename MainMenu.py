@@ -56,7 +56,7 @@ def main():
                 elif MENU_OPTIONS['2'][0] <= mouse_x <= MENU_OPTIONS['2'][1] and MENU_OPTIONS['2'][2] <= mouse_y <= MENU_OPTIONS['2'][3]:
                     current_scene = 'trivia'
                 elif MENU_OPTIONS['3'][0] <= mouse_x <= MENU_OPTIONS['3'][1] and MENU_OPTIONS['3'][2] <= mouse_y <= MENU_OPTIONS['3'][3]:
-                    current_scene = 'breakout'  # changed to breakout scene
+                    current_scene = 'breakout'  
                 elif MENU_OPTIONS['4'][0] <= mouse_x <= MENU_OPTIONS['4'][1] and MENU_OPTIONS['4'][2] <= mouse_y <= MENU_OPTIONS['4'][3]:
                     pygame.quit()
                     sys.exit()
