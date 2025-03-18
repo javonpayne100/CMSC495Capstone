@@ -1,30 +1,51 @@
 # MenuInterface.py
 import pygame
 
-def render_text(screen, text, x, y, font, color):
+def render_text_centered(screen, text, y, font, color, screen_width):
     rendered_text = font.render(text, True, color)
-    screen.blit(rendered_text, (x, y))
+    text_rect = rendered_text.get_rect(center=(screen_width // 2, y))
+    screen.blit(rendered_text, text_rect)
+    return text_rect  # return the clickable area
 
 def draw_main_menu(screen, font, mouse_pos):
     screen.fill((0, 0, 0))
-
-    render_text(screen, "Main Menu", 140, 50, font, (255, 255, 255))
+    screen_width = screen.get_width()
 
     regular_color = (255, 255, 255)
     hover_color = (255, 255, 0)
 
-    option_1_color = hover_color if check_hover(mouse_pos, 140, 100, 300, 140) else regular_color
-    option_2_color = hover_color if check_hover(mouse_pos, 140, 150, 300, 190) else regular_color
-    option_3_color = hover_color if check_hover(mouse_pos, 140, 200, 300, 240) else regular_color
-    exit_color = hover_color if check_hover(mouse_pos, 140, 250, 300, 290) else regular_color
+    option_rects = {}
 
-    render_text(screen, "1. Tic-Tac-Toe", 140, 100, font, option_1_color)
-    render_text(screen, "2. Trivia", 140, 150, font, option_2_color)
-    render_text(screen, "3. Breakout", 140, 200, font, option_3_color)  
-    render_text(screen, "4. Exit", 140, 250, font, exit_color)
+    # Title
+    render_text_centered(screen, "Main Menu", 80, font, (255, 255, 255), screen_width)
+
+    # Menu Options
+    options = {
+        '1': "1. Tic-Tac-Toe",
+        '2': "2. Trivia",
+        '3': "3. Breakout",
+        '4': "4. Exit"
+    }
+
+    y_positions = {
+        '1': 140,
+        '2': 190,
+        '3': 240,
+        '4': 290
+    }
+
+    for key in options:
+        y = y_positions[key]
+        text = options[key]
+        is_hovered = False
+
+        temp_rect = render_text_centered(screen, text, y, font, regular_color, screen_width)
+        if temp_rect.collidepoint(mouse_pos):
+            is_hovered = True
+
+        color = hover_color if is_hovered else regular_color
+        option_rects[key] = render_text_centered(screen, text, y, font, color, screen_width)
 
     pygame.display.flip()
 
-def check_hover(mouse_pos, x1, y1, x2, y2):
-    mouse_x, mouse_y = mouse_pos
-    return x1 <= mouse_x <= x2 and y1 <= mouse_y <= y2
+    return option_rects  # return clickable areas
