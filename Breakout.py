@@ -182,9 +182,9 @@ def breakout_screen(screen, font):
 
                 pygame.mouse.set_visible(1)
                 if back_to_menu_button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                    exit_program = True
+                    return 'menu'  # Return to main menu
                 if restart_button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                    restart_game(screen, font)
+                    return 'restart'  # Restart the game
 
             if pygame.sprite.spritecollide(player, balls, False):
                 diff = (player.rect.x + player.width / 2) - (ball.rect.x + ball.width / 2)
@@ -200,15 +200,33 @@ def breakout_screen(screen, font):
         allsprites.draw(screen)
         pygame.display.flip()
 
+    return 'exit'  # If exit program is true, return 'exit'
 
 
-if __name__ == "__main__":
+# --- Main function ---
+def main():
     pygame.init()
     screen = pygame.display.set_mode([800, 600])
     pygame.display.set_caption('Breakout Game')
     pygame.mouse.set_visible(0)
     font = pygame.font.Font(None, 36)
 
-    main_menu(screen, font)
-    breakout_screen(screen, font)
-    pygame.quit()
+    # Main menu loop
+    while True:
+        # Display the main menu
+        main_menu(screen, font)
+
+        # Once the player selects 'Start', go to the breakout game
+        result = breakout_screen(screen, font)
+        if result == 'menu':
+            continue  # Back to the main menu if 'Back to Menu' is selected
+        elif result == 'exit':
+            pygame.quit()
+            break  # Exit the program
+        elif result == 'restart':
+            breakout_screen(screen, font)  # Restart the game if 'Restart' is selected
+
+
+if __name__ == "__main__":
+    main()
+
