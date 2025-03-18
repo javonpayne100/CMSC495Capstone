@@ -201,7 +201,7 @@ def breakout_screen(screen, font):
         pygame.display.flip()
 
 
-# Optional: remove main() if you're using this as an imported module
+
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode([800, 600])
