@@ -5,6 +5,10 @@ import pygame
 black = (0, 0, 0)
 white = (255, 255, 255)
 blue = (0, 0, 255)
+red = (255, 0, 0)
+green = (0, 255, 0)
+yellow = (255, 255, 0)
+magenta = (255, 0, 255)
 
 # --- Block size
 block_width = 23
@@ -48,19 +52,29 @@ class Ball(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
 
+        # Ball hitting the top wall
         if self.y <= 0:
             self.bounce(0)
             self.y = 1
+            return False  
+
+        # Ball hitting the left wall
         if self.x <= 0:
             self.direction = (360 - self.direction) % 360
             self.x = 1
+            return False  
+
+        # Ball hitting the right wall
         if self.x > self.screenwidth - self.width:
             self.direction = (360 - self.direction) % 360
             self.x = self.screenwidth - self.width - 1
-        if self.y > 600:
-            return True
-        else:
-            return False
+            return False  
+
+        # Ball hitting the bottom (Game Over)
+        if self.y > self.screenheight:
+            return True  # Ball falls below the screen, game over
+
+        return False  # Ball is still in play
 
 
 class Player(pygame.sprite.Sprite):
@@ -85,6 +99,7 @@ class Player(pygame.sprite.Sprite):
 
 # --- Main Menu ---
 def main_menu(screen, font):
+    pygame.mouse.set_visible(1)  # Show cursor in menu
     waiting = True
     while waiting:
         screen.fill(black)
@@ -100,13 +115,8 @@ def main_menu(screen, font):
                 waiting = False
 
 
-# --- Restart Game Function ---
-def restart_game(screen, font):
-    breakout_screen(screen, font)
-
-
 # --- Unified breakout_screen() ---
-def breakout_screen(screen, font):
+def breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound):
     # --- Main breakout game ---
     background = pygame.Surface(screen.get_size())
     blocks = pygame.sprite.Group()
@@ -120,12 +130,16 @@ def breakout_screen(screen, font):
     allsprites.add(ball)
     balls.add(ball)
 
+    # Row colors
+    row_colors = [red, green, blue, yellow, magenta]
+
     top = 80
     blockcount = 32
 
     for row in range(5):
+        color = row_colors[row % len(row_colors)]
         for column in range(0, blockcount):
-            block = Block(blue, column * (block_width + 2) + 1, top)
+            block = Block(color, column * (block_width + 2) + 1, top)
             blocks.add(block)
             allsprites.add(block)
         top += block_height + 2
@@ -153,54 +167,58 @@ def breakout_screen(screen, font):
         time_left = countdown_time - int(elapsed_time)
 
         if time_left > 0:
+            pygame.mouse.set_visible(1)  # Show cursor during countdown
             countdown_text = font.render(str(time_left), True, white)
             countdown_rect = countdown_text.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
             screen.blit(countdown_text, countdown_rect)
         else:
+            pygame.mouse.set_visible(0)  # Hide cursor during gameplay
             game_over = ball.update()
             player.update()
 
             if game_over:
+                pygame.mouse.set_visible(1)  # Show cursor on Game Over
                 text = font.render("Game Over", True, white)
                 textpos = text.get_rect(centerx=screen.get_width() / 2)
                 textpos.top = 300
                 screen.blit(text, textpos)
 
                 # Back to Menu Button
-                back_to_menu_button = pygame.Rect(250, 350, 300, 50)  # Increased width
+                back_to_menu_button = pygame.Rect(250, 350, 300, 50)
                 pygame.draw.rect(screen, white, back_to_menu_button)
                 menu_text = font.render('Back to Menu', True, black)
                 menu_text_rect = menu_text.get_rect(center=back_to_menu_button.center)
                 screen.blit(menu_text, menu_text_rect)
 
                 # Restart Button
-                restart_button = pygame.Rect(250, 420, 300, 50)  # Increased width
+                restart_button = pygame.Rect(250, 420, 300, 50)
                 pygame.draw.rect(screen, white, restart_button)
                 restart_text = font.render('Restart', True, black)
                 restart_text_rect = restart_text.get_rect(center=restart_button.center)
                 screen.blit(restart_text, restart_text_rect)
 
-                pygame.mouse.set_visible(1)
                 if back_to_menu_button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                    return 'menu'  # Return to main menu
+                    return 'menu'
                 if restart_button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                    return 'restart'  # Restart the game
+                    return 'restart'
 
             if pygame.sprite.spritecollide(player, balls, False):
                 diff = (player.rect.x + player.width / 2) - (ball.rect.x + ball.width / 2)
                 ball.rect.y = screen.get_height() - player.rect.height - ball.rect.height - 1
                 ball.bounce(diff)
+                paddle_sound.play()  # Play paddle hit sound
 
             deadblocks = pygame.sprite.spritecollide(ball, blocks, True)
             if len(deadblocks) > 0:
                 ball.bounce(0)
+                brick_sound.play()  # Play brick hit sound
                 if len(blocks) == 0:
                     game_over = True
 
         allsprites.draw(screen)
         pygame.display.flip()
 
-    return 'exit'  # If exit program is true, return 'exit'
+    return 'exit'
 
 
 # --- Main function ---
@@ -208,25 +226,28 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode([800, 600])
     pygame.display.set_caption('Breakout Game')
-    pygame.mouse.set_visible(0)
     font = pygame.font.Font(None, 36)
+
+    # Initialize mixer for sound
+    pygame.mixer.init()
+
+    # Load sounds
+    wall_sound = pygame.mixer.Sound("wall.wav")
+    paddle_sound = pygame.mixer.Sound("paddle.wav")
+    brick_sound = pygame.mixer.Sound("brick.wav")
 
     # Main menu loop
     while True:
-        # Display the main menu
         main_menu(screen, font)
-
-        # Once the player selects 'Start', go to the breakout game
-        result = breakout_screen(screen, font)
+        result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound)
         if result == 'menu':
-            continue  # Back to the main menu if 'Back to Menu' is selected
+            continue
         elif result == 'exit':
             pygame.quit()
-            break  # Exit the program
+            break
         elif result == 'restart':
-            breakout_screen(screen, font)  # Restart the game if 'Restart' is selected
+            continue  # Just loop back and restart
 
 
 if __name__ == "__main__":
     main()
-
