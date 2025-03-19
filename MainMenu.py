@@ -1,4 +1,3 @@
-# main.py
 import pygame
 import sys
 from MenuInterface import draw_main_menu
@@ -14,12 +13,26 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Main Menu")
 font = pygame.font.SysFont('Arial', 30)
 
+# Load background image
+background_image = pygame.image.load("stars.png")  # Make sure the image file is in the correct directory
+
+# Initialize the sound system
+pygame.mixer.init()
+
+# Load sound files
+wall_sound = pygame.mixer.Sound("wall.wav")
+paddle_sound = pygame.mixer.Sound("paddle.wav")
+brick_sound = pygame.mixer.Sound("brick.wav")
+
 def main():
     current_scene = 'menu'
     mouse_pos = (0, 0)
     option_rects = {}  # Store clickable areas here
 
     while True:
+        # Fill the screen with the background image before any other content
+        screen.blit(background_image, (0, 0))  # Position the image at the top-left corner
+
         if current_scene == 'menu':
             option_rects = draw_main_menu(screen, font, mouse_pos)
 
@@ -40,7 +53,7 @@ def main():
                 current_scene = 'menu'
 
         elif current_scene == 'breakout':
-            result = breakout_screen(screen, font)
+            result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound)
             if result == 'exit':
                 pygame.quit()
                 sys.exit()
