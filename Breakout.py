@@ -116,7 +116,7 @@ def main_menu(screen, font):
 
 
 # --- Unified breakout_screen() ---
-def breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound):
+def breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound, losing_sound):
     # --- Main breakout game ---
     background = pygame.Surface(screen.get_size())
     blocks = pygame.sprite.Group()
@@ -150,6 +150,7 @@ def breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound):
     countdown_time = 5
     countdown_started = False
     countdown_start_ticks = 0
+    losing_sound_played = False  # Flag to track if losing sound has played
 
     while not exit_program:
         clock.tick(30)
@@ -182,6 +183,11 @@ def breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound):
                 textpos = text.get_rect(centerx=screen.get_width() / 2)
                 textpos.top = 300
                 screen.blit(text, textpos)
+
+                # Play the losing sound once when the game ends
+                if not losing_sound_played:
+                    losing_sound.play()
+                    losing_sound_played = True  # Mark the sound as played
 
                 # Back to Menu Button
                 back_to_menu_button = pygame.Rect(250, 350, 300, 50)
@@ -235,11 +241,12 @@ def main():
     wall_sound = pygame.mixer.Sound("wall.wav")
     paddle_sound = pygame.mixer.Sound("paddle.wav")
     brick_sound = pygame.mixer.Sound("brick.wav")
+    losing_sound = pygame.mixer.Sound("mixkit-player-losing-or-failing-2042.wav")
 
     # Main menu loop
     while True:
         main_menu(screen, font)
-        result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound)
+        result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound, losing_sound)
         if result == 'menu':
             continue
         elif result == 'exit':
