@@ -14,7 +14,7 @@ pygame.display.set_caption("Main Menu")
 font = pygame.font.SysFont('Arial', 30)
 
 # Load background image
-background_image = pygame.image.load("stars.png")  # Make sure the image file is in the correct directory
+background_image = pygame.image.load("stars.png")  
 
 # Initialize the sound system
 pygame.mixer.init()
@@ -23,6 +23,11 @@ pygame.mixer.init()
 wall_sound = pygame.mixer.Sound("wall.wav")
 paddle_sound = pygame.mixer.Sound("paddle.wav")
 brick_sound = pygame.mixer.Sound("brick.wav")
+losing_sound = pygame.mixer.Sound("mixkit-player-losing-or-failing-2042.wav")  
+
+# Load and play background music for the menu
+pygame.mixer.music.load("C:/Users/todas/Downloads/CMSC495Capstone-main/mixkit-game-level-music-689.wav") 
+pygame.mixer.music.play(-1, 0.0)  # Play the music indefinitely from the beginning
 
 def main():
     current_scene = 'menu'
@@ -37,28 +42,34 @@ def main():
             option_rects = draw_main_menu(screen, font, mouse_pos)
 
         elif current_scene == 'tic_tac_toe':
+            pygame.mixer.music.stop()  # Stop music when leaving the menu screen
             result = tic_tac_toe_screen(screen, font)
             if result == 'exit':  
                 pygame.quit()
                 sys.exit()
             elif result == 'menu':
                 current_scene = 'menu'
+                pygame.mixer.music.play(-1, 0.0)  # Restart music when back to the menu
 
         elif current_scene == 'trivia':
+            pygame.mixer.music.stop()  # Stop music when leaving the menu screen
             result = trivia_screen(screen, font)
             if result == 'exit':
                 pygame.quit()
                 sys.exit()
             elif result == 'menu':
                 current_scene = 'menu'
+                pygame.mixer.music.play(-1, 0.0)  # Restart music when back to the menu
 
         elif current_scene == 'breakout':
-            result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound)
+            pygame.mixer.music.stop()  # Stop music when leaving the menu screen
+            result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound, losing_sound)  # Pass the losing_sound here
             if result == 'exit':
                 pygame.quit()
                 sys.exit()
             elif result == 'menu':
                 current_scene = 'menu'
+                pygame.mixer.music.play(-1, 0.0)  # Restart music when back to the menu
 
         # Event handling
         for event in pygame.event.get():
