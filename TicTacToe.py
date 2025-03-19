@@ -1,9 +1,19 @@
-# TicTacToe.py
 import pygame
 
-def tic_tac_toe_screen(screen, font):
-    # Display TicTacToe content here
-    screen.fill((0, 0, 0))  # Black background
-    text = font.render("Tic Tac Toe Game", True, (255, 255, 255))  # White text
-    screen.blit(text, (100, 100))  # Position the text on the screen
-    pygame.display.flip()  # Switches to the screen
+def tic_tac_toe():
+    # Initialize a new pygame window
+    screen = pygame.display.set_mode((600, 600))
+    pygame.display.set_caption("Tic-Tac-Toe")
+
+    # Main game loop
+    running = True
+    while running:
+        screen.fill((0, 0, 0))  # Black background (or leave it blank for clean slate)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        pygame.display.flip()
+
+    pygame.quit()
