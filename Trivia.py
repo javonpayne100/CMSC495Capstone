@@ -113,4 +113,3 @@ def trivia_game():
 
     pygame.time.wait(3000)  # Wait 3 seconds before closing
     pygame.quit()
-

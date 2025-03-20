@@ -1,30 +1,26 @@
 import pygame
-import sys
-from TicTacToe import tic_tac_toe
-from Trivia import trivia_game
-from Breakout import breakout_screen
 
 # Initialize pygame
 pygame.init()
 
 # Screen settings
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Main Menu")
+SCREEN_WIDTH = 600  # Increased width
+SCREEN_HEIGHT = 400  # Increased height
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Set new screen size
+pygame.display.set_caption("Main Menu")  # Window title
 
 # Colors
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
 BLACK = (0, 0, 0)
-DARK_BLUE = (10, 25, 50)
-LIGHT_BLUE = (50, 120, 200)
+DARK_BLUE = (10, 25, 50)  # Dark blue background
+LIGHT_BLUE = (50, 120, 200)  # Highlight color
 GRAY = (100, 100, 100)
 
 # Font settings
-font = pygame.font.Font(None, 40)
+font = pygame.font.Font(None, 40)  # Increased font size for better visibility
 
-# Function to render text
+# Function to render text (no glow effect)
 def render_text(screen, text, x, y, font, color):
     rendered_text = font.render(text, True, color)
     screen.blit(rendered_text, (x, y))
@@ -44,14 +40,70 @@ def draw_gradient_background(screen, width, height):
 # Function to handle menu navigation
 def navigate(option):
     if option == 1:
-        tic_tac_toe()
+        show_tic_tac_toe()
     elif option == 2:
-        trivia_game()
+        show_trivia()
     elif option == 3:
-        breakout_screen()
+        show_tbd()
     elif option == 4:
+        print("Exiting program...")
         pygame.quit()
         exit()
+
+# Placeholder functions for each screen
+def show_tic_tac_toe():
+    screen.fill(BLACK)
+    title_font = pygame.font.Font(None, 50)
+    title_text = title_font.render("Tic-Tac-Toe", True, WHITE)
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 3))
+    pygame.display.flip()
+
+    # Wait for the user to click to go back to the main menu
+    waiting_for_click = True
+    while waiting_for_click:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                waiting_for_click = False
+                main_menu()
+
+def show_trivia():
+    screen.fill(BLACK)
+    title_font = pygame.font.Font(None, 50)
+    title_text = title_font.render("Trivia", True, WHITE)
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 3))
+    pygame.display.flip()
+
+    # Wait for the user to click to go back to the main menu
+    waiting_for_click = True
+    while waiting_for_click:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                waiting_for_click = False
+                main_menu()
+
+def show_tbd():
+    screen.fill(BLACK)
+    title_font = pygame.font.Font(None, 50)
+    title_text = title_font.render("TBD - Coming Soon", True, WHITE)
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 3))
+    pygame.display.flip()
+
+    # Wait for the user to click to go back to the main menu
+    waiting_for_click = True
+    while waiting_for_click:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                waiting_for_click = False
+                main_menu()
 
 # Function to draw the main menu
 def draw_main_menu(screen, font, mouse_pos):
@@ -67,7 +119,7 @@ def draw_main_menu(screen, font, mouse_pos):
     options = [
         "1. Tic-Tac-Toe",
         "2. Trivia",
-        "3. Breakout",
+        "3. TBD",
         "4. Exit"
     ]
 
