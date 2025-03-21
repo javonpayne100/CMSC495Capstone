@@ -2,7 +2,7 @@ import pygame
 import sys
 from TicTacToe import tic_tac_toe
 from Trivia import trivia_game
-from Breakout import breakout_screen
+from Breakout import main
 
 # Initialize pygame
 pygame.init()
@@ -48,7 +48,7 @@ def navigate(option):
     elif option == 2:
         trivia_game()
     elif option == 3:
-        breakout_screen()
+        main()
     elif option == 4:
         pygame.quit()
         exit()
