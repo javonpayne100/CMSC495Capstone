@@ -1,80 +1,129 @@
-# MainMenu.py
 import pygame
 import sys
-from MenuInterface import draw_main_menu
-from TicTacToe import tic_tac_toe_screen
-from Trivia import trivia_screen
-from TBD import tbd_screen
+import numpy
+from TicTacToe import tic_tac_toe
+from Trivia import trivia_game
+from Breakout import main
+import numpy as np
 
-# Initialize Pygame
+# Initialize pygame
 pygame.init()
 
-# Set up display
-WIDTH, HEIGHT = 400, 300
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# Screen settings
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Main Menu")
 
-# Set up font
-font = pygame.font.SysFont('Arial', 30)
+# Load and play background music
+# place it here
 
-# Coordinates for menu options (x1, x2, y1, y2 for each option)
-MENU_OPTIONS = {
-    '1': (100, 300, 130, 180),  # TicTacToe
-    '2': (100, 300, 190, 240),  # Trivia
-    '3': (100, 300, 250, 300),  # TBD
-    '4': (100, 300, 310, 360)   # Exit (adjusted to give more space)
-}
+# Colors
+WHITE = (255, 255, 255)
+YELLOW = (255, 255, 0)
+BLACK = (0, 0, 0)
+DARK_BLUE = (10, 25, 50)
+LIGHT_BLUE = (50, 120, 200)
+GRAY = (100, 100, 100)
 
-# Main game loop
-def main():
-    current_scene = 'menu'  # Start with the main menu
-    mouse_pos = (0, 0)
+# Font settings
+font = pygame.font.Font(None, 40)
 
-    while True:
-        # Draw the current scene (menu or options)
-        if current_scene == 'menu':
-            draw_main_menu(screen, font, mouse_pos)  # Draw the main menu screen
-        elif current_scene == 'tic_tac_toe':
-            tic_tac_toe_screen(screen, font)  # Draw TicTacToe screen
-        elif current_scene == 'trivia':
-            trivia_screen(screen, font)  # Draw Trivia screen
-        elif current_scene == 'tbd':
-            tbd_screen(screen, font)  # Draw TBD screen
+# Function to render text
+def render_text(screen, text, x, y, font, color):
+    rendered_text = font.render(text, True, color)
+    screen.blit(rendered_text, (x, y))
 
-        # Event handling
+# Function to check if mouse is hovering over text
+def check_hover(mouse_pos, x, y, font, text):
+    mouse_x, mouse_y = mouse_pos
+    text_width, text_height = font.size(text)
+    return x <= mouse_x <= x + text_width and y <= mouse_y <= y + text_height
+
+# Function to draw background gradient
+def draw_gradient_background(screen, width, height):
+    for y in range(height):
+        color = (DARK_BLUE[0] + y // 10, DARK_BLUE[1] + y // 5, DARK_BLUE[2] + y // 3)
+        pygame.draw.line(screen, color, (0, y), (width, y))
+
+# Function to handle menu navigation
+def navigate(option):
+    if option == 1:
+        tic_tac_toe()
+    elif option == 2:
+        pygame.display.set_mode((600, 400))  # change this here to keep the game scrren breakout.
+        trivia_game()
+    elif option == 3:
+        pygame.display.set_mode((750, 450))  # change this here to keep the game scrren breakout.
+        main()
+    elif option == 4:
+        pygame.mixer.music.stop()
+        print("Exiting program...")
+        pygame.quit()
+        exit()
+
+# Function to draw the main menu
+def draw_main_menu(screen, font, mouse_pos):
+    screen.fill(BLACK)  # Clear screen
+    draw_gradient_background(screen, SCREEN_WIDTH, SCREEN_HEIGHT)  # Apply gradient
+
+    # Menu title
+    title_font = pygame.font.Font(None, 50)
+    title_x = SCREEN_WIDTH // 2 - title_font.size("Main Menu")[0] // 2  # Centered title
+    render_text(screen, "Main Menu", title_x, 50, title_font, WHITE)
+
+    # Define menu options (positioned dynamically)
+    options = [
+        "1. Tic-Tac-Toe",
+        "2. Trivia",
+        "3. Breakout",
+        "4. Exit"
+    ]
+
+    start_y = 130  # First option position
+    spacing = 60  # Space between options
+
+    for index, text in enumerate(options):
+        x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2  # Center text
+        y = start_y + index * spacing
+
+        hover = check_hover(mouse_pos, x, y, font, text)
+        color = YELLOW if hover else WHITE
+
+        # Rounded button effect
+        text_width, text_height = font.size(text)
+        pygame.draw.rect(screen, GRAY if hover else BLACK, (x - 10, y - 5, text_width + 20, text_height + 10), border_radius=10)
+        pygame.draw.rect(screen, WHITE, (x - 10, y - 5, text_width + 20, text_height + 10), 2, border_radius=10)  # Border
+
+        # Render text with hover effect (no glow now)
+        render_text(screen, text, x, y, font, color)
+
+    pygame.display.flip()  # Update the display
+
+# Main loop
+def main_menu():
+    pygame.mixer.music.stop()
+    running = True
+    while running:
+        mouse_pos = pygame.mouse.get_pos()
+        draw_main_menu(screen, font, mouse_pos)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                running = False
 
-            if event.type == pygame.MOUSEMOTION:
-                mouse_pos = event.pos  # Update mouse position on movement
-
+            # Check for mouse click to navigate
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = event.pos
-                print(f"Mouse clicked at: {mouse_x}, {mouse_y}")  # Debugging output
 
-                # Check if the mouse click is within the bounds of an option
-                if MENU_OPTIONS['1'][0] <= mouse_x <= MENU_OPTIONS['1'][1] and MENU_OPTIONS['1'][2] <= mouse_y <= MENU_OPTIONS['1'][3]:
-                    print("TicTacToe clicked!")
-                    current_scene = 'tic_tac_toe'  # Switch to TicTacToe screen
-                elif MENU_OPTIONS['2'][0] <= mouse_x <= MENU_OPTIONS['2'][1] and MENU_OPTIONS['2'][2] <= mouse_y <= MENU_OPTIONS['2'][3]:
-                    print("Trivia clicked!")
-                    current_scene = 'trivia'  # Switch to Trivia screen
-                elif MENU_OPTIONS['3'][0] <= mouse_x <= MENU_OPTIONS['3'][1] and MENU_OPTIONS['3'][2] <= mouse_y <= MENU_OPTIONS['3'][3]:
-                    print("TBD clicked!")
-                    current_scene = 'tbd'  # Switch to TBD screen
-                elif MENU_OPTIONS['4'][0] <= mouse_x <= MENU_OPTIONS['4'][1] and MENU_OPTIONS['4'][2] <= mouse_y <= MENU_OPTIONS['4'][3]:
-                    print("Exit clicked!")
-                    pygame.quit()
-                    sys.exit()
+                # Check which option was clicked
+                for index, text in enumerate(["1. Tic-Tac-Toe", "2. Trivia", "3. TBD", "4. Exit"]):
+                    x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2
+                    y = 130 + index * 60  # Match positions
+                    if check_hover((mouse_x, mouse_y), x, y, font, text):
+                        navigate(index + 1)  # Option starts from 1
 
-            # Check for 'Q' key press to return to the menu from options
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    current_scene = 'menu'
+# Start with the main menu
+main_menu()
 
-        pygame.time.Clock().tick(60)  # Frame rate (60 FPS)
-
-if __name__ == "__main__":
-    main()
+pygame.quit()
