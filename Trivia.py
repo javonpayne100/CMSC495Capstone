@@ -31,7 +31,6 @@ question_font = pygame.font.Font(None, 30)
 # ----------------------------
 # Question Pools
 # ----------------------------
-# IMPORTANT: Replace the placeholder entries below so that each list contains your actual 100 questions.
 
 general_knowledge_questions = [
     {"question": "What is the capital of France?",
@@ -54,7 +53,7 @@ general_knowledge_questions = [
      "answers": ["Los Angeles", "New York", "Chicago", "San Francisco"], "correct": 1},
     {"question": "What is the world's smallest country by area?",
      "answers": ["Monaco", "Nauru", "Vatican City", "San Marino"], "correct": 2},
-    # ... Add your questions 11 through 100 here ...
+    # Add more questions 11 through 100 here
 ]
 
 history_questions = [
@@ -78,7 +77,7 @@ history_questions = [
      "answers": ["1861", "1850", "1870", "1840"], "correct": 0},
     {"question": "Which emperor built the Colosseum?",
      "answers": ["Nero", "Marcus Aurelius", "Vespasian", "Caligula"], "correct": 2},
-    # ... Add your questions 11 through 100 here ...
+    # Add more questions 11 through 100 here
 ]
 
 science_questions = [
@@ -102,7 +101,7 @@ science_questions = [
      "answers": ["0°", "32°", "100°", "–10°"], "correct": 0},
     {"question": "Which element is represented by the symbol 'O'?",
      "answers": ["Oxygen", "Gold", "Osmium", "Hydrogen"], "correct": 0},
-    # ... Add your questions 11 through 100 here ...
+    # Add more questions 11 through 100 here.
 ]
 
 # Combine question pools into a dictionary
