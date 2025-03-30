@@ -14,7 +14,7 @@ BLUE = (0, 0, 255)
 
 font = pygame.font.Font(None, 25)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game Hub: Breakout")
+pygame.display.set_caption("Breakout")
 
 # to control the frame rate/speed of the game
 clock = pygame.time.Clock()
@@ -28,10 +28,10 @@ pygame.mixer.music.set_volume(1.0)
 
 # Load sounds with error handling
 try:
-    wall_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/wall.wav")
-    paddle_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/paddle.wav")
-    brick_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/paddle.wav")
-    losing_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/mixkit-player-losing-or-failing-2042.wav")
+    wall_sound = pygame.mixer.Sound("wall.wav")
+    paddle_sound = pygame.mixer.Sound("paddle.wav")
+    brick_sound = pygame.mixer.Sound("paddle.wav")
+    losing_sound = pygame.mixer.Sound("mixkit-player-losing-or-failing-2042.wav")
 except pygame.error as e:
     print("Error loading sound:", e)
 
@@ -67,6 +67,12 @@ class Striker:
     # Returns the rect of the object
     def getRect(self):
         return self.strikerRect
+
+    def move_mouse(self):
+        mouse_x = pygame.mouse.get_pos()[0]
+        self.posx = mouse_x - self.width // 2
+        self.posx = max(0, min(self.posx, WIDTH - self.width))
+        self.strikerRect.x = self.posx
 
 # Block Class
 class Block:
@@ -180,6 +186,8 @@ def gameOver():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     return True
+                if event.key == pygame.K_m:  # Go to main menu
+                    return "main_menu"
 
 def main():
     running = True
@@ -204,6 +212,9 @@ def main():
 
     listOfBlocks = populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap)
 
+    pyautogui.alert('Move the paddle to hit the blocks with the ball.', "Notification")
+    pyautogui.alert('You only have 3 lives!', "Notification")
+
     # Game loop
     while running:
         screen.fill(BLACK)
@@ -219,10 +230,17 @@ def main():
 
         # All the lives are over. So, the gameOver() function is called
         if lives <= 0:
-            pyautogui.alert('Press SPACE to restart or quit!', "Game Over!")  # notification to instruct player
+            pyautogui.alert('Press SPACE to restart or M for the main menu!', "Game Over!")  #
+            # notification to instruct player
             # Play the losing sound when game ends
             losing_sound.play()
-            running = gameOver()
+            result = gameOver()
+            if result == "restart":
+                lives, score = 3, 0
+                listOfBlocks = populateBlocks(40, 15, 10, 10)
+            elif result == "main_menu":
+                pygame.display.set_mode((600, 600))
+                return  # Exit and return to the main menu or main program
 
             while listOfBlocks:
                 listOfBlocks.pop(0)
@@ -244,6 +262,11 @@ def main():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     strikerXFac = 0
+
+            if strikerXFac != 0:
+                striker.move_keys(strikerXFac)
+            elif pygame.mouse.get_focused() and pygame.mouse.get_pressed()[0]:
+                striker.move_mouse()
 
         # Collision check
         if collisionChecker(striker.getRect(), ball.getRect()):

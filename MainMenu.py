@@ -51,10 +51,10 @@ def navigate(option):
     if option == 1:
         tic_tac_toe()
     elif option == 2:
-        pygame.display.set_mode((600, 400))  # change this here to keep the game scrren breakout.
+        pygame.display.set_mode((600, 400))  # change this here to keep the game screen trivia.
         trivia_game()
     elif option == 3:
-        pygame.display.set_mode((750, 450))  # change this here to keep the game scrren breakout.
+        pygame.display.set_mode((750, 450))  # change this here to keep the game screen breakout.
         main()
     elif option == 4:
         pygame.mixer.music.stop()

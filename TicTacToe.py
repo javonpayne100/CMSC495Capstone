@@ -33,6 +33,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # Game board (3x3 matrix)
 board = np.zeros((BOARD_ROWS, BOARD_COLS))
 
+# Load the click sound
+click_sound = pygame.mixer.Sound("mouse-click.wav")
+
 # Draw game grid
 def draw_grid():
     for row in range(1, BOARD_ROWS):
