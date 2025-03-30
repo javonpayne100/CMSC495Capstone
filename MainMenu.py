@@ -29,6 +29,10 @@ GRAY = (100, 100, 100)
 # Font settings
 font = pygame.font.Font(None, 40)
 
+def play_menu_music():
+    pygame.mixer.music.load("mixkit-game-level-music-689.wav")
+    pygame.mixer.music.play(-1)
+
 # Function to render text
 def render_text(screen, text, x, y, font, color):
     rendered_text = font.render(text, True, color)
