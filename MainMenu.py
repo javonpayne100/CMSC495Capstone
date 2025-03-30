@@ -49,13 +49,19 @@ def draw_gradient_background(screen, width, height):
 # Function to handle menu navigation
 def navigate(option):
     if option == 1:
-        tic_tac_toe()
+        pygame.display.set_mode((600,600)) # resize window for TTT
+        result = tic_tac_toe()
+        if result == "menu":
+            pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     elif option == 2:
-        pygame.display.set_mode((600, 400))  # change this here to keep the game scrren breakout.
+        pygame.display.set_mode((600, 400))  # change this here to keep the game screen.
         trivia_game()
     elif option == 3:
-        pygame.display.set_mode((750, 450))  # change this here to keep the game scrren breakout.
-        main()
+        pygame.display.set_mode((750, 450))  # change this here to keep the game screen breakout.
+        result = main()
+        if result == "menu":
+            # after breakout ends and returns  "menu", switches back screen res to 600x600 and stays in main menu
+            pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     elif option == 4:
         pygame.mixer.music.stop()
         print("Exiting program...")

@@ -1,3 +1,4 @@
+import os
 import pygame
 import random
 import pyautogui
@@ -26,12 +27,14 @@ pygame.mixer.init()
 # Set volume (ensure the volume is not too low)
 pygame.mixer.music.set_volume(1.0)
 
+#Get path to directory where Breakout.py is located
+BASE_DIR = os.path.dirname(__file__)
 # Load sounds with error handling
 try:
-    wall_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/wall.wav")
-    paddle_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/paddle.wav")
-    brick_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/paddle.wav")
-    losing_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/mixkit-player-losing-or-failing-2042.wav")
+    wall_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "wall.wav"))
+    paddle_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "paddle.wav"))
+    brick_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "brick.wav"))
+    losing_sound = pygame.mixer.Sound(os.path.join(BASE_DIR, "mixkit-player-losing-or-failing-2042.wav"))
 except pygame.error as e:
     print("Error loading sound:", e)
 
@@ -169,17 +172,48 @@ def populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap):
             listOfBlocks.append(Block(i, j, blockWidth, blockHeight, random.choice([RED, BLUE, GREEN])))
     return listOfBlocks
 
-# Once all the lives are over, this function waits until exit or space bar is pressed and does the corresponding action
-def gameOver():
-    gameOver = True
-    while gameOver:
-        # Event handling
+# Once all the lives are over, this function will display buttons to play again or return to main menu
+def gameOverScreen():
+    button_font = pygame.font.Font(None, 36)
+    restart_button = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 - 30, 200, 40)
+    menu_button = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 30, 200, 40)
+
+    while True:
+        screen.fill(BLACK)
+
+        # Get current mouse position
+        mouse_pos = pygame.mouse.get_pos()
+
+        # Determine button colors
+        restart_color = (100, 255, 100) if restart_button.collidepoint(mouse_pos) else GREEN
+        menu_color = (100, 100, 255) if menu_button.collidepoint(mouse_pos) else BLUE
+
+        # Draw title
+        title_text = button_font.render("Game Over!", True, WHITE)
+        screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, HEIGHT // 2 - 100))
+
+        # Draw buttons
+        pygame.draw.rect(screen, restart_color, restart_button)
+        pygame.draw.rect(screen, menu_color, menu_button)
+
+        # Draw button text
+        restart_text = button_font.render("Play Again", True, BLACK)
+        menu_text = button_font.render("Main Menu", True, BLACK)
+        screen.blit(restart_text, (restart_button.x + 30, restart_button.y + 5))
+        screen.blit(menu_text, (menu_button.x + 35, menu_button.y + 5))
+
+        pygame.display.update()
+# event handler for buttons
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    return True
+                pygame.quit()
+                return "quit"
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if restart_button.collidepoint(event.pos):
+                    return "restart"
+                elif menu_button.collidepoint(event.pos):
+                    return "menu"
+
 
 def main():
     running = True
@@ -219,17 +253,20 @@ def main():
 
         # All the lives are over. So, the gameOver() function is called
         if lives <= 0:
-            pyautogui.alert('Press SPACE to restart or quit!', "Game Over!")  # notification to instruct player
             # Play the losing sound when game ends
             losing_sound.play()
-            running = gameOver()
+            result = gameOverScreen()
 
-            while listOfBlocks:
-                listOfBlocks.pop(0)
-
-            lives = 3
-            score = 0
-            listOfBlocks = populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap)
+            if result == "restart":
+                lives = 3
+                score = 0
+                listOfBlocks = populateBlocks(blockWidth, blockHeight,horizontalGap, verticalGap)
+                continue # jumps back into loop
+            elif result == "menu":
+                return "menu"
+            elif result == "quit":
+                running = False
+                break
 
         # Event handling
         for event in pygame.event.get():
@@ -279,6 +316,10 @@ def main():
         clock.tick(FPS)
 
     pygame.quit()
+    return "menu"
 
 if __name__ == "__main__":
-    main()
+    result = main()
+    if result == "menu":
+        from MainMenu import main_menu
+        main_menu()
