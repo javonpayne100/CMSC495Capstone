@@ -1,0 +1,38 @@
+{
+    "General Knowledge": [
+        {"question": "What is the capital of France?", "answers": ["Berlin", "Madrid", "Paris", "Rome"], "correct": 2},
+        {"question": "Which country is known as the Land of the Rising Sun?", "answers": ["China", "South Korea", "Japan", "Thailand"], "correct": 2},
+        {"question": "What is the largest country by area?", "answers": ["Russia", "Canada", "USA", "China"], "correct": 0},
+        {"question": "How many continents are there?", "answers": ["5", "6", "7", "8"], "correct": 2},
+        {"question": "Which ocean is the largest?", "answers": ["Atlantic", "Indian", "Pacific", "Arctic"], "correct": 2},
+        {"question": "What is the longest river in the world?", "answers": ["Nile", "Amazon", "Yangtze", "Mississippi"], "correct": 0},
+        {"question": "Which desert is the largest?", "answers": ["Sahara", "Arabian", "Gobi", "Kalahari"], "correct": 0},
+        {"question": "Which country gifted the Statue of Liberty to the USA?", "answers": ["France", "England", "Germany", "Canada"], "correct": 0},
+        {"question": "Which city is known as the Big Apple?", "answers": ["Los Angeles", "New York", "Chicago", "San Francisco"], "correct": 1},
+        {"question": "What is the world's smallest country by area?", "answers": ["Monaco", "Nauru", "Vatican City", "San Marino"], "correct": 2}
+    ],
+    "History": [
+        {"question": "Who was the first President of the USA?", "answers": ["Jefferson", "Washington", "Lincoln", "Roosevelt"], "correct": 1},
+        {"question": "In which year did World War II end?", "answers": ["1939", "1945", "1918", "1965"], "correct": 1},
+        {"question": "Who led the nonviolent resistance in India?", "answers": ["Jinnah", "Gandhi", "Nehru", "Ambedkar"], "correct": 1},
+        {"question": "What was the name of the ship that sank in 1912?", "answers": ["Lusitania", "Titanic", "Britannic", "Olympic"], "correct": 1},
+        {"question": "Who was known as the Maid of Orléans?", "answers": ["Marie Antoinette", "Catherine de Medici", "Joan of Arc", "Eleanor of Aquitaine"], "correct": 2},
+        {"question": "Which ancient civilization built the pyramids?", "answers": ["Greeks", "Romans", "Egyptians", "Mayans"], "correct": 2},
+        {"question": "What wall divided East and West Berlin until 1989?", "answers": ["The Iron Curtain", "The Berlin Wall", "Hadrian's Wall", "The Great Wall"], "correct": 1},
+        {"question": "Who was known as the Great Emancipator?", "answers": ["Abraham Lincoln", "Frederick Douglass", "Ulysses S. Grant", "Andrew Johnson"], "correct": 0},
+        {"question": "In which year did the American Civil War begin?", "answers": ["1861", "1850", "1870", "1840"], "correct": 0},
+        {"question": "Which emperor built the Colosseum?", "answers": ["Nero", "Marcus Aurelius", "Vespasian", "Caligula"], "correct": 2}
+    ],
+    "Science": [
+        {"question": "What is the chemical symbol for water?", "answers": ["CO2", "H2O", "O2", "H2"], "correct": 1},
+        {"question": "Which planet is known as the Red Planet?", "answers": ["Earth", "Mars", "Jupiter", "Saturn"], "correct": 1},
+        {"question": "What gas do plants absorb from the atmosphere?", "answers": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"], "correct": 1},
+        {"question": "What is the hardest natural substance on Earth?", "answers": ["Gold", "Iron", "Diamond", "Platinum"], "correct": 2},
+        {"question": "Which organelle is known as the powerhouse of the cell?", "answers": ["Nucleus", "Mitochondria", "Chloroplast", "Ribosome"], "correct": 1},
+        {"question": "What is the primary gas found in the Earth's atmosphere?", "answers": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Argon"], "correct": 1},
+        {"question": "Which part of the atom has no electric charge?", "answers": ["Electron", "Proton", "Neutron", "Nucleus"], "correct": 2},
+        {"question": "What force keeps us on the ground?", "answers": ["Magnetism", "Friction", "Gravity", "Inertia"], "correct": 2},
+        {"question": "At what temperature does water freeze (Celsius)?", "answers": ["0°", "32°", "100°", "–10°"], "correct": 0},
+        {"question": "Which element is represented by the symbol 'O'?", "answers": ["Oxygen", "Gold", "Osmium", "Hydrogen"], "correct": 0}
+    ]
+}

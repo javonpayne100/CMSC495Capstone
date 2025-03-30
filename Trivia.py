@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 import time
+import json
 
 # ----------------------------
 # Initialization
@@ -28,88 +29,26 @@ LIGHT_BLUE = (50, 50, 150)
 font = pygame.font.Font(None, 40)
 question_font = pygame.font.Font(None, 30)
 
+
 # ----------------------------
-# Question Pools
+# Load Questions from JSON
 # ----------------------------
+def load_questions():
+    try:
+        with open("questions.json", "r") as file:
+            data = json.load(file)
+        return data
+    except FileNotFoundError:
+        print("Error: questions.json file not found.")
+        pygame.quit()
+        exit()
+    except json.JSONDecodeError:
+        print("Error: Failed to decode JSON from questions.json.")
+        pygame.quit()
+        exit()
 
-general_knowledge_questions = [
-    {"question": "What is the capital of France?",
-     "answers": ["Berlin", "Madrid", "Paris", "Rome"], "correct": 2},
-    {"question": "Which country is known as the Land of the Rising Sun?",
-     "answers": ["China", "South Korea", "Japan", "Thailand"], "correct": 2},
-    {"question": "What is the largest country by area?",
-     "answers": ["Russia", "Canada", "USA", "China"], "correct": 0},
-    {"question": "How many continents are there?",
-     "answers": ["5", "6", "7", "8"], "correct": 2},
-    {"question": "Which ocean is the largest?",
-     "answers": ["Atlantic", "Indian", "Pacific", "Arctic"], "correct": 2},
-    {"question": "What is the longest river in the world?",
-     "answers": ["Nile", "Amazon", "Yangtze", "Mississippi"], "correct": 0},
-    {"question": "Which desert is the largest?",
-     "answers": ["Sahara", "Arabian", "Gobi", "Kalahari"], "correct": 0},
-    {"question": "Which country gifted the Statue of Liberty to the USA?",
-     "answers": ["France", "England", "Germany", "Canada"], "correct": 0},
-    {"question": "Which city is known as the Big Apple?",
-     "answers": ["Los Angeles", "New York", "Chicago", "San Francisco"], "correct": 1},
-    {"question": "What is the world's smallest country by area?",
-     "answers": ["Monaco", "Nauru", "Vatican City", "San Marino"], "correct": 2},
-    # Add more questions 11 through 100 here
-]
 
-history_questions = [
-    {"question": "Who was the first President of the USA?",
-     "answers": ["Jefferson", "Washington", "Lincoln", "Roosevelt"], "correct": 1},
-    {"question": "In which year did World War II end?",
-     "answers": ["1939", "1945", "1918", "1965"], "correct": 1},
-    {"question": "Who led the nonviolent resistance in India?",
-     "answers": ["Jinnah", "Gandhi", "Nehru", "Ambedkar"], "correct": 1},
-    {"question": "What was the name of the ship that sank in 1912?",
-     "answers": ["Lusitania", "Titanic", "Britannic", "Olympic"], "correct": 1},
-    {"question": "Who was known as the Maid of Orléans?",
-     "answers": ["Marie Antoinette", "Catherine de Medici", "Joan of Arc", "Eleanor of Aquitaine"], "correct": 2},
-    {"question": "Which ancient civilization built the pyramids?",
-     "answers": ["Greeks", "Romans", "Egyptians", "Mayans"], "correct": 2},
-    {"question": "What wall divided East and West Berlin until 1989?",
-     "answers": ["The Iron Curtain", "The Berlin Wall", "Hadrian's Wall", "The Great Wall"], "correct": 1},
-    {"question": "Who was known as the Great Emancipator?",
-     "answers": ["Abraham Lincoln", "Frederick Douglass", "Ulysses S. Grant", "Andrew Johnson"], "correct": 0},
-    {"question": "In which year did the American Civil War begin?",
-     "answers": ["1861", "1850", "1870", "1840"], "correct": 0},
-    {"question": "Which emperor built the Colosseum?",
-     "answers": ["Nero", "Marcus Aurelius", "Vespasian", "Caligula"], "correct": 2},
-    # Add more questions 11 through 100 here
-]
-
-science_questions = [
-    {"question": "What is the chemical symbol for water?",
-     "answers": ["CO2", "H2O", "O2", "H2"], "correct": 1},
-    {"question": "Which planet is known as the Red Planet?",
-     "answers": ["Earth", "Mars", "Jupiter", "Saturn"], "correct": 1},
-    {"question": "What gas do plants absorb from the atmosphere?",
-     "answers": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"], "correct": 1},
-    {"question": "What is the hardest natural substance on Earth?",
-     "answers": ["Gold", "Iron", "Diamond", "Platinum"], "correct": 2},
-    {"question": "Which organelle is known as the powerhouse of the cell?",
-     "answers": ["Nucleus", "Mitochondria", "Chloroplast", "Ribosome"], "correct": 1},
-    {"question": "What is the primary gas found in the Earth's atmosphere?",
-     "answers": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Argon"], "correct": 1},
-    {"question": "Which part of the atom has no electric charge?",
-     "answers": ["Electron", "Proton", "Neutron", "Nucleus"], "correct": 2},
-    {"question": "What force keeps us on the ground?",
-     "answers": ["Magnetism", "Friction", "Gravity", "Inertia"], "correct": 2},
-    {"question": "At what temperature does water freeze (Celsius)?",
-     "answers": ["0°", "32°", "100°", "–10°"], "correct": 0},
-    {"question": "Which element is represented by the symbol 'O'?",
-     "answers": ["Oxygen", "Gold", "Osmium", "Hydrogen"], "correct": 0},
-    # Add more questions 11 through 100 here.
-]
-
-# Combine question pools into a dictionary
-categories = {
-    "General Knowledge": general_knowledge_questions,
-    "History": history_questions,
-    "Science": science_questions,
-}
+questions_data = load_questions()
 
 
 # ----------------------------
@@ -157,66 +96,148 @@ def draw_timer(center, radius, time_left, max_time):
 def add_player_screen():
     global players
     players = []
-    input_boxes = [
-        pygame.Rect(SCREEN_WIDTH // 2 - 150, 100, 300, 50),
-        pygame.Rect(SCREEN_WIDTH // 2 - 150, 200, 300, 50),
-    ]
-    active_box = 0
-    texts = ["", ""]
-    box_colors = [WHITE, WHITE]
-    running = True
-    while running:
-        screen.fill(BLACK)
-        render_text("Enter Player Names", SCREEN_WIDTH // 2 - 120, 30, font, YELLOW)
-        render_text("Press ENTER to start!", SCREEN_WIDTH // 2 - 140, SCREEN_HEIGHT - 50, font, WHITE)
-        for i, box in enumerate(input_boxes):
-            pygame.draw.rect(screen, box_colors[i], box, 2)
-            text_surface = font.render(texts[i], True, WHITE)
-            screen.blit(text_surface, (box.x + 10, box.y + 10))
-        pygame.display.flip()
+
+    # Select the number of players
+    screen.fill(BLACK)
+    render_text("Select the number of players:", SCREEN_WIDTH // 2 - 150, 50, font, YELLOW)
+    render_text("1. One Player", SCREEN_WIDTH // 2 - 100, 150, font, WHITE)
+    render_text("2. Two Players", SCREEN_WIDTH // 2 - 100, 200, font, WHITE)
+    pygame.display.flip()
+
+    selected_mode = None
+    while selected_mode is None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit();
+                pygame.quit()
                 exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN and all(texts):
-                    players = texts
-                    running = False
-                elif event.key == pygame.K_BACKSPACE:
-                    texts[active_box] = texts[active_box][:-1]
-                else:
-                    texts[active_box] += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                for i, box in enumerate(input_boxes):
-                    if box.collidepoint(event.pos):
-                        active_box = i
-        box_colors = [WHITE if i != active_box else YELLOW for i in range(2)]
-    if not players:
-        players = ["Player 1", "Player 2"]
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if SCREEN_WIDTH // 2 - 100 <= mouse_x <= SCREEN_WIDTH // 2 + 100:
+                    if 150 <= mouse_y <= 200:  # One Player selected
+                        selected_mode = 1
+                    elif 200 <= mouse_y <= 250:  # Two Players selected
+                        selected_mode = 2
 
+    if selected_mode == 1:
+        # Single player mode
+        screen.fill(BLACK)
+        render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW)
+        pygame.display.flip()
 
-def select_category():
-    screen.fill(BLACK)
-    render_text("Select a Category:", 100, 50, font, WHITE)
-    categories_list = list(categories.keys())
-    for idx, cat in enumerate(categories_list):
-        render_text(f"{idx + 1}. {cat}", 100, 150 + idx * 50, font, YELLOW)
+        input_box = pygame.Rect(SCREEN_WIDTH // 2 - 150, 200, 300, 50)
+        active_box = True
+        text = ""
+        box_color = WHITE
+
+        while active_box:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN and text:
+                        players = [text]  # Set the player's name
+                        active_box = False
+                    elif event.key == pygame.K_BACKSPACE:
+                        text = text[:-1]
+                    else:
+                        text += event.unicode
+
+            screen.fill(BLACK)
+            render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW)
+            pygame.draw.rect(screen, box_color, input_box, 2)
+            text_surface = font.render(text, True, WHITE)
+            screen.blit(text_surface, (input_box.x + 10, input_box.y + 10))
+            pygame.display.flip()
+
+    elif selected_mode == 2:
+        # Two players mode
+        screen.fill(BLACK)
+        render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+        pygame.display.flip()
+
+        input_box_1 = pygame.Rect(SCREEN_WIDTH // 2 - 150, 200, 300, 50)
+        text_1 = ""
+        active_box_1 = True
+        while active_box_1:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN and text_1:
+                        players.append(text_1)  # Set Player 1's name
+                        active_box_1 = False
+                    elif event.key == pygame.K_BACKSPACE:
+                        text_1 = text_1[:-1]
+                    else:
+                        text_1 += event.unicode
+
+            screen.fill(BLACK)
+            render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+            pygame.draw.rect(screen, WHITE, input_box_1, 2)
+            text_surface_1 = font.render(text_1, True, WHITE)
+            screen.blit(text_surface_1, (input_box_1.x + 10, input_box_1.y + 10))
+            pygame.display.flip()
+
+        # Now for Player 2
+        screen.fill(BLACK)
+        render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+        pygame.display.flip()
+
+        input_box_2 = pygame.Rect(SCREEN_WIDTH // 2 - 150, 200, 300, 50)
+        text_2 = ""
+        active_box_2 = True
+        while active_box_2:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN and text_2:
+                        players.append(text_2)  # Set Player 2's name
+                        active_box_2 = False
+                    elif event.key == pygame.K_BACKSPACE:
+                        text_2 = text_2[:-1]
+                    else:
+                        text_2 += event.unicode
+
+            screen.fill(BLACK)
+            render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+            pygame.draw.rect(screen, WHITE, input_box_2, 2)
+            text_surface_2 = font.render(text_2, True, WHITE)
+            screen.blit(text_surface_2, (input_box_2.x + 10, input_box_2.y + 10))
+            pygame.display.flip()
+
     pygame.display.flip()
+
+
+# ----------------------------
+# Category Selection Function
+# ----------------------------
+def select_category():
+    categories = ["Science", "Math", "History", "Geography", "Literature"]
+    screen.fill(BLACK)
+    render_text("Select a Category:", SCREEN_WIDTH // 2 - 140, 50, font, YELLOW)
+
+    for index, category in enumerate(categories):
+        render_text(f"{index + 1}. {category}", SCREEN_WIDTH // 2 - 100, 150 + (index * 50), font, WHITE)
+    pygame.display.flip()
+
     selected_category = None
     while selected_category is None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit();
+                pygame.quit()
                 exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
-                for idx, cat in enumerate(categories_list):
-                    x = 100
-                    y = 150 + idx * 50
-                    text_width, text_height = font.size(f"{idx + 1}. {cat}")
-                    if x <= mouse_x <= x + text_width and y <= mouse_y <= y + text_height:
-                        selected_category = cat
-                        break
+                for index, category in enumerate(categories):
+                    if SCREEN_WIDTH // 2 - 100 <= mouse_x <= SCREEN_WIDTH // 2 + 100:
+                        if 150 + (index * 50) <= mouse_y <= 200 + (index * 50):  # Category selected
+                            selected_category = category
+                            break
+
     return selected_category
 
 
@@ -224,14 +245,12 @@ def select_category():
 # Main Game Function
 # ----------------------------
 def trivia_game():
-    stop_trivia_music()  # Ensure no music in menus
+    stop_trivia_music()  # Stop music after gameplay
     add_player_screen()  # Collect player names
     selected_category = select_category()  # Select a category
-    question_pool = categories[selected_category]  # Use the full question pool
+    question_pool = questions_data[selected_category]  # Use the full question pool
 
-    # Here we do not remove questions from the pool, so each player samples 5 questions from the full bank.
-    # (Each player's 5 questions will be unique within their own session.)
-    if len(question_pool) < 5:
+    if len(question_pool) < 5 * len(players):  # Ensure there are enough questions for all players
         screen.fill(BLACK)
         render_text("Not enough questions in this category!", 50, SCREEN_HEIGHT // 2, font, RED)
         pygame.display.flip()
@@ -242,7 +261,9 @@ def trivia_game():
     play_trivia_music()  # Start gameplay music
     scores = {}  # Dictionary to store each player's session score
 
-    # Each player gets exactly 5 unique random questions.
+    # Shuffle the entire question pool to ensure random questions
+    random.shuffle(question_pool)
+
     for player in players:
         screen.fill(BLACK)
         render_text(f"{player}, press any key when ready!", SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT // 2, font, YELLOW)
@@ -251,83 +272,111 @@ def trivia_game():
         while waiting:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit();
+                    pygame.quit()
                     exit()
                 elif event.type == pygame.KEYDOWN:
                     waiting = False
 
         session_score = 0
-        # Sample 5 random questions (unique within the session) without removing them from the global pool:
-        session_questions = random.sample(question_pool, 5)
-
+        session_questions = random.sample(question_pool, 5)  # Pick 5 unique random questions for each player
         clock = pygame.time.Clock()
+
         for question_data in session_questions:
             current_question = question_data["question"]
             answers = question_data["answers"]
             correct_index = question_data["correct"]
-            time_left = 10.0  # Seconds per question
+            time_left = 10.0
             answered = False
+            selected_answer_index = None  # Track the selected answer index
+
             while time_left > 0 and not answered:
-                dt = clock.tick(60) / 1000.0  # Delta time in seconds
+                dt = clock.tick(60) / 1000.0
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        pygame.quit();
+                        pygame.quit()
                         exit()
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        mouse_x, mouse_y = pygame.mouse.get_pos()
+                        for index, answer in enumerate(answers):
+                            x = 50
+                            y = 150 + index * 50
+                            text_width, text_height = question_font.size(f"{index + 1}. {answer}")
+                            if x <= mouse_x <= x + text_width and y <= mouse_y <= y + text_height:
+                                selected_answer_index = index
+                                answered = True
+                                if index == correct_index:
+                                    session_score += 1
+                                break  # Prevent multiple answers from being selected
+
                 screen.fill(BLACK)
                 draw_background_gradient()
                 render_text(f"{player}'s Turn", SCREEN_WIDTH // 2 - 100, 20, font, YELLOW)
                 render_text(current_question, 50, 100, question_font, WHITE)
-                start_y = 150
+
+                # Draw answers and highlight selected answers
                 for index, answer in enumerate(answers):
-                    render_text(f"{index + 1}. {answer}", 50, start_y + index * 50, question_font, WHITE)
-                    text_width, text_height = question_font.size(f"{index + 1}. {answer}")
-                    x = 50
-                    y = start_y + index * 50
-                    mouse_x, mouse_y = pygame.mouse.get_pos()
-                    if x <= mouse_x <= x + text_width and y <= mouse_y <= y + text_height:
-                        if pygame.mouse.get_pressed()[0]:
-                            answered = True
-                            if index == correct_index:
-                                session_score += 1
-                render_text(f"Score: {session_score}", SCREEN_WIDTH - 150, 20, font, GREEN)
-                draw_timer((SCREEN_WIDTH - 50, SCREEN_HEIGHT - 50), 40, time_left, 10)
+                    answer_text = f"{index + 1}. {answer}"
+                    if selected_answer_index is not None:
+                        if index == correct_index:  # Correct answer
+                            color = GREEN
+                        elif index == selected_answer_index:  # Wrong answer selected by player
+                            color = RED
+                        else:
+                            color = WHITE
+                    else:
+                        color = WHITE
+
+                    render_text(answer_text, 50, 150 + index * 50, question_font, color)
+
+                draw_timer((SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60), 40, time_left, 10.0)
+                render_text(f"Score: {session_score}", SCREEN_WIDTH - 200, 20, font, WHITE)
                 pygame.display.flip()
-                if not answered:
-                    time_left -= dt
+                time_left -= dt
+
+            # After the answer is selected, show the result for a brief moment
+            if selected_answer_index is not None:
+                time.sleep(1)  # Wait for 1 second to show the highlight before moving to the next question
+            else:
+                # If time runs out without an answer, highlight the correct one in green
+                screen.fill(BLACK)
+                draw_background_gradient()
+                render_text(f"{player}'s Turn", SCREEN_WIDTH // 2 - 100, 20, font, YELLOW)
+                render_text(current_question, 50, 100, question_font, WHITE)
+
+                # Show the correct answer in green
+                for index, answer in enumerate(answers):
+                    color = GREEN if index == correct_index else WHITE
+                    render_text(f"{index + 1}. {answer}", 50, 150 + index * 50, question_font, color)
+
+                draw_timer((SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60), 40, time_left, 10.0)
+                render_text(f"Score: {session_score}", SCREEN_WIDTH - 200, 20, font, WHITE)
+                pygame.display.flip()
+                time.sleep(1)
+
         scores[player] = session_score
-        screen.fill(BLACK)
-        render_text(f"{player}'s round complete! Score: {session_score}", 100, SCREEN_HEIGHT // 2 - 50, font, YELLOW)
-        render_text("Press any key for the next player's turn...", 100, SCREEN_HEIGHT // 2 + 50, font, WHITE)
-        pygame.display.flip()
-        waiting = True
-        while waiting:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit();
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    waiting = False
+        time.sleep(1)
 
     stop_trivia_music()  # Stop music after gameplay
 
     # Final results screen
     screen.fill(BLACK)
-    render_text("Final Scores:", 100, 50, font, YELLOW)
-    y_offset = 150
-    for player, score in scores.items():
-        render_text(f"{player}: {score}", 100, y_offset, font, WHITE)
+    render_text("Final Results", SCREEN_WIDTH // 2 - 100, 50, font, YELLOW)
+    y_offset = 100
+    for player in players:
+        render_text(f"{player}: {scores[player]}", SCREEN_WIDTH // 2 - 100, y_offset, font, WHITE)
         y_offset += 50
-    winner = max(scores, key=scores.get)
-    render_text(f"Winner: {winner}!", 100, y_offset + 50, font, GREEN)
-    render_text("Press any key to exit.", 100, y_offset + 100, font, WHITE)
+
+    # Determine the winner
+    winners = [player for player, score in scores.items() if score == max(scores.values())]
+    render_text(f"{winners[0]} wins!", SCREEN_WIDTH // 2 - 100, y_offset + 50, font, YELLOW)
     pygame.display.flip()
-    waiting = True
-    while waiting:
-        for event in pygame.event.get():
-            if event.type in (pygame.QUIT, pygame.KEYDOWN):
-                waiting = False
+    time.sleep(3)
+
     pygame.quit()
 
 
+# ----------------------------
+# Main Guard
+# ----------------------------
 if __name__ == "__main__":
     trivia_game()
