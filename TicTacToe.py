@@ -29,8 +29,6 @@ BUTTON_FONT = pygame.font.Font(None, 40)
 
 # Initialize game window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Tic Tac Toe (Player vs AI)")
-screen.fill(BG_COLOR)
 
 # Game board (3x3 matrix)
 board = np.zeros((BOARD_ROWS, BOARD_COLS))
@@ -184,42 +182,48 @@ def restart_game():
     draw_grid()  # Redraw grid
     pygame.display.update()  # Refresh screen
 
-# Main loop
-draw_grid()
-player_turn = 1
-game_over = False
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+def tic_tac_toe():
+    # initialize game look and music
+    pygame.display.set_caption("Tic Tac Toe (Player vs AI)")
+    screen.fill(BG_COLOR)
 
-        if event.type == pygame.MOUSEBUTTONDOWN and not game_over and player_turn == 1:
-            x, y = event.pos
-            row, col = y // SQUARE_SIZE, x // SQUARE_SIZE
+    # Main loop
+    draw_grid()
+    player_turn = 1
+    game_over = False
 
-            if is_cell_empty(row, col):
-                mark_cell(row, col, 1)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN and not game_over and player_turn == 1:
+                x, y = event.pos
+                row, col = y // SQUARE_SIZE, x // SQUARE_SIZE
+
+                if is_cell_empty(row, col):
+                    mark_cell(row, col, 1)
+                    draw_marks()
+                    pygame.display.update() # ensures screen refresh
+
+                    if check_win(1):
+                        display_result("You Win!")
+                    elif is_board_full():
+                        display_result("It's a Draw!")
+                    else:
+                        player_turn = 2  # Switch to AI
+
+            if player_turn == 2 and not game_over:
+                ai_move()
                 draw_marks()
-                pygame.display.update() # ensures screen refresh
 
-                if check_win(1):
-                    display_result("You Win!")
+                if check_win(2):
+                    display_result("You Lose!")
                 elif is_board_full():
                     display_result("It's a Draw!")
                 else:
-                    player_turn = 2  # Switch to AI
+                    player_turn = 1  # Switch back to player
 
-        if player_turn == 2 and not game_over:
-            ai_move()
-            draw_marks()
-
-            if check_win(2):
-                display_result("You Lose!")
-            elif is_board_full():
-                display_result("It's a Draw!")
-            else:
-                player_turn = 1  # Switch back to player
-
-    pygame.display.update()
+        pygame.display.update()
