@@ -1,7 +1,7 @@
 # CMSC495Capstone: Python-Game-Hub (Group 1)
 
 ## Copyright Usage and License
-Regarding Copyright laws by GitHub, it states that a public repository without a license means that others must fork the repository to utilze and modify the code as the team retains all proprietary rights.
+Regarding Copyright laws by GitHub, it states that a public repository without a license means that others must fork the repository to utilize and modify the code as the team retains all proprietary rights.
 Links:  
 - [GitHub Copyright and Licenses](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)
 - [GitHub Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)
@@ -41,35 +41,35 @@ This option is **ONLY** if you have a Git Account and are comfortable using Git 
 - Then Go to the step of *2) Options to Run Application* **part c**
 
 ### 1. Download the Zip / Clone Repository
-To get started with the project, first go to the rpostitory page of this project. Then CLICK in this order at the top right hand green button:
+To get started with the project, first go to the repository page of this project. Then CLICK in this order at the top right hand green button:
 ```bash
 <>Code -> Download Zip
 OR
 <>Code -> $ git clone https://github.com/javonpayne100/CMSC495Capstone.git
 ```
-This will allow you to donwload the Zip file or clone the repository sucessfully. If you had the Zip file extract it onto an Python IDE Diectory folder of the new project, but you must have Python installed onto your machine.
+This will allow you to donwload the Zip file or clone the repository successfully. If you had the Zip file extract it onto an Python IDE Directory folder of the new project, but you must have Python installed onto your machine.
 ## **2. Options to Run Application**
 - a) Run through a Python IDE
 - b) Run through Python Terminal after setting up virtual environment
-- c) Run through Python IDE after Forking Repositry
+- c) Run through Python IDE after Forking Repository
 
-### **a. Set up PyCharm, Set up virtual envionment, Install dependencies, Run Application**
+### **a. Set up PyCharm, Set up virtual environment, Install dependencies, Run Application**
 Before running the application, make sure you have **Python** installed on your machine. You can download Python from the official website: [Download Python](https://www.python.org/downloads/).
 Once Python is installed, you'll need to install the dependencies for the project either through the PYTHON IDE terminal that you installed PyCharm [Download PyCharm Community for Windows](https://www.jetbrains.com/pycharm/download/?section=windows) OR [Download PyCharm Community for Mac](https://www.jetbrains.com/pycharm/download/?section=mac) OR [Download PyCharm Community for Linux](https://www.jetbrains.com/pycharm/download/?section=linux).
 Then you must open PyCharm:
   - Make a new Project with these instructions: [Create a Python Project](https://www.jetbrains.com/help/pycharm/creating-empty-project.html)
-  - Follow all steps including making sure a virtual envrionment is set up with the Python you installed.
-  - Close the project and exit the applciation.
+  - Follow all steps including making sure a virtual environment is set up with the Python you installed.
+  - Close the project and exit the application.
   - Go to the Directory of that project you created
   - Extract the Zip files into that folder
   - Open PyCharm again and access the project you created and it should have all the files into the Project
   - 2) Option would be to use the Git clone but you *must* clone it to the new project's directory. See this link: [Git Clone to Project](https://www.jetbrains.com/help/pycharm/set-up-a-git-repository.html#put-existing-project-under-Git)
-  - Next once Python and Pycharm is setup and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commmands to navigate to them and install them:
+  - Next once Python and Pycharm is setup and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commands to navigate to them and install them:
 ```bash
 python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-  - Next, if this does not work, you will have to install the imports one by one clicking on all the **MainMenu.py**,**test.py**,**Breakout.py**,**TicTacToe.py**,**Trivia.py** and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages serach bar for each one and install them there.
+  - Next, if this does not work, you will have to install the imports one by one clicking on all the **MainMenu.py**, **test.py**, **Breakout.py**, **TicTacToe.py**, **Trivia.py** and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages search bar for each one and install them there.
   - Then once done, **Run** the Python application:
 ```bash
 python MainMenu.py
@@ -78,9 +78,9 @@ python MainMenu.py
   - Then go to the top left corner near the arrow run button and click on the **tab** -> **CurrentFile**.
   - Then while staying on that file click on the **Run** button which is the Green Arrow.
 
-### **b. Set up virtual envionment, Install dependencies, Run Application**
+### **b. Set up virtual environment, Install dependencies, Run Application**
 Before running the application, make sure you have **Python** installed on your machine. You can download Python from the official website: [Download Python](https://www.python.org/downloads/).
-Once Python is installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Use thse commmands to navigate to them and install them:
+Once Python is installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Use these commands to navigate to them and install them:
 ```bash
 cd <directory location where you put the project files>
 [ex: cd D:\CMSC495Capstone]
@@ -105,20 +105,20 @@ Run the Python application: After the dependencies are installed, they can simpl
 ```bash
 python MainMenu.py
 ```
-### **c. After Forking, Set up PyCharm, Set up virtual envionment, Install dependencies, Run Application**
+### **c. After Forking, Set up PyCharm, Set up virtual environment, Install dependencies, Run Application**
 Before running the application, make sure you have **Python** installed on your machine. You can download Python from the official website: [Download Python](https://www.python.org/downloads/).
-Once Python is installed, you'll need to install the dependencies for the project either through the PYTHON IDE terminal that you installed PyCharm [Download PyCharm Community for Windows] (https://www.jetbrains.com/pycharm/download/?section=windows) OR [Download PyCharm Community for Mac](https://www.jetbrains.com/pycharm/download/?section=mac) OR [Download PyCharm Community for Linux](https://www.jetbrains.com/pycharm/download/?section=linux).
+Once Python is installed, you'll need to install the dependencies for the project either through the PYTHON IDE terminal that you installed PyCharm [Download PyCharm Community for Windows](https://www.jetbrains.com/pycharm/download/?section=windows) OR [Download PyCharm Community for Mac](https://www.jetbrains.com/pycharm/download/?section=mac) OR [Download PyCharm Community for Linux](https://www.jetbrains.com/pycharm/download/?section=linux).
 Then you must open PyCharm:
   - Make a new Project with these instructions: [Create a Python Project](https://www.jetbrains.com/help/pycharm/creating-empty-project.html)
-  - Follow all steps including making sure a virtual envrionment is set up with the Python you installed.
-  - Login the Git into the Python and use the Git Clone or fetch the repository of the Forked repositry you made. [Forking PyCharm Help](https://www.jetbrains.com/help/pycharm/fork-github-projects.html)
+  - Follow all steps including making sure a virtual environment is set up with the Python you installed.
+  - Login the Git into the Python and use the Git Clone or fetch the repository of the Forked repository you made. [Forking PyCharm Help](https://www.jetbrains.com/help/pycharm/fork-github-projects.html)
   - 2) Option would be to use the Git clone but you *must* clone it to the new project's directory. See this link: [Git Clone to Project](https://www.jetbrains.com/help/pycharm/set-up-a-git-repository.html#put-existing-project-under-Git)
-  - Next once Python and Pycharm is setup and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commmands to navigate to them and install them:
+  - Next once Python and Pycharm is setup and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commands to navigate to them and install them:
 ```bash
 python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-  - Next, if this does not work, you will have to install the imports one by one clicking on all the **MainMenu.py**,**test.py**,**Breakout.py**,**TicTacToe.py**,**Trivia.py** and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages serach bar for each one and install them there.
+  - Next, if this does not work, you will have to install the imports one by one clicking on all the **MainMenu.py**, **test.py**, **Breakout.py**, **TicTacToe.py**, **Trivia.py** and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages search bar for each one and install them there.
   - Then once done, **Run** the Python application:
 ```bash
 python MainMenu.py
@@ -129,7 +129,7 @@ python MainMenu.py
 
 ## **How to Play the Games & Navigate the Game Hub's Main Menu**
 ### Main Menu (Game Hub)
-- Once *"MainMenu.py"* is runnning, the user can select the following options:
+- Once *"MainMenu.py"* is running, the user can select the following options:
     - Tic Tac Toe
     - Trivia
     - Breakout
@@ -162,7 +162,7 @@ This document outlines the deliverables for a CMSC Capstone project: a multi-gam
   - To track progress on each coding section, we will use Git for Version Control.
   -  Each process will include a Git commit section
   - Each readme file will ensure that the user knows how the set the requirements of the software and run the application to play the games.
-  - Note: Refer to "doc" folder which is up-to-date with all our Technical Documentaiton per Unit (weeks: 1-8)
+  - Note: Refer to "doc" folder which is up-to-date with all our Technical Documentation per Unit (weeks: 1-8)
 ## Version Control with Git
 This project uses Git for version control. Git will be used to track the progress of the project, manage code changes, and ensure collaboration between developers. Every change made to the codebase will be tracked with commit messages, providing a clear history of the project's development. Here's how we manage code changes:
 ### Branching and Commit Process
@@ -171,21 +171,22 @@ This project uses Git for version control. Git will be used to track the progres
 - Push Changes: After completing a tasks in a remote branch that was created, developers push the branch to GitHub.
 - Pull Request (PR): Create a Pull Request for code review. Once approved, the changes are merged into the main branch.
 ### Code Review and Merge
-- The Git Leader will get approvals from the PR and ensure code quality and functionality.
-- Once the Git Leader passes the review, it will be merged into the main branch.
+- If changing major game files `.py`, the Git Leader will get approvals from the PR and ensure code quality and functionality.
+- If changing minor files (txt, md, not game files, etc) the user(name of team) will get approvals from the PR and ensure code quality and functionality.
+- Once the Git Leader/User(team) passes the review, it will be merged into the main branch.
 - The Project Manager and the Testers will ensure that each update is working and tested.
 - Developers will regularly pull the latest changes from the main branch to keep their feature branches up to date and avoid conflicts.
 - If any merge conflicts arise, the developer will resolve them before pushing their changes, ensuring that the codebase remains functional and consistent.
 ### See Git History Progress
   - To see the Progress go to the project repository [CMSC495Capstone](https://github.com/javonpayne100/CMSC495Capstone)
   - Click on Branches to see all Branches. Then click on Each branch individual to see the changes in each branch. Once finished, go back to the project
-  - Click on Pull Requests to see all the branches that were merged into the main. opens are the ones not merged but able to compare, the closed one should show the branches that were merged into main after approval and comparision. This method protects the main fial and makes sure that the main files are not touched. Once, finsihed, go back to the project.
+  - Click on Pull Requests to see all the branches that were merged into the main. opens are the ones not merged but able to compare, the closed one should show the branches that were merged into main after approval and comparison. This method protects the main final and makes sure that the main files are not touched. Once, finished, go back to the project.
   - Note: You can also see each Weekly Unit progress on Git through the "docs" folder where it shows per each week.
 ## Testing and Debugging
 - Unit Testing: Test each game module (Tic-Tac-Toe, Trivia, Breakout) for correctness.
 - Integration Testing: Ensure the main menu and individual game modules work seamlessly together.
 - System Testing: Test the full application to ensure the overall user experience is smooth.
-### **Unit Testing Intructions:**
+### **Unit Testing Instructions:**
 - Go to the file **"Testing.py"** and Run it. It should test 14 unit tests all in that file for the games.
 ### Testing Overview:
 Automated testing was implemented using Python’s `unittest` framework to validate critical components of the Tic Tac Toe, Trivia, and Breakout modules. The test suite verifies game mechanics such as win detection, board state, and AI behavior in Tic Tac Toe. For Trivia, tests were written to inspect the structure of the question data loaded from JSON, as well as correctness of answer indexing. The Breakout tests include health reduction of blocks, ball reset logic, paddle boundaries, and collision detection between game elements. In other words, all 14 tests focus on critical game mechanics like win detection, board state, and AI behavior (Tic Tac Toe), question structure and answer indexing (Trivia), and collision detection and block health (Breakout).
@@ -210,12 +211,12 @@ Following the Waterfall development methodology, future testing will be structur
   - **Cross-Platform Compatibility**: Test the application on multiple platforms to ensure consistent functionality across operating systems.
 ### Debugging Process
 - Use Git to track and resolve issues by creating separate branches for bug fixes.
-- Issues can be either included in the Git or done thoruugh a local machine.
-- Each commit / new push afer a PR will document the changes and improvements made during debugging.
+- Issues can be either included in the Git or done thorough a local machine.
+- Each commit / new push after a PR will document the changes and improvements made during debugging.
 
 ## Project Architecture
-This portion is included in the document folder **"docs"** showing each units per week and the diagrams included in one of the sections.
-### Start of the Implmentation:
+This portion is included in the document folder **"docs"** showing each unit per week and the diagrams included in one of the sections.
+### Start of the Implementation:
 - **Implementation Overview**: 
   - Built a multi-game desktop app using Python and Pygame.
   - Project follows a modular design with separate game modules (Tic Tac Toe, Trivia, Breakout) integrated through a centralized menu.
@@ -226,7 +227,7 @@ This portion is included in the document folder **"docs"** showing each units pe
 - **Breakout Game**:
   - Core classes: Ball, Striker, and Block.
   - Collision detection and sound effects triggered with `pygame.mixer.Sound()`.
-  - Block health varies by color, where some bloacks must be hit more than once, with blocks removed upon destruction and player scores incremented.
+  - Block health varies by color, where some blocks must be hit more than once, with blocks removed upon destruction and player scores incremented.
   - Game over condition triggers a replay prompt using pyautogui, with an option to play again or exit.
 - **Tic Tac Toe**:
   - Graphical board with grid lines and symbols (X and O).
@@ -292,7 +293,6 @@ The activity diagram shows the flow of actions, starting from the application la
 - [Pygame Documentation](https://www.pygame.org/docs/)
 - [Python Documentation](https://docs.python.org/3/)
 - [GeeksforGeeks SDLC Waterfall Model](https://www.geeksforgeeks.org/software-development-life-cycle-sdlc/)
-- [UMGC Peer-to-Peer File Sharing](https://www.umgc.edu/content/dam/umgc/documents/upload/peer-to-peer-file-sharing.pdf)
 - [GitHub Resources](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)
 - [Google Scholar](https://scholar.google.com/)
 - [Wikipedia](https://www.wikipedia.org/)
@@ -301,4 +301,3 @@ The activity diagram shows the flow of actions, starting from the application la
 - [UMGC Peer to Peer File Sharing](https://www.umgc.edu/content/dam/umgc/documents/upload/peer-to-peer-file-sharing.pdf)
 - [UMGC Copyright and Fair Use](https://libguides.umgc.edu/copyright#s-lg-box-26283861)
 - [UMGC Creative Commons](https://libguides.umgc.edu/c.php?g=23404&p=7944948)
-- [UMGC CS Resources](https://libguides.umgc.edu/c.php?g=316603&p=2114865)
