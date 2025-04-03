@@ -25,6 +25,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 DARK_BLUE = (30, 30, 60)
 LIGHT_BLUE = (50, 50, 150)
+BUTTON_COLOR = (100, 200, 150) # color for button
 
 font = pygame.font.Font(None, 40)
 question_font = pygame.font.Font(None, 30)
@@ -98,7 +99,11 @@ def add_player_screen():
     players = []
 
     # Select the number of players
-    screen.fill(BLACK)
+    screen.fill(BLACK)  # You can change this to a custom color, if needed
+
+    # Draw the gradient background (same as in trivia question screen)
+    draw_background_gradient()
+
     render_text("Select the number of players:", SCREEN_WIDTH // 2 - 150, 50, font, YELLOW)
     render_text("1. One Player", SCREEN_WIDTH // 2 - 100, 150, font, WHITE)
     render_text("2. Two Players", SCREEN_WIDTH // 2 - 100, 200, font, WHITE)
@@ -121,6 +126,7 @@ def add_player_screen():
     if selected_mode == 1:
         # Single player mode
         screen.fill(BLACK)
+        draw_background_gradient()  # Use gradient background
         render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW)
         pygame.display.flip()
 
@@ -144,6 +150,7 @@ def add_player_screen():
                         text += event.unicode
 
             screen.fill(BLACK)
+            draw_background_gradient()  # Use gradient background
             render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW)
             pygame.draw.rect(screen, box_color, input_box, 2)
             text_surface = font.render(text, True, WHITE)
@@ -153,6 +160,7 @@ def add_player_screen():
     elif selected_mode == 2:
         # Two players mode
         screen.fill(BLACK)
+        draw_background_gradient()  # Use gradient background
         render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
         pygame.display.flip()
 
@@ -174,6 +182,7 @@ def add_player_screen():
                         text_1 += event.unicode
 
             screen.fill(BLACK)
+            draw_background_gradient()  # Use gradient background
             render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
             pygame.draw.rect(screen, WHITE, input_box_1, 2)
             text_surface_1 = font.render(text_1, True, WHITE)
@@ -182,6 +191,7 @@ def add_player_screen():
 
         # Now for Player 2
         screen.fill(BLACK)
+        draw_background_gradient()  # Use gradient background
         render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
         pygame.display.flip()
 
@@ -203,6 +213,7 @@ def add_player_screen():
                         text_2 += event.unicode
 
             screen.fill(BLACK)
+            draw_background_gradient()  # Use gradient background
             render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
             pygame.draw.rect(screen, WHITE, input_box_2, 2)
             text_surface_2 = font.render(text_2, True, WHITE)
@@ -211,17 +222,22 @@ def add_player_screen():
 
     pygame.display.flip()
 
-
 # ----------------------------
 # Category Selection Function
 # ----------------------------
 def select_category():
     categories = ["Science", "Math", "History", "Geography", "Literature"]
+
+    # Fill the screen with the gradient background
     screen.fill(BLACK)
+    draw_background_gradient()  # Call the gradient function to create the background
+
     render_text("Select a Category:", SCREEN_WIDTH // 2 - 140, 50, font, YELLOW)
 
+    # Render the categories
     for index, category in enumerate(categories):
         render_text(f"{index + 1}. {category}", SCREEN_WIDTH // 2 - 100, 150 + (index * 50), font, WHITE)
+
     pygame.display.flip()
 
     selected_category = None
@@ -245,136 +261,154 @@ def select_category():
 # Main Game Function
 # ----------------------------
 def trivia_game():
-    stop_trivia_music()  # Stop music after gameplay
-    add_player_screen()  # Collect player names
-    selected_category = select_category()  # Select a category
-    question_pool = questions_data[selected_category]  # Use the full question pool
+    while True:
+        stop_trivia_music()
+        global players
+        players = []
+        add_player_screen()
+        selected_category = select_category()
+        question_pool = questions_data[selected_category]
 
-    if len(question_pool) < 5 * len(players):  # Ensure there are enough questions for all players
+        if len(question_pool) < 5 * len(players):
+            screen.fill(BLACK)
+            render_text("Not enough questions in this category!", 50, SCREEN_HEIGHT // 2, font, RED)
+            pygame.display.flip()
+            time.sleep(3)
+            return "menu"
+
+        play_trivia_music()
+        scores = {}
+        random.shuffle(question_pool)
+
+        for player in players:
+            session_score = 0
+            questions = random.sample(question_pool, 5)
+            clock = pygame.time.Clock()
+
+            for q in questions:
+                current_question = q["question"]
+                answers = q["answers"]
+                correct_index = q["correct"]
+                time_left = 10.0
+                answered = False
+                selected_index = None
+
+                while time_left > 0 and not answered:
+                    dt = clock.tick(60) / 1000.0
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            return "quit"
+                        elif event.type == pygame.MOUSEBUTTONDOWN:
+                            mx, my = pygame.mouse.get_pos()
+                            for i, a in enumerate(answers):
+                                x, y = 50, 150 + i * 50
+                                w, h = question_font.size(f"{i + 1}. {a}")
+                                if x <= mx <= x + w and y <= my <= y + h:
+                                    selected_index = i
+                                    answered = True
+                                    if i == correct_index:
+                                        session_score += 1
+
+                    screen.fill(BLACK)
+                    draw_background_gradient()
+                    render_text(f"{player}'s Turn", SCREEN_WIDTH // 2 - 100, 20, font, YELLOW)
+                    render_text(current_question, 50, 100, question_font, WHITE)
+
+                    for i, a in enumerate(answers):
+                        color = (
+                            GREEN if i == correct_index else
+                            RED if i == selected_index else
+                            WHITE
+                        ) if selected_index is not None else WHITE
+                        render_text(f"{i + 1}. {a}", 50, 150 + i * 50, question_font, color)
+
+                    draw_timer((SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60), 40, time_left, 10.0)
+                    render_text(f"Score: {session_score}", SCREEN_WIDTH - 200, 20, font, WHITE)
+                    pygame.display.flip()
+                    time_left -= dt
+
+                if selected_index is None:
+                    time.sleep(1)
+
+            scores[player] = session_score
+            time.sleep(1)
+##################################################################################################
+# shows final results and player choice
+        stop_trivia_music()
+        result = show_final_results(scores)
+
+        if result == "restart":
+            continue
+        elif result == "menu":
+            return "menu"
+        elif result == "quit":
+            pygame.quit()
+            exit()
+
+def show_final_results(scores):
+    """
+    Displays final result screen after game ends
+    Shows scores for players
+    Provides buttons to play agains or return to menu
+    """
+    result = None
+    button_font = pygame.font.Font(None, 36)
+    #define button areas
+    play_again_rect = pygame.Rect(SCREEN_WIDTH // 2 - 100, 220, 200, 50)
+    menu_rect = pygame.Rect(SCREEN_WIDTH // 2 - 100, 290, 200, 50)
+    quit_rect = pygame.Rect(SCREEN_WIDTH // 2 - 100, 360, 200, 50)
+
+    # Determine winner(s)
+    highest_score = max(scores.values())
+    winners = [player for player, score in scores.items() if score == highest_score]
+
+    while result is None:
+        mouse_pos = pygame.mouse.get_pos()
         screen.fill(BLACK)
-        render_text("Not enough questions in this category!", 50, SCREEN_HEIGHT // 2, font, RED)
+        draw_background_gradient()
+        render_text("Final Results", SCREEN_WIDTH // 2 - 100, 40, font, YELLOW)
+        # score display
+        y_offset = 100
+        for player in scores:
+            render_text(f"{player}: {scores[player]}", SCREEN_WIDTH // 2 - 100, y_offset, font, WHITE)
+            y_offset += 40
+
+        # Show winner or tie
+        if len(winners) == 1:
+            render_text(f"{winners[0]} wins!", SCREEN_WIDTH // 2 - 100, y_offset + 10, font, GREEN)
+        else:
+            render_text("It's a Tie!", SCREEN_WIDTH // 2 - 100, y_offset + 10, font, GREEN)
+
+        # Button hover colors
+        play_color = (80, 220, 170) if play_again_rect.collidepoint(mouse_pos) else BUTTON_COLOR
+        menu_color = (80, 140, 220) if menu_rect.collidepoint(mouse_pos) else BUTTON_COLOR
+        quit_color = (200, 50, 50) if quit_rect.collidepoint(mouse_pos) else BUTTON_COLOR
+
+        # Draw buttons
+        pygame.draw.rect(screen, play_color, play_again_rect, border_radius=10)
+        pygame.draw.rect(screen, menu_color, menu_rect, border_radius=10)
+        pygame.draw.rect(screen, quit_color, quit_rect, border_radius=10)
+
+        # Button text
+        screen.blit(button_font.render("Play Again", True, WHITE), play_again_rect.move(35, 10))
+        screen.blit(button_font.render("Main Menu", True, WHITE), menu_rect.move(30, 10))
+        screen.blit(button_font.render("Quit", True, WHITE), quit_rect.move(75, 10))
+
         pygame.display.flip()
-        time.sleep(3)
-        pygame.quit()
-        return
+# event handler for button clicks
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                result = "quit"
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if play_again_rect.collidepoint(mouse_pos):
+                    result = "restart"
+                elif menu_rect.collidepoint(mouse_pos):
+                    result = "menu"
+                elif quit_rect.collidepoint(mouse_pos):
+                    result = "quit"
 
-    play_trivia_music()  # Start gameplay music
-    scores = {}  # Dictionary to store each player's session score
-
-    # Shuffle the entire question pool to ensure random questions
-    random.shuffle(question_pool)
-
-    for player in players:
-        screen.fill(BLACK)
-        render_text(f"{player}, press any key when ready!", SCREEN_WIDTH // 2 - 200, SCREEN_HEIGHT // 2, font, YELLOW)
-        pygame.display.flip()
-        waiting = True
-        while waiting:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    waiting = False
-
-        session_score = 0
-        session_questions = random.sample(question_pool, 5)  # Pick 5 unique random questions for each player
-        clock = pygame.time.Clock()
-
-        for question_data in session_questions:
-            current_question = question_data["question"]
-            answers = question_data["answers"]
-            correct_index = question_data["correct"]
-            time_left = 10.0
-            answered = False
-            selected_answer_index = None  # Track the selected answer index
-
-            while time_left > 0 and not answered:
-                dt = clock.tick(60) / 1000.0
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        exit()
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        mouse_x, mouse_y = pygame.mouse.get_pos()
-                        for index, answer in enumerate(answers):
-                            x = 50
-                            y = 150 + index * 50
-                            text_width, text_height = question_font.size(f"{index + 1}. {answer}")
-                            if x <= mouse_x <= x + text_width and y <= mouse_y <= y + text_height:
-                                selected_answer_index = index
-                                answered = True
-                                if index == correct_index:
-                                    session_score += 1
-                                break  # Prevent multiple answers from being selected
-
-                screen.fill(BLACK)
-                draw_background_gradient()
-                render_text(f"{player}'s Turn", SCREEN_WIDTH // 2 - 100, 20, font, YELLOW)
-                render_text(current_question, 50, 100, question_font, WHITE)
-
-                # Draw answers and highlight selected answers
-                for index, answer in enumerate(answers):
-                    answer_text = f"{index + 1}. {answer}"
-                    if selected_answer_index is not None:
-                        if index == correct_index:  # Correct answer
-                            color = GREEN
-                        elif index == selected_answer_index:  # Wrong answer selected by player
-                            color = RED
-                        else:
-                            color = WHITE
-                    else:
-                        color = WHITE
-
-                    render_text(answer_text, 50, 150 + index * 50, question_font, color)
-
-                draw_timer((SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60), 40, time_left, 10.0)
-                render_text(f"Score: {session_score}", SCREEN_WIDTH - 200, 20, font, WHITE)
-                pygame.display.flip()
-                time_left -= dt
-
-            # After the answer is selected, show the result for a brief moment
-            if selected_answer_index is not None:
-                time.sleep(1)  # Wait for 1 second to show the highlight before moving to the next question
-            else:
-                # If time runs out without an answer, highlight the correct one in green
-                screen.fill(BLACK)
-                draw_background_gradient()
-                render_text(f"{player}'s Turn", SCREEN_WIDTH // 2 - 100, 20, font, YELLOW)
-                render_text(current_question, 50, 100, question_font, WHITE)
-
-                # Show the correct answer in green
-                for index, answer in enumerate(answers):
-                    color = GREEN if index == correct_index else WHITE
-                    render_text(f"{index + 1}. {answer}", 50, 150 + index * 50, question_font, color)
-
-                draw_timer((SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60), 40, time_left, 10.0)
-                render_text(f"Score: {session_score}", SCREEN_WIDTH - 200, 20, font, WHITE)
-                pygame.display.flip()
-                time.sleep(1)
-
-        scores[player] = session_score
-        time.sleep(1)
-
-    stop_trivia_music()  # Stop music after gameplay
-
-    # Final results screen
-    screen.fill(BLACK)
-    render_text("Final Results", SCREEN_WIDTH // 2 - 100, 50, font, YELLOW)
-    y_offset = 100
-    for player in players:
-        render_text(f"{player}: {scores[player]}", SCREEN_WIDTH // 2 - 100, y_offset, font, WHITE)
-        y_offset += 50
-
-    # Determine the winner
-    winners = [player for player, score in scores.items() if score == max(scores.values())]
-    render_text(f"{winners[0]} wins!", SCREEN_WIDTH // 2 - 100, y_offset + 50, font, YELLOW)
-    pygame.display.flip()
-    time.sleep(3)
-
-    pygame.quit()
-
-
+    return result
 # ----------------------------
 # Main Guard
 # ----------------------------
