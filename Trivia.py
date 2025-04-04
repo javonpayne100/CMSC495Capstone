@@ -55,7 +55,7 @@ questions_data = load_questions()
 # Utility Functions
 # ----------------------------
 def play_trivia_music():
-    pygame.mixer.music.load("Jeopardy_Music.wav")
+    pygame.mixer.music.load("media/Jeopardy_Music.wav")
     pygame.mixer.music.play(-1)
 
 
