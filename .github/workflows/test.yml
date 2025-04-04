@@ -1,0 +1,47 @@
+name: Run Unit Tests For All Separate Branches
+
+on:
+  push:
+    branches:
+      - Victoria   # Change this to your specific feature branch
+      - Javon
+      - Todasha
+      - jin
+      - tumi
+      - james
+  pull_request:
+    branches:
+      - Victoria   # Change this to your specific feature branch
+      - Javon
+      - Todasha
+      - jin
+      - tumi
+      - james
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+          os: [ubuntu-latest, macos-latest, windows-latest]   # Matrix to run tests on all three platforms
+    
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # This will automatically pick up the version specified in `Pipfile` or `pyproject.toml`
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Discover requirements file in the root directory
+
+      # Run the unit tests
+      - name: Run unit tests
+        run: |
+          python -m unittest discover -p "test_*.py"  # Discover test file in the root directory
