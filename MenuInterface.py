@@ -1,239 +1,171 @@
 import pygame
-import sys
-import numpy as np
 
 # Initialize pygame
 pygame.init()
-pygame.mixer.init()  # Initialize the mixer for sound
 
-# Constants
-WIDTH, HEIGHT = 600, 600
-LINE_WIDTH = 10
-BOARD_ROWS, BOARD_COLS = 3, 3
-SQUARE_SIZE = WIDTH // BOARD_COLS
-CIRCLE_RADIUS = SQUARE_SIZE // 3
-CIRCLE_WIDTH = 15
-CROSS_WIDTH = 25
-SPACE = SQUARE_SIZE // 4
+# Screen settings
+SCREEN_WIDTH = 600  # Increased width
+SCREEN_HEIGHT = 400  # Increased height
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))  # Set new screen size
+pygame.display.set_caption("Main Menu")  # Window title
 
 # Colors
-BG_COLOR = (28, 170, 156)
-LINE_COLOR = (23, 145, 135)
-CIRCLE_COLOR = (239, 231, 200)
-CROSS_COLOR = (66, 66, 66)
-TEXT_COLOR = (255, 255, 255)
-BUTTON_COLOR = (100, 200, 150)
+WHITE = (255, 255, 255)
+YELLOW = (255, 255, 0)
+BLACK = (0, 0, 0)
+DARK_BLUE = (10, 25, 50)  # Dark blue background
+LIGHT_BLUE = (50, 120, 200)  # Highlight color
+GRAY = (100, 100, 100)
 
-# Fonts
-FONT = pygame.font.Font(None, 60)
-BUTTON_FONT = pygame.font.Font(None, 40)
+# Font settings
+font = pygame.font.Font(None, 40)  # Increased font size for better visibility
 
-# Initialize game window
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# Function to render text (no glow effect)
+def render_text(screen, text, x, y, font, color):
+    rendered_text = font.render(text, True, color)
+    screen.blit(rendered_text, (x, y))
 
-# Load the click sound
-click_sound = pygame.mixer.Sound("mouse-click.wav")
+# Function to check if mouse is hovering over text
+def check_hover(mouse_pos, x, y, font, text):
+    mouse_x, mouse_y = mouse_pos
+    text_width, text_height = font.size(text)
+    return x <= mouse_x <= x + text_width and y <= mouse_y <= y + text_height
 
-# Game board (3x3 matrix)
-board = np.zeros((BOARD_ROWS, BOARD_COLS))
+# Function to draw background gradient
+def draw_gradient_background(screen, width, height):
+    for y in range(height):
+        color = (DARK_BLUE[0] + y // 10, DARK_BLUE[1] + y // 5, DARK_BLUE[2] + y // 3)
+        pygame.draw.line(screen, color, (0, y), (width, y))
 
-# Draw game grid
-def draw_grid():
-    for row in range(1, BOARD_ROWS):
-        pygame.draw.line(screen, LINE_COLOR, (0, row * SQUARE_SIZE), (WIDTH, row * SQUARE_SIZE), LINE_WIDTH)
-    for col in range(1, BOARD_COLS):
-        pygame.draw.line(screen, LINE_COLOR, (col * SQUARE_SIZE, 0), (col * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
+# Function to handle menu navigation
+def navigate(option):
+    if option == 1:
+        show_tic_tac_toe()
+    elif option == 2:
+        show_trivia()
+    elif option == 3:
+        show_tbd()
+    elif option == 4:
+        print("Exiting program...")
+        pygame.quit()
+        exit()
 
-# Draw X and O
-def draw_marks():
-    for row in range(BOARD_ROWS):
-        for col in range(BOARD_COLS):
-            if board[row][col] == 1:
-                pygame.draw.circle(screen, CIRCLE_COLOR,
-                                   (int(col * SQUARE_SIZE + SQUARE_SIZE // 2),
-                                    int(row * SQUARE_SIZE + SQUARE_SIZE // 2)),
-                                   CIRCLE_RADIUS, CIRCLE_WIDTH)
-            elif board[row][col] == 2:
-                pygame.draw.line(screen, CROSS_COLOR,
-                                 (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE),
-                                 (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE),
-                                 CROSS_WIDTH)
-                pygame.draw.line(screen, CROSS_COLOR,
-                                 (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE),
-                                 (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE),
-                                 CROSS_WIDTH)
+# Placeholder functions for each screen
+def show_tic_tac_toe():
+    screen.fill(BLACK)
+    title_font = pygame.font.Font(None, 50)
+    title_text = title_font.render("Tic-Tac-Toe", True, WHITE)
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 3))
+    pygame.display.flip()
 
-# Mark cell (X = 1, O = 2)
-def mark_cell(row, col, player):
-    board[row][col] = player
-    click_sound.play()  # Play the sound whenever a move is made
-
-# Check if cell is empty
-def is_cell_empty(row, col):
-    return board[row][col] == 0
-
-# Check if the board is full (draw)
-def is_board_full():
-    return np.all(board != 0)
-
-# Check win conditions
-def check_win(player):
-    for row in range(BOARD_ROWS):
-        if np.all(board[row, :] == player):
-            return True
-
-    for col in range(BOARD_COLS):
-        if np.all(board[:, col] == player):
-            return True
-
-    if np.all(np.diag(board) == player) or np.all(np.diag(np.fliplr(board)) == player):
-        return True
-
-    return False
-
-# Minimax Algorithm with Alpha-Beta Pruning and Depth Limiting
-def minimax(board, depth, is_maximizing, alpha, beta, max_depth):
-    if check_win(2):  # AI Wins
-        return 1
-    elif check_win(1):  # Player Wins
-        return -1
-    elif is_board_full() or depth >= max_depth:  # Draw or max depth reached
-        return 0
-
-    if is_maximizing:
-        best_score = -float("inf")
-        for row in range(BOARD_ROWS):
-            for col in range(BOARD_COLS):
-                if board[row][col] == 0:
-                    board[row][col] = 2
-                    score = minimax(board, depth + 1, False, alpha, beta, max_depth)
-                    board[row][col] = 0
-                    best_score = max(score, best_score)
-                    alpha = max(alpha, best_score)
-                    if beta <= alpha:
-                        break  # Beta cut-off
-        return best_score
-    else:
-        best_score = float("inf")
-        for row in range(BOARD_ROWS):
-            for col in range(BOARD_COLS):
-                if board[row][col] == 0:
-                    board[row][col] = 1
-                    score = minimax(board, depth + 1, True, alpha, beta, max_depth)
-                    board[row][col] = 0
-                    best_score = min(score, best_score)
-                    beta = min(beta, best_score)
-                    if beta <= alpha:
-                        break  # Alpha cut-off
-        return best_score
-
-# AI Move using Minimax with a fixed depth limit
-def ai_move():
-    max_depth = 3  # Limit depth to 3 to speed up AI
-    best_score = -float("inf")
-    best_move = None
-
-    for row in range(BOARD_ROWS):
-        for col in range(BOARD_COLS):
-            if board[row][col] == 0:
-                board[row][col] = 2
-                score = minimax(board, 0, False, -float("inf"), float("inf"), max_depth)
-                board[row][col] = 0
-                if score > best_score:
-                    best_score = score
-                    best_move = (row, col)
-
-    if best_move:
-        mark_cell(best_move[0], best_move[1], 2)
-
-# Display game result and show Play Again button
-def display_result(message):
-    global game_over
-    game_over = True  # Freeze game state
-    screen.fill(BG_COLOR)
-
-    # Show result message
-    text = FONT.render(message, True, TEXT_COLOR)
-    text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 3))
-    screen.blit(text, text_rect)
-
-    # Draw Play Again button
-    button_text = BUTTON_FONT.render("Play Again", True, TEXT_COLOR)
-    button_rect = button_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 50))
-    pygame.draw.rect(screen, BUTTON_COLOR, button_rect.inflate(20, 20))  # Button rectangle
-    screen.blit(button_text, button_rect)
-
-    pygame.display.update()
-
-    # Wait for the player to click Play Again
-    waiting_for_restart = True
-    while waiting_for_restart:
+    # Wait for the user to click to go back to the main menu
+    waiting_for_click = True
+    while waiting_for_click:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
-
+                exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if button_rect.collidepoint(event.pos):  # Check if Play Again button is clicked
-                    restart_game()
-                    waiting_for_restart = False
+                waiting_for_click = False
+                main_menu()
 
-# Restart the game
-def restart_game():
-    global board, player_turn, game_over
-    board = np.zeros((BOARD_ROWS, BOARD_COLS))  # Reset board data
-    player_turn = 1  # Reset turn to player
-    game_over = False  # Allow moves again
-    screen.fill(BG_COLOR)  # Clear screen
-    draw_grid()  # Redraw grid
-    pygame.display.update()  # Refresh screen
+def show_trivia():
+    screen.fill(BLACK)
+    title_font = pygame.font.Font(None, 50)
+    title_text = title_font.render("Trivia", True, WHITE)
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 3))
+    pygame.display.flip()
 
-# Main game loop
-def tic_tac_toe():
-    pygame.display.set_caption("Tic Tac Toe (Player vs AI)")
-    screen.fill(BG_COLOR)
-
-    draw_grid()
-    player_turn = 1
-    game_over = False
-
-    while True:
+    # Wait for the user to click to go back to the main menu
+    waiting_for_click = True
+    while waiting_for_click:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                waiting_for_click = False
+                main_menu()
 
-            if event.type == pygame.MOUSEBUTTONDOWN and not game_over and player_turn == 1:
-                x, y = event.pos
-                row, col = y // SQUARE_SIZE, x // SQUARE_SIZE
+def show_tbd():
+    screen.fill(BLACK)
+    title_font = pygame.font.Font(None, 50)
+    title_text = title_font.render("TBD - Coming Soon", True, WHITE)
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 3))
+    pygame.display.flip()
 
-                if is_cell_empty(row, col):
-                    mark_cell(row, col, 1)
-                    draw_marks()
-                    pygame.display.update()
+    # Wait for the user to click to go back to the main menu
+    waiting_for_click = True
+    while waiting_for_click:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                waiting_for_click = False
+                main_menu()
 
-                    if check_win(1):
-                        display_result("You Win!")
-                    elif is_board_full():
-                        display_result("It's a Draw!")
-                    else:
-                        player_turn = 2
+# Function to draw the main menu
+def draw_main_menu(screen, font, mouse_pos):
+    screen.fill(BLACK)  # Clear screen
+    draw_gradient_background(screen, SCREEN_WIDTH, SCREEN_HEIGHT)  # Apply gradient
 
-            if player_turn == 2 and not game_over:
-                pygame.time.delay(500)  # Small delay for better experience
-                ai_move()
-                draw_marks()
-                pygame.display.update()
+    # Menu title
+    title_font = pygame.font.Font(None, 50)
+    title_x = SCREEN_WIDTH // 2 - title_font.size("Main Menu")[0] // 2  # Centered title
+    render_text(screen, "Main Menu", title_x, 50, title_font, WHITE)
 
-                if check_win(2):
-                    display_result("You Lose!")
-                elif is_board_full():
-                    display_result("It's a Draw!")
-                else:
-                    player_turn = 1
+    # Define menu options (positioned dynamically)
+    options = [
+        "1. Tic-Tac-Toe",
+        "2. Trivia",
+        "3. TBD",
+        "4. Exit"
+    ]
 
-        pygame.display.update()
+    start_y = 130  # First option position
+    spacing = 60  # Space between options
 
-# Run the game
-if __name__ == "__main__":
-    tic_tac_toe()
+    for index, text in enumerate(options):
+        x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2  # Center text
+        y = start_y + index * spacing
+
+        hover = check_hover(mouse_pos, x, y, font, text)
+        color = YELLOW if hover else WHITE
+
+        # Rounded button effect
+        text_width, text_height = font.size(text)
+        pygame.draw.rect(screen, GRAY if hover else BLACK, (x - 10, y - 5, text_width + 20, text_height + 10), border_radius=10)
+        pygame.draw.rect(screen, WHITE, (x - 10, y - 5, text_width + 20, text_height + 10), 2, border_radius=10)  # Border
+
+        # Render text with hover effect (no glow now)
+        render_text(screen, text, x, y, font, color)
+
+    pygame.display.flip()  # Update the display
+
+# Main loop
+def main_menu():
+    running = True
+    while running:
+        mouse_pos = pygame.mouse.get_pos()
+        draw_main_menu(screen, font, mouse_pos)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+            # Check for mouse click to navigate
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = event.pos
+
+                # Check which option was clicked
+                for index, text in enumerate(["1. Tic-Tac-Toe", "2. Trivia", "3. TBD", "4. Exit"]):
+                    x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2
+                    y = 130 + index * 60  # Match positions
+                    if check_hover((mouse_x, mouse_y), x, y, font, text):
+                        navigate(index + 1)  # Option starts from 1
+
+# Start with the main menu
+main_menu()
+
+pygame.quit()
