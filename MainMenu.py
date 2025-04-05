@@ -1,105 +1,134 @@
 import pygame
 import sys
-from MenuInterface import draw_main_menu
-from TicTacToe import tic_tac_toe_screen
-from Trivia import trivia_screen
-from Breakout import breakout_screen  
+from TicTacToe import tic_tac_toe
+from Trivia import trivia_game
+from Breakout import main
 
-# Initialize Pygame
+# Initialize pygame
 pygame.init()
 
-WIDTH, HEIGHT = 800, 600  
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# Screen settings
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Main Menu")
-font = pygame.font.SysFont('Arial', 30)
 
-# Load background image
-background_image = pygame.image.load("stars.png")  
+# Load and play background music
+pygame.mixer.music.load('mixkit-game-level-music-689.wav')  # Add your sound file path here
+pygame.mixer.music.play(-1, 0.0)  # -1 for looping, 0.0 to start immediately
 
-# Initialize the sound system
-pygame.mixer.init()
+# Colors
+WHITE = (255, 255, 255)
+YELLOW = (255, 255, 0)
+BLACK = (0, 0, 0)
+DARK_BLUE = (10, 25, 50)
+LIGHT_BLUE = (50, 120, 200)
+GRAY = (100, 100, 100)
 
-# Load sound files
-wall_sound = pygame.mixer.Sound("wall.wav")
-paddle_sound = pygame.mixer.Sound("paddle.wav")
-brick_sound = pygame.mixer.Sound("brick.wav")
-losing_sound = pygame.mixer.Sound("mixkit-player-losing-or-failing-2042.wav")  
+# Font settings
+font = pygame.font.Font(None, 40)
 
-# Load and play background music for the menu
-pygame.mixer.music.load("C:/Users/todas/Downloads/CMSC495Capstone-main/mixkit-game-level-music-689.wav") 
-pygame.mixer.music.play(-1, 0.0)  # Play the music indefinitely from the beginning
+# Function to render text
+def render_text(screen, text, x, y, font, color):
+    rendered_text = font.render(text, True, color)
+    screen.blit(rendered_text, (x, y))
 
-def main():
-    current_scene = 'menu'
-    mouse_pos = (0, 0)
-    option_rects = {}  # Store clickable areas here
+# Function to check if mouse is hovering over text
+def check_hover(mouse_pos, x, y, font, text):
+    mouse_x, mouse_y = mouse_pos
+    text_width, text_height = font.size(text)
+    return x <= mouse_x <= x + text_width and y <= mouse_y <= y + text_height
 
-    while True:
-        # Fill the screen with the background image before any other content
-        screen.blit(background_image, (0, 0))  # Position the image at the top-left corner
+# Function to draw background gradient
+def draw_gradient_background(screen, width, height):
+    for y in range(height):
+        color = (DARK_BLUE[0] + y // 10, DARK_BLUE[1] + y // 5, DARK_BLUE[2] + y // 3)
+        pygame.draw.line(screen, color, (0, y), (width, y))
 
-        if current_scene == 'menu':
-            option_rects = draw_main_menu(screen, font, mouse_pos)
+# Function to handle menu navigation
+def navigate(option):
+    # Stop the music when navigating to another game
+    pygame.mixer.music.stop()
+    
+    if option == 1:
+        tic_tac_toe()
+    elif option == 2:
+        pygame.display.set_mode((600, 400))  # change this here to keep the game screen for trivia
+        trivia_game()
+    elif option == 3:
+        pygame.display.set_mode((750, 450))  # change this here to keep the game screen for breakout
+        main()
+    elif option == 4:
+        print("Exiting program...")
+        pygame.quit()
+        exit()
+    elif option == 5:  # Restart option
+        main_menu()  # Go back to the main menu
 
-        elif current_scene == 'tic_tac_toe':
-            pygame.mixer.music.stop()  # Stop music when leaving the menu screen
-            result = tic_tac_toe_screen(screen, font)
-            if result == 'exit':  
-                pygame.quit()
-                sys.exit()
-            elif result == 'menu':
-                current_scene = 'menu'
-                pygame.mixer.music.play(-1, 0.0)  # Restart music when back to the menu
+# Function to draw the main menu
+def draw_main_menu(screen, font, mouse_pos):
+    screen.fill(BLACK)  # Clear screen
+    draw_gradient_background(screen, SCREEN_WIDTH, SCREEN_HEIGHT)  # Apply gradient
 
-        elif current_scene == 'trivia':
-            pygame.mixer.music.stop()  # Stop music when leaving the menu screen
-            result = trivia_screen(screen, font)
-            if result == 'exit':
-                pygame.quit()
-                sys.exit()
-            elif result == 'menu':
-                current_scene = 'menu'
-                pygame.mixer.music.play(-1, 0.0)  # Restart music when back to the menu
+    # Menu title
+    title_font = pygame.font.Font(None, 50)
+    title_x = SCREEN_WIDTH // 2 - title_font.size("Main Menu")[0] // 2  # Centered title
+    render_text(screen, "Main Menu", title_x, 50, title_font, WHITE)
 
-        elif current_scene == 'breakout':
-            pygame.mixer.music.stop()  # Stop music when leaving the menu screen
-            result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound, losing_sound)  # Pass the losing_sound here
-            if result == 'exit':
-                pygame.quit()
-                sys.exit()
-            elif result == 'menu':
-                current_scene = 'menu'
-                pygame.mixer.music.play(-1, 0.0)  # Restart music when back to the menu
+    # Define menu options (positioned dynamically)
+    options = [
+        "1. Tic-Tac-Toe",
+        "2. Trivia",
+        "3. Breakout",
+        "4. Exit",
+        "5. Restart"  # Add restart option
+    ]
 
-        # Event handling
+    start_y = 130  # First option position
+    spacing = 60  # Space between options
+
+    for index, text in enumerate(options):
+        x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2  # Center text
+        y = start_y + index * spacing
+
+        hover = check_hover(mouse_pos, x, y, font, text)
+        color = YELLOW if hover else WHITE
+
+        # Rounded button effect
+        text_width, text_height = font.size(text)
+        pygame.draw.rect(screen, GRAY if hover else BLACK, (x - 10, y - 5, text_width + 20, text_height + 10), border_radius=10)
+        pygame.draw.rect(screen, WHITE, (x - 10, y - 5, text_width + 20, text_height + 10), 2, border_radius=10)  # Border
+
+        # Render text with hover effect (no glow now)
+        render_text(screen, text, x, y, font, color)
+
+    pygame.display.flip()  # Update the display
+
+# Main loop
+def main_menu():
+    running = True
+    while running:
+        mouse_pos = pygame.mouse.get_pos()
+        draw_main_menu(screen, font, mouse_pos)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                running = False
 
-            if event.type == pygame.MOUSEMOTION:
-                mouse_pos = event.pos
-
+            # Check for mouse click to navigate
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if current_scene == 'menu' and option_rects:
-                    for key, rect in option_rects.items():
-                        if rect.collidepoint(event.pos):
-                            if key == '1':
-                                current_scene = 'tic_tac_toe'
-                            elif key == '2':
-                                current_scene = 'trivia'
-                            elif key == '3':
-                                current_scene = 'breakout'
-                            elif key == '4':
-                                pygame.quit()
-                                sys.exit()
+                mouse_x, mouse_y = event.pos
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                # Corrected list of options with the proper index
+                options = ["1. Tic-Tac-Toe", "2. Trivia", "3. Breakout", "4. Exit", "5. Restart"]
+                
+                for index, text in enumerate(options):
+                    x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2
+                    y = 130 + index * 60  # Match positions
+                    if check_hover((mouse_x, mouse_y), x, y, font, text):
+                        navigate(index + 1)  # Option starts from 1
 
-        pygame.time.Clock().tick(60)
+# Start with the main menu
+main_menu()
 
-if __name__ == "__main__":
-    main()
+pygame.quit()
