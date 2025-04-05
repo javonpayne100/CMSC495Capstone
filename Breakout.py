@@ -14,98 +14,66 @@ BLUE = (0, 0, 255)
 
 font = pygame.font.Font(None, 25)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game Hub: Breakout")
 
-# to control the frame rate/speed of the game
 clock = pygame.time.Clock()
 FPS = 70
 
-# Initialize mixer for sound
 pygame.mixer.init()
 
-# Set volume (ensure the volume is not too low)
-pygame.mixer.music.set_volume(1.0)
+# Load sounds
+wall_sound = pygame.mixer.Sound("media/wall.wav")
+paddle_sound = pygame.mixer.Sound("media/paddle.wav")
+brick_sound = pygame.mixer.Sound("media/brick.wav")
+losing_sound = pygame.mixer.Sound("media/mixkit-player-losing-or-failing-2042.wav")
 
-# Load sounds with error handling
-try:
-    wall_sound = pygame.mixer.Sound("media/wall.wav")
-    paddle_sound = pygame.mixer.Sound("media/paddle.wav")
-    brick_sound = pygame.mixer.Sound("media/paddle.wav")
-    losing_sound = pygame.mixer.Sound("media/mixkit-player-losing-or-failing-2042.wav")
-except pygame.error as e:
-    print("Error loading sound:", e)
-
-# Striker class
 class Striker:
     def __init__(self, posx, posy, width, height, speed, color):
         self.posx, self.posy = posx, posy
-        self.width, self.height = width, height
+        self.width = width  # Assign width correctly
+        self.height = height  # Assign height correctly
         self.speed = speed
         self.color = color
-
-        # The rect variable is used to handle the placement
-        # and the collisions of the object
         self.strikerRect = pygame.Rect(self.posx, self.posy, self.width, self.height)
-        self.striker = pygame.draw.rect(screen, self.color, self.strikerRect)
 
-    # Used to render the object on the screen
     def display(self):
-        self.striker = pygame.draw.rect(screen, self.color, self.strikerRect)
+        pygame.draw.rect(screen, self.color, self.strikerRect)
 
-    # Used to update the state of the object
-    def update(self, xFac):
+    def move_keys(self, xFac):
         self.posx += self.speed * xFac
+        self.posx = max(0, min(self.posx, WIDTH - self.width))
+        self.strikerRect.x = self.posx
 
-        # Restricting the striker to be in between the left and right edges of the screen
-        if self.posx <= 0:
-            self.posx = 0
-        elif self.posx + self.width >= WIDTH:
-            self.posx = WIDTH - self.width
+    def move_mouse(self):
+        mouse_x = pygame.mouse.get_pos()[0]
+        self.posx = mouse_x - self.width // 2
+        self.posx = max(0, min(self.posx, WIDTH - self.width))
+        self.strikerRect.x = self.posx
 
-        self.strikerRect = pygame.Rect(self.posx, self.posy, self.width, self.height)
-
-    # Returns the rect of the object
     def getRect(self):
         return self.strikerRect
 
-# Block Class
 class Block:
     def __init__(self, posx, posy, width, height, color):
         self.posx, self.posy = posx, posy
         self.width, self.height = width, height
         self.color = color
         self.damage = 100
-
-        # The white blocks have the health of 200. So, the ball must hit it twice to break
-        if color == RED:
-            self.health = 300
-        elif color == BLUE:
-            self.health = 200
-        else:
-            self.health = 100
-
-        # The rect variable is used to handle the placement and the collisions of the object
+        self.health = 300 if color == RED else 200 if color == BLUE else 100
         self.blockRect = pygame.Rect(self.posx, self.posy, self.width, self.height)
-        self.block = pygame.draw.rect(screen, self.color, self.blockRect)
 
-    # Used to render the object on the screen if and only if its health is greater than 0
     def display(self):
         if self.health > 0:
-            self.brick = pygame.draw.rect(screen, self.color, self.blockRect)
+            pygame.draw.rect(screen, self.color, self.blockRect)
 
-    # Used to decrease the health of the block
     def hit(self):
         self.health -= self.damage
 
-    # Used to get the rect of the object
     def getRect(self):
         return self.blockRect
 
-    # Used to get the health of the object
     def getHealth(self):
         return self.health
 
-# Ball Class
 class Ball:
     def __init__(self, posx, posy, radius, speed, color):
         self.posx, self.posy = posx, posy
@@ -114,166 +82,124 @@ class Ball:
         self.color = color
         self.xFac, self.yFac = 1, 1
 
-        self.ball = pygame.draw.circle(screen, self.color, (self.posx, self.posy), self.radius)
-
-    # Used to display the object on the screen
     def display(self):
-        self.ball = pygame.draw.circle(screen, self.color, (self.posx, self.posy), self.radius)
+        pygame.draw.circle(screen, self.color, (self.posx, self.posy), self.radius)
 
-    # Used to update the state of the object
     def update(self):
         self.posx += self.xFac * self.speed
         self.posy += self.yFac * self.speed
-
-        # Reflecting the ball if it touches either of the vertical edges
         if self.posx <= 0 or self.posx >= WIDTH:
             self.xFac *= -1
-            wall_sound.play()  # Play wall hit sound
-
-        # Reflection from the top most edge of the screen
+            wall_sound.play()
         if self.posy <= 0:
             self.yFac *= -1
+        return self.posy >= HEIGHT
 
-        # If the ball touches the bottom most edge of the screen, True value is returned
-        if self.posy >= HEIGHT:
-            return True
-
-        return False
-
-    # Resets the position of the ball
     def reset(self):
-        self.posx = 0
-        self.posy = HEIGHT
+        self.posx, self.posy = 0, HEIGHT
         self.xFac, self.yFac = 1, -1
 
-    # Used to change the direction along Y axis
     def hit(self):
         self.yFac *= -1
-        paddle_sound.play()  # Play paddle hit sound
+        paddle_sound.play()
 
-    # Returns the rect of the ball
     def getRect(self):
-        return self.ball
+        return pygame.Rect(self.posx - self.radius, self.posy - self.radius, self.radius * 2, self.radius * 2)
 
-# Function used to check collisions between any two entities
 def collisionChecker(rect, ball):
-    if pygame.Rect.colliderect(rect, ball):
-        return True
-    return False
+    return pygame.Rect.colliderect(rect, ball)
 
-# Function used to populate the blocks
 def populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap):
-    listOfBlocks = []
-    for i in range(0, WIDTH, blockWidth + horizontalGap):
-        for j in range(0, HEIGHT // 2, blockHeight + verticalGap):
-            listOfBlocks.append(Block(i, j, blockWidth, blockHeight, random.choice([RED, BLUE, GREEN])))
-    return listOfBlocks
+    return [Block(i, j, blockWidth, blockHeight, random.choice([RED, BLUE, GREEN]))
+            for i in range(0, WIDTH, blockWidth + horizontalGap)
+            for j in range(0, HEIGHT // 2, blockHeight + verticalGap)]
 
-# Once all the lives are over, this function waits until exit or space bar is pressed and does the corresponding action
 def gameOver():
-    gameOver = True
-    while gameOver:
-        # Event handling
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False
+                pygame.quit()
+                exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    return True
+                if event.key == pygame.K_SPACE:  # Restart game
+                    return "restart"
+                elif event.key == pygame.K_ESCAPE:  # Quit game
+                    pygame.quit()
+                    exit()
+                elif event.key == pygame.K_m:  # Go to main menu
+                    return "main_menu"
 
 def main():
+    pygame.display.set_caption("Game Hub: Breakout")
     running = True
     lives = 3
     score = 0
-
-    scoreText = font.render("score", True, WHITE)
-    scoreTextRect = scoreText.get_rect()
-    scoreTextRect.center = (20, HEIGHT - 10)
-
-    livesText = font.render("Lives", True, WHITE)
-    livesTextRect = livesText.get_rect()
-    livesTextRect.center = (120, HEIGHT - 10)
 
     striker = Striker(0, HEIGHT - 50, 100, 20, 10, WHITE)
     strikerXFac = 0
 
     ball = Ball(0, HEIGHT - 150, 7, 5, WHITE)
+    listOfBlocks = populateBlocks(40, 15, 10, 10)
 
-    blockWidth, blockHeight = 40, 15
-    horizontalGap, verticalGap = 10, 10
+    pyautogui.alert('Move the paddle to hit the blocks with the ball.', "Notification")
+    pyautogui.alert('You only have 3 lives!', "Notification")
 
-    listOfBlocks = populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap)
-
-    # Game loop
     while running:
         screen.fill(BLACK)
-        screen.blit(scoreText, scoreTextRect)
-        screen.blit(livesText, livesTextRect)
 
-        scoreText = font.render("Score : " + str(score), True, WHITE)
-        livesText = font.render("Lives : " + str(lives), True, WHITE)
+        screen.blit(font.render(f"Score: {score}", True, WHITE), (20, HEIGHT - 30))
+        screen.blit(font.render(f"Lives: {lives}", True, WHITE), (120, HEIGHT - 30))
 
-        # If all the blocks are destroyed, then we repopulate them
         if not listOfBlocks:
-            listOfBlocks = populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap)
+            listOfBlocks = populateBlocks(40, 15, 10, 10)
 
-        # All the lives are over. So, the gameOver() function is called
         if lives <= 0:
-            pyautogui.alert('Press SPACE to restart or quit!', "Game Over!")  # notification to instruct player
-            # Play the losing sound when game ends
+            pyautogui.alert('Press SPACE to restart, ESC to quit, or M for the main menu!', "Game Over!")
             losing_sound.play()
-            running = gameOver()
+            result = gameOver()
+            if result == "restart":
+                lives, score = 3, 0
+                listOfBlocks = populateBlocks(40, 15, 10, 10)
+            elif result == "main_menu":
+                pygame.display.set_mode((600, 600))
+                return  # Exit and return to the main menu or main program
 
-            while listOfBlocks:
-                listOfBlocks.pop(0)
-
-            lives = 3
-            score = 0
-            listOfBlocks = populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap)
-
-        # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key in (pygame.K_LEFT, pygame.K_a):
                     strikerXFac = -1
-                if event.key == pygame.K_RIGHT:
+                elif event.key in (pygame.K_RIGHT, pygame.K_d):
                     strikerXFac = 1
+            if event.type == pygame.KEYUP and event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_a, pygame.K_d):
+                strikerXFac = 0
 
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    strikerXFac = 0
+        if strikerXFac != 0:
+            striker.move_keys(strikerXFac)
+        elif pygame.mouse.get_focused() and pygame.mouse.get_pressed()[0]:
+            striker.move_mouse()
 
-        # Collision check
         if collisionChecker(striker.getRect(), ball.getRect()):
             ball.hit()
 
-        for block in listOfBlocks:
+        for block in listOfBlocks[:]:
             if collisionChecker(block.getRect(), ball.getRect()):
                 ball.hit()
                 block.hit()
-
                 if block.getHealth() <= 0:
-                    listOfBlocks.pop(listOfBlocks.index(block))
+                    listOfBlocks.remove(block)
                     score += 5
-                    brick_sound.play()  # Play brick hit sound
+                    brick_sound.play()
 
-        # Update
-        striker.update(strikerXFac)
-        lifeLost = ball.update()
-
-        # If the ball goes off the screen, a life is lost
-        if lifeLost:
+        if ball.update():
             lives -= 1
             ball.reset()
 
-        # Display all blocks and entities
+        striker.display()
+        ball.display()
         for block in listOfBlocks:
             block.display()
-
-        ball.display()
-        striker.display()
 
         pygame.display.update()
         clock.tick(FPS)

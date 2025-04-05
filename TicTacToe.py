@@ -136,8 +136,13 @@ def ai_move():
 
 # Display game result and show Play Again button
 def display_result(message):
+    """
+    displays final game result with two buttons:
+    - play again
+    - return to main menu
+    """
     global game_over
-    game_over = True  # Freeze game state
+    game_over = True
     screen.fill(BG_COLOR)
 
     # Show result message
@@ -145,53 +150,81 @@ def display_result(message):
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 3))
     screen.blit(text, text_rect)
 
-    # Draw Play Again button
-    button_rect = pygame.Rect(WIDTH // 4, HEIGHT // 2, WIDTH // 2, 60)
-    pygame.draw.rect(screen, BUTTON_COLOR, button_rect, border_radius=10)
-
-    button_text = BUTTON_FONT.render("Play Again", True, TEXT_COLOR)
-    button_text_rect = button_text.get_rect(center=button_rect.center)
-    screen.blit(button_text, button_text_rect)
+    # Define button rects
+    play_again_rect = pygame.Rect(WIDTH // 4, HEIGHT // 2, WIDTH // 2, 60)
+    menu_button_rect = pygame.Rect(WIDTH // 4, HEIGHT // 2 + 80, WIDTH // 2, 60)
 
     pygame.display.update()
 
-    wait_for_restart(button_rect)
+    #Return what button was pressed
+    return wait_for_restart(play_again_rect, menu_button_rect, message)
+
 
 # Wait for player to click Play Again button
-def wait_for_restart(button_rect):
+def wait_for_restart(play_again_rect, menu_button_rect, message):
     global game_over
-    while game_over:  # Wait for player input
+
+    while game_over:
+        mouse_pos = pygame.mouse.get_pos()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = event.pos
-                if button_rect.collidepoint(x, y):  # If button clicked
+                if play_again_rect.collidepoint(mouse_pos):
                     restart_game()
-                    return
+                    return "restart"
+                elif menu_button_rect.collidepoint(mouse_pos):
+                    return "menu"
+
+        screen.fill(BG_COLOR)
+
+        # Draw result title (You Win, Draw, etc.)
+        title_text = FONT.render(message, True, TEXT_COLOR)
+        screen.blit(title_text, title_text.get_rect(center=(WIDTH // 2, HEIGHT // 3 - 80)))
+
+        # Hover effect colors
+        play_again_color = (80, 220, 170) if play_again_rect.collidepoint(mouse_pos) else BUTTON_COLOR
+        menu_color = (80, 140, 220) if menu_button_rect.collidepoint(mouse_pos) else BUTTON_COLOR
+
+        # Draw buttons
+        pygame.draw.rect(screen, play_again_color, play_again_rect, border_radius=10)
+        pygame.draw.rect(screen, menu_color, menu_button_rect, border_radius=10)
+
+        # Render centered text
+        play_text = BUTTON_FONT.render("Play Again", True, TEXT_COLOR)
+        screen.blit(play_text, play_text.get_rect(center=play_again_rect.center))
+
+        menu_text = BUTTON_FONT.render("Main Menu", True, TEXT_COLOR)
+        screen.blit(menu_text, menu_text.get_rect(center=menu_button_rect.center))
+
+        pygame.display.update()
 
 # Restart the game
 def restart_game():
     global board, player_turn, game_over
-    board = np.zeros((BOARD_ROWS, BOARD_COLS))  # Reset board data
-    player_turn = 1  # Reset turn to player
-    game_over = False  # Allow moves again
-    screen.fill(BG_COLOR)  # Clear screen
-    draw_grid()  # Redraw grid
-    pygame.display.update()  # Refresh screen
-
-
-def tic_tac_toe():
-    # initialize game look and music
-    pygame.display.set_caption("Tic Tac Toe (Player vs AI)")
-    screen.fill(BG_COLOR)
-
-    # Main loop
-    draw_grid()
+    board = np.zeros((BOARD_ROWS, BOARD_COLS))
     player_turn = 1
     game_over = False
+    screen.fill(BG_COLOR)
+    draw_grid()
+    pygame.display.update()
+def tic_tac_toe():
+    """
+    Main game loop for TTT
+    handles player and AI turns, checks for game over
+    handles return to main menu if requested
+    """
+    global board, player_turn, game_over  # ✅ declare globals so they get reset properly
+    board = np.zeros((BOARD_ROWS, BOARD_COLS))
+    player_turn = 1
+    game_over = False
+
+    pygame.display.set_caption("Tic Tac Toe (Player vs AI)")
+    screen.fill(BG_COLOR)
+    draw_grid()
 
     while True:
         for event in pygame.event.get():
@@ -199,6 +232,7 @@ def tic_tac_toe():
                 pygame.quit()
                 sys.exit()
 
+            # Handle player move (mouse click)
             if event.type == pygame.MOUSEBUTTONDOWN and not game_over and player_turn == 1:
                 x, y = event.pos
                 row, col = y // SQUARE_SIZE, x // SQUARE_SIZE
@@ -206,24 +240,44 @@ def tic_tac_toe():
                 if is_cell_empty(row, col):
                     mark_cell(row, col, 1)
                     draw_marks()
-                    pygame.display.update() # ensures screen refresh
+                    pygame.display.update()
 
                     if check_win(1):
-                        display_result("You Win!")
+                        result = display_result("You Win!")
+                        if result == "menu":
+                            return "menu"
+                        elif result == "restart":
+                            return tic_tac_toe()  # reset game loop
+
                     elif is_board_full():
-                        display_result("It's a Draw!")
-                    else:
-                        player_turn = 2  # Switch to AI
+                        result = display_result("It's a Draw!")
+                        if result == "menu":
+                            return "menu"
+                        elif result == "restart":
+                            return tic_tac_toe()
 
-            if player_turn == 2 and not game_over:
-                ai_move()
-                draw_marks()
+                    player_turn = 2  # Turn goes to AI
 
-                if check_win(2):
-                    display_result("You Lose!")
-                elif is_board_full():
-                    display_result("It's a Draw!")
-                else:
-                    player_turn = 1  # Switch back to player
+        # AI move
+        if player_turn == 2 and not game_over:
+            ai_move()
+            draw_marks()
+            pygame.display.update()
+
+            if check_win(2):
+                result = display_result("You Lose!")
+                if result == "menu":
+                    return "menu"
+                elif result == "restart":
+                    return tic_tac_toe()
+
+            elif is_board_full():
+                result = display_result("It's a Draw!")
+                if result == "menu":
+                    return "menu"
+                elif result == "restart":
+                    return tic_tac_toe()
+
+            player_turn = 1  # Back to player
 
         pygame.display.update()
