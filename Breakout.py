@@ -1,260 +1,210 @@
-import math
 import pygame
+import random
+import pyautogui
 
-# --- Colors
-black = (0, 0, 0)
-white = (255, 255, 255)
-blue = (0, 0, 255)
-red = (255, 0, 0)
-green = (0, 255, 0)
-yellow = (255, 255, 0)
-magenta = (255, 0, 255)
+pygame.init()
+WIDTH, HEIGHT = 750, 450
 
-# --- Block size
-block_width = 23
-block_height = 15
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREEN = (51, 204, 51)
+RED = (204, 0, 0)
+BLUE = (0, 0, 255)
 
-# --- Classes ---
-class Block(pygame.sprite.Sprite):
-    def __init__(self, color, x, y):
-        super().__init__()
-        self.image = pygame.Surface([block_width, block_height])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+font = pygame.font.Font(None, 25)
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
+clock = pygame.time.Clock()
+FPS = 70
 
-class Ball(pygame.sprite.Sprite):
-    speed = 10.0
-    x = 0.0
-    y = 180.0
-    direction = 200
-    width = 10
-    height = 10
+pygame.mixer.init()
 
-    def __init__(self):
-        super().__init__()
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(white)
-        self.rect = self.image.get_rect()
-        self.screenheight = pygame.display.get_surface().get_height()
-        self.screenwidth = pygame.display.get_surface().get_width()
+# Load sounds
+wall_sound = pygame.mixer.Sound("wall.wav")
+paddle_sound = pygame.mixer.Sound("paddle.wav")
+brick_sound = pygame.mixer.Sound("brick.wav")
+losing_sound = pygame.mixer.Sound("mixkit-player-losing-or-failing-2042.wav")
 
-    def bounce(self, diff):
-        self.direction = (180 - self.direction) % 360
-        self.direction -= diff
+class Striker:
+    def __init__(self, posx, posy, width, height, speed, color):
+        self.posx, self.posy = posx, posy
+        self.width = width  # Assign width correctly
+        self.height = height  # Assign height correctly
+        self.speed = speed
+        self.color = color
+        self.strikerRect = pygame.Rect(self.posx, self.posy, self.width, self.height)
 
-    def update(self):
-        direction_radians = math.radians(self.direction)
-        self.x += self.speed * math.sin(direction_radians)
-        self.y -= self.speed * math.cos(direction_radians)
-        self.rect.x = self.x
-        self.rect.y = self.y
+    def display(self):
+        pygame.draw.rect(screen, self.color, self.strikerRect)
 
-        # Ball hitting the top wall
-        if self.y <= 0:
-            self.bounce(0)
-            self.y = 1
-            return False  
+    def move_keys(self, xFac):
+        self.posx += self.speed * xFac
+        self.posx = max(0, min(self.posx, WIDTH - self.width))
+        self.strikerRect.x = self.posx
 
-        # Ball hitting the left wall
-        if self.x <= 0:
-            self.direction = (360 - self.direction) % 360
-            self.x = 1
-            return False  
+    def move_mouse(self):
+        mouse_x = pygame.mouse.get_pos()[0]
+        self.posx = mouse_x - self.width // 2
+        self.posx = max(0, min(self.posx, WIDTH - self.width))
+        self.strikerRect.x = self.posx
 
-        # Ball hitting the right wall
-        if self.x > self.screenwidth - self.width:
-            self.direction = (360 - self.direction) % 360
-            self.x = self.screenwidth - self.width - 1
-            return False  
+    def getRect(self):
+        return self.strikerRect
 
-        # Ball hitting the bottom (Game Over)
-        if self.y > self.screenheight:
-            return True  # Ball falls below the screen, game over
+class Block:
+    def __init__(self, posx, posy, width, height, color):
+        self.posx, self.posy = posx, posy
+        self.width, self.height = width, height
+        self.color = color
+        self.damage = 100
+        self.health = 300 if color == RED else 200 if color == BLUE else 100
+        self.blockRect = pygame.Rect(self.posx, self.posy, self.width, self.height)
 
-        return False  # Ball is still in play
+    def display(self):
+        if self.health > 0:
+            pygame.draw.rect(screen, self.color, self.blockRect)
 
+    def hit(self):
+        self.health -= self.damage
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.width = 75
-        self.height = 15
-        self.image = pygame.Surface([self.width, self.height])
-        self.image.fill(white)
-        self.rect = self.image.get_rect()
-        self.screenheight = pygame.display.get_surface().get_height()
-        self.screenwidth = pygame.display.get_surface().get_width()
-        self.rect.x = 0
-        self.rect.y = self.screenheight - self.height
+    def getRect(self):
+        return self.blockRect
+
+    def getHealth(self):
+        return self.health
+
+class Ball:
+    def __init__(self, posx, posy, radius, speed, color):
+        self.posx, self.posy = posx, posy
+        self.radius = radius
+        self.speed = speed
+        self.color = color
+        self.xFac, self.yFac = 1, 1
+
+    def display(self):
+        pygame.draw.circle(screen, self.color, (self.posx, self.posy), self.radius)
 
     def update(self):
-        pos = pygame.mouse.get_pos()
-        self.rect.x = pos[0]
-        if self.rect.x > self.screenwidth - self.width:
-            self.rect.x = self.screenwidth - self.width
+        self.posx += self.xFac * self.speed
+        self.posy += self.yFac * self.speed
+        if self.posx <= 0 or self.posx >= WIDTH:
+            self.xFac *= -1
+            wall_sound.play()
+        if self.posy <= 0:
+            self.yFac *= -1
+        return self.posy >= HEIGHT
 
+    def reset(self):
+        self.posx, self.posy = 0, HEIGHT
+        self.xFac, self.yFac = 1, -1
 
-# --- Main Menu ---
-def main_menu(screen, font):
-    pygame.mouse.set_visible(1)  # Show cursor in menu
-    waiting = True
-    while waiting:
-        screen.fill(black)
-        text = font.render("Breakout - Click to Start", True, white)
-        screen.blit(text, (150, 250))
-        pygame.display.flip()
+    def hit(self):
+        self.yFac *= -1
+        paddle_sound.play()
 
+    def getRect(self):
+        return pygame.Rect(self.posx - self.radius, self.posy - self.radius, self.radius * 2, self.radius * 2)
+
+def collisionChecker(rect, ball):
+    return pygame.Rect.colliderect(rect, ball)
+
+def populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap):
+    return [Block(i, j, blockWidth, blockHeight, random.choice([RED, BLUE, GREEN]))
+            for i in range(0, WIDTH, blockWidth + horizontalGap)
+            for j in range(0, HEIGHT // 2, blockHeight + verticalGap)]
+
+def gameOver():
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                waiting = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:  # Restart game
+                    return "restart"
+                elif event.key == pygame.K_ESCAPE:  # Quit game
+                    pygame.quit()
+                    exit()
+                elif event.key == pygame.K_m:  # Go to main menu
+                    return "main_menu"
 
+def main():
+    pygame.display.set_caption("Game Hub: Breakout")
+    running = True
+    lives = 3
+    score = 0
 
-# --- Unified breakout_screen() ---
-def breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound, losing_sound):
-    # --- Main breakout game ---
-    background = pygame.Surface(screen.get_size())
-    blocks = pygame.sprite.Group()
-    balls = pygame.sprite.Group()
-    allsprites = pygame.sprite.Group()
+    striker = Striker(0, HEIGHT - 50, 100, 20, 10, WHITE)
+    strikerXFac = 0
 
-    player = Player()
-    allsprites.add(player)
+    ball = Ball(0, HEIGHT - 150, 7, 5, WHITE)
+    listOfBlocks = populateBlocks(40, 15, 10, 10)
 
-    ball = Ball()
-    allsprites.add(ball)
-    balls.add(ball)
+    pyautogui.alert('Move the paddle to hit the blocks with the ball.', "Notification")
+    pyautogui.alert('You only have 3 lives!', "Notification")
 
-    # Row colors
-    row_colors = [red, green, blue, yellow, magenta]
+    while running:
+        screen.fill(BLACK)
 
-    top = 80
-    blockcount = 32
+        screen.blit(font.render(f"Score: {score}", True, WHITE), (20, HEIGHT - 30))
+        screen.blit(font.render(f"Lives: {lives}", True, WHITE), (120, HEIGHT - 30))
 
-    for row in range(5):
-        color = row_colors[row % len(row_colors)]
-        for column in range(0, blockcount):
-            block = Block(color, column * (block_width + 2) + 1, top)
-            blocks.add(block)
-            allsprites.add(block)
-        top += block_height + 2
+        if not listOfBlocks:
+            listOfBlocks = populateBlocks(40, 15, 10, 10)
 
-    clock = pygame.time.Clock()
-    game_over = False
-    exit_program = False
-    countdown_time = 5
-    countdown_started = False
-    countdown_start_ticks = 0
-    losing_sound_played = False  # Flag to track if losing sound has played
-
-    while not exit_program:
-        clock.tick(30)
-        screen.fill(black)
+        if lives <= 0:
+            pyautogui.alert('Press SPACE to restart, ESC to quit, or M for the main menu!', "Game Over!")
+            losing_sound.play()
+            result = gameOver()
+            if result == "restart":
+                lives, score = 3, 0
+                listOfBlocks = populateBlocks(40, 15, 10, 10)
+            elif result == "main_menu":
+                pygame.display.set_mode((600, 600))
+                return  # Exit and return to the main menu or main program
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                exit_program = True
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key in (pygame.K_LEFT, pygame.K_a):
+                    strikerXFac = -1
+                elif event.key in (pygame.K_RIGHT, pygame.K_d):
+                    strikerXFac = 1
+            if event.type == pygame.KEYUP and event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_a, pygame.K_d):
+                strikerXFac = 0
 
-        if not countdown_started:
-            countdown_start_ticks = pygame.time.get_ticks()
-            countdown_started = True
+        if strikerXFac != 0:
+            striker.move_keys(strikerXFac)
+        elif pygame.mouse.get_focused() and pygame.mouse.get_pressed()[0]:
+            striker.move_mouse()
 
-        elapsed_time = (pygame.time.get_ticks() - countdown_start_ticks) / 1000
-        time_left = countdown_time - int(elapsed_time)
+        if collisionChecker(striker.getRect(), ball.getRect()):
+            ball.hit()
 
-        if time_left > 0:
-            pygame.mouse.set_visible(1)  # Show cursor during countdown
-            countdown_text = font.render(str(time_left), True, white)
-            countdown_rect = countdown_text.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
-            screen.blit(countdown_text, countdown_rect)
-        else:
-            pygame.mouse.set_visible(0)  # Hide cursor during gameplay
-            game_over = ball.update()
-            player.update()
+        for block in listOfBlocks[:]:
+            if collisionChecker(block.getRect(), ball.getRect()):
+                ball.hit()
+                block.hit()
+                if block.getHealth() <= 0:
+                    listOfBlocks.remove(block)
+                    score += 5
+                    brick_sound.play()
 
-            if game_over:
-                pygame.mouse.set_visible(1)  # Show cursor on Game Over
-                text = font.render("Game Over", True, white)
-                textpos = text.get_rect(centerx=screen.get_width() / 2)
-                textpos.top = 300
-                screen.blit(text, textpos)
+        if ball.update():
+            lives -= 1
+            ball.reset()
 
-                # Play the losing sound once when the game ends
-                if not losing_sound_played:
-                    losing_sound.play()
-                    losing_sound_played = True  # Mark the sound as played
+        striker.display()
+        ball.display()
+        for block in listOfBlocks:
+            block.display()
 
-                # Back to Menu Button
-                back_to_menu_button = pygame.Rect(250, 350, 300, 50)
-                pygame.draw.rect(screen, white, back_to_menu_button)
-                menu_text = font.render('Back to Menu', True, black)
-                menu_text_rect = menu_text.get_rect(center=back_to_menu_button.center)
-                screen.blit(menu_text, menu_text_rect)
+        pygame.display.update()
+        clock.tick(FPS)
 
-                # Restart Button
-                restart_button = pygame.Rect(250, 420, 300, 50)
-                pygame.draw.rect(screen, white, restart_button)
-                restart_text = font.render('Restart', True, black)
-                restart_text_rect = restart_text.get_rect(center=restart_button.center)
-                screen.blit(restart_text, restart_text_rect)
-
-                if back_to_menu_button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                    return 'menu'
-                if restart_button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                    return 'restart'
-
-            if pygame.sprite.spritecollide(player, balls, False):
-                diff = (player.rect.x + player.width / 2) - (ball.rect.x + ball.width / 2)
-                ball.rect.y = screen.get_height() - player.rect.height - ball.rect.height - 1
-                ball.bounce(diff)
-                paddle_sound.play()  # Play paddle hit sound
-
-            deadblocks = pygame.sprite.spritecollide(ball, blocks, True)
-            if len(deadblocks) > 0:
-                ball.bounce(0)
-                brick_sound.play()  # Play brick hit sound
-                if len(blocks) == 0:
-                    game_over = True
-
-        allsprites.draw(screen)
-        pygame.display.flip()
-
-    return 'exit'
-
-
-# --- Main function ---
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode([800, 600])
-    pygame.display.set_caption('Breakout Game')
-    font = pygame.font.Font(None, 36)
-
-    # Initialize mixer for sound
-    pygame.mixer.init()
-
-    # Load sounds
-    wall_sound = pygame.mixer.Sound("wall.wav")
-    paddle_sound = pygame.mixer.Sound("paddle.wav")
-    brick_sound = pygame.mixer.Sound("brick.wav")
-    losing_sound = pygame.mixer.Sound("mixkit-player-losing-or-failing-2042.wav")
-
-    # Main menu loop
-    while True:
-        main_menu(screen, font)
-        result = breakout_screen(screen, font, wall_sound, paddle_sound, brick_sound, losing_sound)
-        if result == 'menu':
-            continue
-        elif result == 'exit':
-            pygame.quit()
-            break
-        elif result == 'restart':
-            continue  # Just loop back and restart
-
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
