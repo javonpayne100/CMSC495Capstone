@@ -34,8 +34,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          
+      # Step 4: Disable audio in pygame (to avoid WASAPI issue)
+      - name: Disable Pygame Audio Initialization
+        run: |
+          echo "import pygame; pygame.mixer.quit()" > disable_audio.py
 
-      # Step 4: Run the unit tests
+      # Step 5: Run the unit tests with disabled audio
       - name: Run unit tests
         run: |
+          python disable_audio.py  # Disable audio before running the tests
           python -m unittest test.py
