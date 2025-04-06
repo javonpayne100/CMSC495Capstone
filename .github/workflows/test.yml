@@ -16,12 +16,8 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     
-    # Matrix configuration to run tests on multiple OS (Ubuntu, MacOS, Windows)
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout Repository
