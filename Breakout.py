@@ -28,10 +28,10 @@ pygame.mixer.music.set_volume(1.0)
 
 # Load sounds with error handling
 try:
-    wall_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/wall.wav")
-    paddle_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/paddle.wav")
-    brick_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/paddle.wav")
-    losing_sound = pygame.mixer.Sound("/Users/javonpayne/Desktop/Pyt/GameHub/mixkit-player-losing-or-failing-2042.wav")
+    wall_sound = pygame.mixer.Sound("media/wall.wav")
+    paddle_sound = pygame.mixer.Sound("media/paddle.wav")
+    brick_sound = pygame.mixer.Sound("media/paddle.wav")
+    losing_sound = pygame.mixer.Sound("media/mixkit-player-losing-or-failing-2042.wav")
 except pygame.error as e:
     print("Error loading sound:", e)
 

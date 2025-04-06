@@ -33,12 +33,14 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # Game board (3x3 matrix)
 board = np.zeros((BOARD_ROWS, BOARD_COLS))
 
+
 # Draw game grid
 def draw_grid():
     for row in range(1, BOARD_ROWS):
         pygame.draw.line(screen, LINE_COLOR, (0, row * SQUARE_SIZE), (WIDTH, row * SQUARE_SIZE), LINE_WIDTH)
     for col in range(1, BOARD_COLS):
         pygame.draw.line(screen, LINE_COLOR, (col * SQUARE_SIZE, 0), (col * SQUARE_SIZE, HEIGHT), LINE_WIDTH)
+
 
 # Draw X and O
 def draw_marks():
@@ -59,17 +61,21 @@ def draw_marks():
                                  (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE),
                                  CROSS_WIDTH)
 
+
 # Mark cell (X = 1, O = 2)
 def mark_cell(row, col, player):
     board[row][col] = player
+
 
 # Check if cell is empty
 def is_cell_empty(row, col):
     return board[row][col] == 0
 
+
 # Check if the board is full (draw)
 def is_board_full():
     return np.all(board != 0)
+
 
 # Check win conditions
 def check_win(player):
@@ -85,6 +91,7 @@ def check_win(player):
         return True
 
     return False
+
 
 # Minimax Algorithm
 def minimax(board, depth, is_maximizing):
@@ -116,6 +123,7 @@ def minimax(board, depth, is_maximizing):
                     best_score = min(score, best_score)
         return best_score
 
+
 # AI Move using Minimax
 def ai_move():
     best_score = -float("inf")
@@ -133,6 +141,7 @@ def ai_move():
 
     if best_move:
         mark_cell(best_move[0], best_move[1], 2)
+
 
 # Display game result and show Play Again button
 def display_result(message):
@@ -157,6 +166,7 @@ def display_result(message):
 
     wait_for_restart(button_rect)
 
+
 # Wait for player to click Play Again button
 def wait_for_restart(button_rect):
     global game_over
@@ -171,6 +181,7 @@ def wait_for_restart(button_rect):
                 if button_rect.collidepoint(x, y):  # If button clicked
                     restart_game()
                     return
+
 
 # Restart the game
 def restart_game():
@@ -193,37 +204,42 @@ def tic_tac_toe():
     player_turn = 1
     game_over = False
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+    if __name__ == "__main__":
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-            if event.type == pygame.MOUSEBUTTONDOWN and not game_over and player_turn == 1:
-                x, y = event.pos
-                row, col = y // SQUARE_SIZE, x // SQUARE_SIZE
+                if event.type == pygame.MOUSEBUTTONDOWN and not game_over and player_turn == 1:
+                    x, y = event.pos
+                    row, col = y // SQUARE_SIZE, x // SQUARE_SIZE
 
-                if is_cell_empty(row, col):
-                    mark_cell(row, col, 1)
+                    if is_cell_empty(row, col):
+                        mark_cell(row, col, 1)
+                        draw_marks()
+                        pygame.display.update()  # ensures screen refresh
+
+                        if check_win(1):
+                            display_result("You Win!")
+                        elif is_board_full():
+                            display_result("It's a Draw!")
+                        else:
+                            player_turn = 2  # Switch to AI
+
+                if player_turn == 2 and not game_over:
+                    ai_move()
                     draw_marks()
-                    pygame.display.update() # ensures screen refresh
 
-                    if check_win(1):
-                        display_result("You Win!")
+                    if check_win(2):
+                        display_result("You Lose!")
                     elif is_board_full():
                         display_result("It's a Draw!")
                     else:
-                        player_turn = 2  # Switch to AI
+                        player_turn = 1  # Switch back to player
 
-            if player_turn == 2 and not game_over:
-                ai_move()
-                draw_marks()
+            pygame.display.update()
 
-                if check_win(2):
-                    display_result("You Lose!")
-                elif is_board_full():
-                    display_result("It's a Draw!")
-                else:
-                    player_turn = 1  # Switch back to player
 
-        pygame.display.update()
+if __name__ == "__main__":
+    tic_tac_toe()

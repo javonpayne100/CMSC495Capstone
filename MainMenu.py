@@ -1,10 +1,7 @@
 import pygame
-import sys
-import numpy
+from Breakout import main
 from TicTacToe import tic_tac_toe
 from Trivia import trivia_game
-from Breakout import main
-import numpy as np
 
 # Initialize pygame
 pygame.init()
@@ -124,6 +121,7 @@ def main_menu():
                         navigate(index + 1)  # Option starts from 1
 
 # Start with the main menu
-main_menu()
-
-pygame.quit()
+if __name__ == "__main__":
+    # Start with the main menu
+    main_menu()
+    pygame.quit()
