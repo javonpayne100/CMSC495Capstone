@@ -21,6 +21,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout Repository
@@ -31,29 +32,21 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.x'
-          
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Linux-specific setup: Install Xvfb for headless display
-      - name: Install Xvfb (Linux only)
+      # Linux-specific setup: Install dependencies for pygame and pyautogui
+      - name: Install Linux dependencies (Linux only)
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get install -y xvfb libasound2-dev
-          # Create the .Xauthority file for Xvfb
-          export XAUTHORITY=/home/runner/.Xauthority
-          touch $XAUTHORITY
-          export DISPLAY=:99
-          Xvfb :99 &
-
-      # Windows-specific setup: Install Visual Studio build tools
-      - name: Install Visual Studio build tools (Windows only)
-        if: runner.os == 'Windows'
-        run: |
-          choco install visualstudio2019buildtools --yes --no-progress
+          sudo apt-get install -y xvfb libasound2-dev python3-dev
+          # Install the required dependencies for pyautogui and pygame
+          sudo apt-get install -y scrot
+          pip install pygame pyautogui numpy
 
       # macOS-specific setup: Ensure Homebrew is available (for certain dependencies like pyautogui)
       - name: Install Homebrew and dependencies (macOS only)
@@ -61,6 +54,16 @@ jobs:
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           brew install python3
+          # Install dependencies
+          pip install pygame pyautogui numpy
+
+      # Windows-specific setup: Install Visual Studio build tools
+      - name: Install Visual Studio build tools (Windows only)
+        if: runner.os == 'Windows'
+        run: |
+          choco install visualstudio2019buildtools --yes --no-progress
+          # Install dependencies
+          pip install pygame pyautogui numpy
 
       # Step 4: Run the unit tests
       - name: Run unit tests
