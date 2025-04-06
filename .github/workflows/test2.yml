@@ -23,23 +23,23 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment
+      # Step 2: Set environment variable to disable pygame mixer initialization
+      - name: Set Pygame to Headless Mode
+        run: |
+          echo "SDL_AUDIODRIVER=dummy" >> $GITHUB_ENV  # Disable audio
+          echo "PYGAME_HIDE_SUPPORT_PROMPT=1" >> $GITHUB_ENV  # Hide support prompts
+
+      # Step 3: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: '3.x'
       
-      # Step 3: Install dependencies
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
-      # Step 4: Set environment variable to skip pygame mixer initialization
-      - name: Set Pygame to Headless Mode
-        run: |
-          echo "SDL_AUDIODRIVER=dummy" >> $GITHUB_ENV
-          echo "PYGAME_HIDE_SUPPORT_PROMPT=1" >> $GITHUB_ENV
 
       # Step 5: Run the unit tests
       - name: Run unit tests
