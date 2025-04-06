@@ -2,7 +2,6 @@ import pygame
 import random
 import pyautogui
 
-#comments to test out workflow.
 pygame.init()
 WIDTH, HEIGHT = 750, 450
 
