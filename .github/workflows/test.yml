@@ -17,7 +17,7 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-    
+
     # Matrix configuration to run tests on multiple OS (Ubuntu, MacOS, Windows)
     strategy:
       matrix:
@@ -32,12 +32,40 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.x'
+          
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      # Linux-specific setup: Install Xvfb for headless display
+      - name: Install Xvfb (Linux only)
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y xvfb
+
+      # Windows-specific setup: Install Visual Studio build tools
+      - name: Install Visual Studio build tools (Windows only)
+        if: runner.os == 'Windows'
+        run: |
+          choco install visualstudio2019buildtools
+          choco install python
+
+      # macOS-specific setup: Ensure Homebrew is available (for certain dependencies like pyautogui)
+      - name: Install Homebrew and dependencies (macOS only)
+        if: runner.os == 'macos'
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew install python3
+
       # Step 4: Run the unit tests
       - name: Run unit tests
         run: |
+          # For Linux, start Xvfb to emulate a display
+          if [ "${{ runner.os }}" == "Linux" ]; then
+            export DISPLAY=:99
+            Xvfb :99 &
+          fi
+
+          # Run tests
           python -m unittest test.py
