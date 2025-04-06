@@ -1,5 +1,5 @@
 ---
-name: Run Unit Tests For All Separate Branches
+name: Run Unit Tests For Ubuntu Linux with all push
 
 on:
   push:
