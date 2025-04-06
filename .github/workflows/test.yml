@@ -1,4 +1,3 @@
----
 name: Run Unit Tests For All Separate Branches
 
 on:
@@ -42,14 +41,19 @@ jobs:
       # Linux-specific setup: Install Xvfb for headless display
       - name: Install Xvfb (Linux only)
         if: runner.os == 'Linux'
-        run: sudo apt-get install -y xvfb
+        run: |
+          sudo apt-get install -y xvfb libasound2-dev
+          # Create the .Xauthority file for Xvfb
+          export XAUTHORITY=/home/runner/.Xauthority
+          touch $XAUTHORITY
+          export DISPLAY=:99
+          Xvfb :99 &
 
       # Windows-specific setup: Install Visual Studio build tools
       - name: Install Visual Studio build tools (Windows only)
         if: runner.os == 'Windows'
         run: |
-          choco install visualstudio2019buildtools
-          choco install python
+          choco install visualstudio2019buildtools --yes --no-progress
 
       # macOS-specific setup: Ensure Homebrew is available (for certain dependencies like pyautogui)
       - name: Install Homebrew and dependencies (macOS only)
@@ -61,7 +65,7 @@ jobs:
       # Step 4: Run the unit tests
       - name: Run unit tests
         run: |
-          # For Linux, start Xvfb to emulate a display
+          # For Linux, start Xvfb to emulate a display if not already started
           if [ "${{ runner.os }}" == "Linux" ]; then
             export DISPLAY=:99
             Xvfb :99 &
