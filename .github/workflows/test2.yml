@@ -1,5 +1,5 @@
 ---
-name: Run Unit Tests For Windows
+name: Run Unit Tests For Windows with all push
 
 on:
   push:
