@@ -44,4 +44,4 @@ jobs:
       # Step 4: Run the unit tests
       - name: Run unit tests
         run: |
-          python -m unittest tests/test.py
+          python -m unittest test.py
