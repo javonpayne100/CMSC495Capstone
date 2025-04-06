@@ -36,8 +36,10 @@ jobs:
           pip install -r requirements.txt
           
       # Step 4: Set environment variable to skip pygame mixer initialization
-      - name: Skip Pygame Audio Initialization
-        run: echo "PYGAME_HIDE_SUPPORT_PROMPT=1" >> $GITHUB_ENV
+      - name: Set Pygame to Headless Mode
+        run: |
+          echo "SDL_AUDIODRIVER=dummy" >> $GITHUB_ENV
+          echo "PYGAME_HIDE_SUPPORT_PROMPT=1" >> $GITHUB_ENV
 
       # Step 5: Run the unit tests
       - name: Run unit tests
