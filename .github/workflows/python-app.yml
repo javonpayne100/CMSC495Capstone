@@ -4,12 +4,7 @@ name: Python application
 on:
   push:
     branches:
-      - Victoria
-      - Javon
-      - Todasha
-      - jin
-      - tumi
-      - james
+      - '*'
   pull_request:
     branches:
       - Victoria
