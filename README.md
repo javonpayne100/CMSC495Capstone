@@ -156,16 +156,16 @@ python MainMenu.py
 - Select Exit from the main menu.
 - It will Exit the Python Game Hub and exit the Python Application.
 
-# **Python Game Hub Introduction, Requirements, and Objectives**
+## **Python Game Hub Introduction, Requirements, and Objectives**
 This document outlines the deliverables for a CMSC Capstone project: a multi-game application developed with Python and Pygame, featuring games like Tic-Tac-Toe, Trivia, and Breakout within a unified GUI. The project follows the Waterfall development model, progressing through defined phases: Requirements Analysis, System Design, Implementation, Testing, and Maintenance. This focuses on gathering detailed requirements, initial design, and prototyping, as well as developing functional modules like the main menu and early versions of the games. The project’s purpose is to create a centralized Game Hub, allowing users to select and play various games in one application. Git will be used for version control, and unit testing will ensure each component meets requirements. Deliverables include a fully functional game hub with an intuitive GUI, featuring modular game components and, optionally, an SQLite database for tracking user profiles and high scores. The development will be tracked through version control and tested using unit testing.
-## Testing/Debugging Requirements:
+### Testing/Debugging Requirements:
   - To track progress on each coding section, we will use Git for Version Control.
   -  Each process will include a Git commit section
   - Each readme file will ensure that the user knows how the set the requirements of the software and run the application to play the games.
   - Note: Refer to "doc" folder which is up-to-date with all our Technical Documentation per Unit (weeks: 1-8)
-## Version Control with Git
+### Version Control with Git
 This project uses Git for version control. Git will be used to track the progress of the project, manage code changes, and ensure collaboration between developers. Every change made to the codebase will be tracked with commit messages, providing a clear history of the project's development. Here's how we manage code changes:
-### Branching and Commit Process
+#### Branching and Commit Process
 - Create a Branch: Each developer creates a separate feature branch for a specific task (e.g., name-of-team-member/MainMenu; name-of-team-member/TicTacToe.py, etc.).
 - Commit Changes: Developers commit incremental changes with descriptive commit messages (e.g., Added game over condition for TicTacToe.py, Triva.py, Breakout.py).
 - Push Changes: After completing a tasks in a remote branch that was created, developers push the branch to GitHub.
@@ -177,18 +177,18 @@ This project uses Git for version control. Git will be used to track the progres
 - The Project Manager and the Testers will ensure that each update is working and tested.
 - Developers will regularly pull the latest changes from the main branch to keep their feature branches up to date and avoid conflicts.
 - If any merge conflicts arise, the developer will resolve them before pushing their changes, ensuring that the codebase remains functional and consistent.
-### See Git History Progress
+#### See Git History Progress
   - To see the Progress go to the project repository [CMSC495Capstone](https://github.com/javonpayne100/CMSC495Capstone)
   - Click on Branches to see all Branches. Then click on Each branch individual to see the changes in each branch. Once finished, go back to the project
   - Click on Pull Requests to see all the branches that were merged into the main. opens are the ones not merged but able to compare, the closed one should show the branches that were merged into main after approval and comparison. This method protects the main final and makes sure that the main files are not touched. Once, finished, go back to the project.
   - Note: You can also see each Weekly Unit progress on Git through the "docs" folder where it shows per each week.
-## Testing and Debugging
+### Testing and Debugging
 - Unit Testing: Test each game module (Tic-Tac-Toe, Trivia, Breakout) for correctness.
 - Integration Testing: Ensure the main menu and individual game modules work seamlessly together.
 - System Testing: Test the full application to ensure the overall user experience is smooth.
-### **Unit Testing Instructions:**
+#### **Unit Testing Instructions:**
 - Go to the file **"test.py"** and Run it. It should test 13 unit tests all in that file for the games.
-### Testing Overview:
+#### Testing Overview:
 Automated testing was implemented using Python’s `unittest` framework to validate critical components of the Tic Tac Toe, Trivia, and Breakout modules. The test suite verifies game mechanics such as win detection, board state, and AI behavior in Tic Tac Toe. For Trivia, tests were written to inspect the structure of the question data loaded from JSON, as well as correctness of answer indexing. The Breakout tests include health reduction of blocks, ball reset logic, paddle boundaries, and collision detection between game elements. In other words, all 14 tests focus on critical game mechanics like win detection, board state, and AI behavior (Tic Tac Toe), question structure and answer indexing (Trivia), and collision detection and block health (Breakout).
 Following the Waterfall development methodology, future testing will be structured as a distinct phase conducted after the completion of full system implementation. This dedicated testing phase will begin with unit testing, targeting each module, Tic Tac Toe, Trivia, and Breakout to verify core functionalities such as AI decisions, answer validation, collision detection, and object behavior. Once unit-level verification is complete, the process will move into integration testing to ensure smooth interaction between components, including menu navigation, game transitions, and audio/visual responses. System testing will follow, simulating real-world usage scenarios to confirm that the application performs reliably under typical and extreme conditions. Lastly, acceptance testing will be performed to validate that all project requirements have been met and the application aligns with stakeholder expectations. Testing outcomes will be documented in detail, and any issues uncovered will be addressed through a feedback loop prior to final deployment. This structured approach ensures a thorough and sequential validation of the system’s readiness for delivery. Through the testing approach we will also use the software engineering techniques of unit Testing to ensure that each part is tested and debugged correctly.
 - **Next Phase Testing (Breakdown)**:
@@ -209,7 +209,7 @@ Following the Waterfall development methodology, future testing will be structur
   - **UI Debugging**: Ensure the interface is intuitive and responsive across devices and screen sizes.
   - **Performance Testing**: Confirm games load in under 3 seconds and run smoothly, even on lower-end devices.
   - **Cross-Platform Compatibility**: Test the application on multiple platforms to ensure consistent functionality across operating systems.
-### Debugging Process
+#### Debugging Process
 - Use Git to track and resolve issues by creating separate branches for bug fixes.
 - Issues can be either included in the Git or done thorough a local machine.
 - Each commit / new push after a PR will document the changes and improvements made during debugging.
@@ -253,18 +253,18 @@ The activity diagram shows the flow of actions, starting from the application la
 - Breakout: Utilizes classes like Ball, Paddle, and Block.
 - MainMenu: Contains the Game Hub main files so that user can acess this and it will select the games to be played.
 
-# Overview of Unit 1-8 Progress Conclusion
-## Project Plan Goals:
+## Overview of Unit 1-8 Progress Conclusion
+### Project Plan Goals:
 - Develop a Python-based Game Hub application with multiple mini-games (Tic Tac Toe, Trivia, and Breakout).
 - Use a modular design for easy maintenance and future game additions.
 - Integrate version control with Git and implement unit testing for component verification.
 - Follow the Waterfall development model for structured project phases.
-## Project Design Goals:
+### Project Design Goals:
 - Create a centralized menu system for easy navigation between games.
 - Implement individual game modules (Tic Tac Toe, Trivia, Breakout) with interactive user interfaces.
 - Use Pygame to build an engaging graphical and audio experience for users.
 - Ensure scalability and maintainability for future enhancements.
-## Phase 1 Goals:
+### Phase 1 Goals:
 - Focus on requirements gathering, initial design, and prototyping.
 - Develop early functional modules like the main menu and working versions of the games.
 - Ensure alignment between project objectives and technical execution.
@@ -274,21 +274,21 @@ The activity diagram shows the flow of actions, starting from the application la
 - Perform unit testing for game logic, UI components, high score tracking, error handling, and performance.
 - Follow a structured testing approach including unit, integration, system, and acceptance testing.
 - Document testing outcomes and address issues before final deployment.
-## Phase 2 Goals:
+### Phase 2 Goals:
 - Conduct full system implementation with finalized features and functionality.
 - Perform integration testing to ensure smooth interaction between components (e.g., game transitions, audio, menu navigation).
 - Simulate real-world usage scenarios through system testing.
 - Conduct acceptance testing to confirm the application meets all project requirements and stakeholder expectations.
-## User Guide (Before Deployment):
+### User Guide (Before Deployment):
 - Develop a clear and concise **User Guide** detailing how to navigate the Game Hub.
 - Provide instructions for starting the application, selecting games, and using UI features (e.g., scoreboards, game controls).
 - Include troubleshooting tips, known issues, and any additional features or options available in the game hub.
-## Deployment Goals:
+### Deployment Goals:
 - Finalize the application after testing and bug fixes.
 - Ensure cross-platform compatibility and smooth performance on different devices.
 - Deploy the project for user access, ensuring all requirements are met.
 - Monitor post-deployment performance and user feedback for future updates.
-# Acknowledgements / Resources / References
+### Acknowledgements / Resources / References
 - **NOTE:** This *README.md* file was created and updated by the team member: [VictoriaRaven](https://github.com/VictoriaRaven)
 - [Pygame Documentation](https://www.pygame.org/docs/)
 - [Python Documentation](https://docs.python.org/3/)
