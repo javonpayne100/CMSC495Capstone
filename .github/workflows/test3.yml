@@ -31,10 +31,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set environment variables for audio and video
+      - name: Set environment variables for audio, video, and display
         run: |
           echo "SDL_VIDEODRIVER=dummy" >> $GITHUB_ENV
           echo "SDL_AUDIODRIVER=disk" >> $GITHUB_ENV
+          echo "DISPLAY=:99" >> $GITHUB_ENV
 
       - name: Run unit tests
         run: |
