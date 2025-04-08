@@ -32,10 +32,12 @@ jobs:
           pip install -r requirements.txt
 
       - name: Set environment variables for audio and video
-        env:
-              SDL_VIDEODRIVER: "dummy"
-              SDL_AUDIODRIVER: "disk"
-               
+        run: |
+          echo "SDL_VIDEODRIVER=dummy" >> $GITHUB_ENV
+          echo "SDL_AUDIODRIVER=disk" >> $GITHUB_ENV
+
       - name: Run unit tests
         run: |
+          export SDL_VIDEODRIVER=dummy
+          export SDL_AUDIODRIVER=disk
           python -m unittest test.py
