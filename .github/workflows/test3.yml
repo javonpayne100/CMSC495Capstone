@@ -31,11 +31,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set environment variables for audio, video, and display
+      - name: Set up virtual display (Xvfb)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          export DISPLAY=:99
+          nohup Xvfb :99 &  # Start virtual display in the background
+
+      - name: Set environment variables for audio and video
         run: |
           echo "SDL_VIDEODRIVER=dummy" >> $GITHUB_ENV
           echo "SDL_AUDIODRIVER=disk" >> $GITHUB_ENV
-          echo "DISPLAY=:99" >> $GITHUB_ENV
+          echo "DISPLAY=:99" >> $GITHUB_ENV  # Ensure DISPLAY is set to the virtual display
 
       - name: Run unit tests
         run: |
