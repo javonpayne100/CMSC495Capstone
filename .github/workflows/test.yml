@@ -19,7 +19,7 @@ jobs:
     runs-on: macos-latest
     
     steps:
-      # Step 1: Checkout the repository code
+      # Step 1: Checkout the repository codes
       - name: Checkout Repository
         uses: actions/checkout@v3
 
