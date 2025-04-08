@@ -17,6 +17,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04]
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -28,22 +33,17 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt-get update --fix-missing
+          sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Set up virtual display (Xvfb)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb
-          export DISPLAY=:99
-          nohup Xvfb :99 &  # Start virtual display in the background
+          python -m pip install sphinx numpy>=1.21.0 "Cython>=3.0,<3.1"
 
       - name: Set environment variables for audio and video
         run: |
           echo "SDL_VIDEODRIVER=dummy" >> $GITHUB_ENV
           echo "SDL_AUDIODRIVER=disk" >> $GITHUB_ENV
-          echo "DISPLAY=:99" >> $GITHUB_ENV  # Ensure DISPLAY is set to the virtual display
-
+          
       - name: Run unit tests
         run: |
           python -m unittest test.py
