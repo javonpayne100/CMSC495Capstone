@@ -43,6 +43,7 @@ jobs:
         run: |
           echo "SDL_VIDEODRIVER=dummy" >> $GITHUB_ENV
           echo "SDL_AUDIODRIVER=disk" >> $GITHUB_ENV
+          echo "DISPLAY=:0" >> $GITHUB_ENV
           
       - name: Run unit tests
         run: |
