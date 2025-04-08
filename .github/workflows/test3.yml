@@ -38,6 +38,6 @@ jobs:
 
       - name: Run unit tests
         run: |
-          export SDL_VIDEODRIVER=dummy
-          export SDL_AUDIODRIVER=disk
+          $env:SDL_VIDEODRIVER="dummy"
+          $env:SDL_AUDIODRIVER="disk"
           python -m unittest test.py
