@@ -1,5 +1,5 @@
 ---
-name: Run Unit Tests For Mac with all push (James Branch Only)
+name: Run Unit Tests For Mac with all push (James Branch)
 
 on:
   push:
