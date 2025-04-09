@@ -23,6 +23,11 @@ jobs:
         with:
           ref: 'james'
 
+      - name: List files after checkout (debugging)
+        run: |
+          echo "Listing files in the repository..."
+          ls -R
+
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
