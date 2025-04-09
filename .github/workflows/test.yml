@@ -33,7 +33,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      # Step 4: Run the unit tests
-      - name: Run unit tests
+      # Step 4: Run the old unit tests (main)
+      - name: Run old version unit tests on main
+        run: |
+          python -m unittest test.py
+      # Step 5: Run the new unit tests (james)
+      - name: Run new unit tests on james
+        if: github.ref == 'refs/heads/james'  # Only run on the 'james' branch
         run: |
           python -m unittest test.py
