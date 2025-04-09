@@ -35,15 +35,15 @@ question_font = pygame.font.Font(None, 30)
 # ----------------------------
 def load_questions():
     try:
-        with open("questions.json", "r") as file:
+        with open("Questions.json", "r") as file:
             data = json.load(file)
         return data
     except FileNotFoundError:
-        print("Error: questions.json file not found.")
+        print("Error: Questions.json file not found.")
         pygame.quit()
         exit()
     except json.JSONDecodeError:
-        print("Error: Failed to decode JSON from questions.json.")
+        print("Error: Failed to decode JSON from Questions.json.")
         pygame.quit()
         exit()
 
