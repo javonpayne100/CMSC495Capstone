@@ -37,8 +37,3 @@ jobs:
       - name: Run old version unit tests on main
         run: |
           python -m unittest test.py
-      # Step 5: Run the new unit tests (james)
-      - name: Run new unit tests on james
-        if: github.ref == 'refs/heads/james'  # Only run on the 'james' branch
-        run: |
-          python -m unittest test.py
