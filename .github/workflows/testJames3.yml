@@ -1,0 +1,44 @@
+---
+name: Run Unit Tests For Ubuntu with all push (James Branch)
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - Victoria
+      - Javon
+      - Todasha
+      - jin
+      - tumi
+      - james
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout james branch
+        uses: actions/checkout@v3
+        with:
+          ref: 'james'
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update --fix-missing
+          sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev pulseaudio
+          sudo apt-get install -y xvfb python3-tk python3-dev
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m pip install sphinx numpy>=1.21.0 "Cython>=3.0,<3.1"
+      # Step 4: Run the unit tests from the james branch
+      - name: Run unit tests with Xvfb (auto-detect video driver) and PulseAudio
+        run: |
+          export SDL_AUDIODRIVER=disk  # Use disk-based audio driver
+          export PULSE_SERVER=unix:/run/user/1000/pulse/native  # Optional, in case PulseAudio is needed
+          xvfb-run --auto-servernum python -m unittest test.py
