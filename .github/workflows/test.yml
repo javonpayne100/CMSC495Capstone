@@ -13,7 +13,7 @@ on:
       - jin
       - tumi
       - james
-
+  workflow_dispatch:
 jobs:
   test:
     runs-on: macos-latest
