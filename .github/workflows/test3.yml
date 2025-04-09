@@ -29,17 +29,14 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update --fix-missing
-          sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev
-          sudo apt-get install xvfb pulseaudio python3-tk python3-dev
+          sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev pulseaudio
+          sudo apt-get install -y xvfb python3-tk python3-dev
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           python -m pip install sphinx numpy>=1.21.0 "Cython>=3.0,<3.1"
 
-      - name: Start PulseAudio (auto-detect audio driver)
-        run: |
-          pulseaudio --start --exit-idle-time=-1 --system --daemonize
-          pactl load-module module-disk-io
-
       - name: Run unit tests with Xvfb (auto-detect video driver) and PulseAudio
         run: |
+          export SDL_AUDIODRIVER=disk  # Use disk-based audio driver
+          export PULSE_SERVER=unix:/run/user/1000/pulse/native  # Optional, in case PulseAudio is needed
           xvfb-run --auto-servernum python -m unittest test.py
