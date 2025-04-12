@@ -220,7 +220,7 @@ This project uses Git for version control. Git will be used to track the progres
 - Navigate to the project directory
 - Ensure installation of pygame, numpy and pyautogui using “pip install pygame numpy pyautogui” or install dependencies through the requirements.txt like shown in README.md
 - Run python -m unnitest test.py
-- **Testing in IDE: **
+- **Testing in IDE**:
 - Download the code from github in the “james” branch. 
 - Open IDE and open project from where it was saved
 - Install all needed libraries (IDE should prompt to do this automatically)
