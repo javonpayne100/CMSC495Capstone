@@ -186,8 +186,95 @@ This project uses Git for version control. Git will be used to track the progres
 - Unit Testing: Test each game module (Tic-Tac-Toe, Trivia, Breakout) for correctness.
 - Integration Testing: Ensure the main menu and individual game modules work seamlessly together.
 - System Testing: Test the full application to ensure the overall user experience is smooth.
-#### **Unit Testing Instructions:**
-- Go to the file **"test.py"** and Run it. It should test 13 unit tests all in that file for the games.
+### **Unit Testing and Manual Testing Instructions:**
+- Go to the file **"test.py"** in the main branch and Run it. It should test 13 unit tests all in that file for the games.
+- Go to the file **"test.py"** in the james branch and run it through his branch. It should test 24 unit tests all in that file for the games.
+- If it doesn't work, click on each method section for the game and run it one by one.
+- **Steps/Procedures:**
+- **GitHub Actions (24 unittest) (new test.py) (Skip if you do not have access to the Repo):**
+- Go to https://github.com/javonpayne100/CMSC495Capstone
+- Go to Actions Tab
+- If Workflow is Disabled, Enable it
+- Click on the Workflow [1) Run Unit Tests For Mac with all push (James Branch); 2) Run Unit Tests For Windows with all push (James Branch); 3) Run Unit Tests For Ubuntu with all push (James Branch)]
+- Go to the right side of “This workflow has a workflow_dispatch event trigger.”
+- Click on Run Workflow
+- Make sure it’s on Main branch (the yml files auto runs on separate branches even if run through main)
+- Click Run Workflow (green to confirm)
+- Refresh page to see the GitHub Action process and if green it passes
+- Environments runs (Win, Mac, Linux), but Ubuntu has glitches due to Git’s ongoing issue.
+- Now Repeat Steps (1-10) ONLY if you want to test out the old test.py with 13 unittest. 
+- On step 4 choose these workflows: [ Run Unit Tests For Mac with all push; Run Unit Tests For Windows with all push; Run Unit Tests For Ubuntu with all push ]
+- Command line, terminal or powershell steps: 
+- Download the code from github in the “james” branch. Refer to README.md for help.
+- Navigate to the project directory
+- Ensure installation of pygame, numpy and pyautogui using “pip install pygame numpy pyautogui” or install dependencies through the requirements.txt like shown in README.md
+- Run python -m unnitest test.py
+- **Testing in IDE: **
+- Download the code from github in the “james” branch. 
+- Open IDE and open project from where it was saved
+- Install all needed libraries (IDE should prompt to do this automatically)
+- Select the test.py
+- Run test.py
+- **Test Data preparation:**
+- Old Unit Testing will be done through the “main” branch of the github, test.py.
+- New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
+- Manual Testing will be done through the “james” and “main” branches.
+- Questions.json data must be valid and located in the directory the Trivia module expects it
+- brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
+- Breakout mechanics depend on default positions and attributes defined in the code—ensure these are not modified before testing.
+- **Test Environment Configuration: **
+- Operating System: Windows, macOS, or Linux
+- Python Version: 3.9 or later
+- Terminal Tools: Command line, powershell, terminal or IDE
+- Required Libraries: Pygame, json, math, random, sys, time, unnittest, numpy, pyautogui
+- Audio: Ensure audio output is enabled to validate sound-related tests.
+- Display: Use a resolution of at least 600x400 for consistent rendering.
+- GitHub Actions:  Required you have access to the Repositry and can go to the Actions tab
+- **CMSC 495 Project Test Plan.xlsx (Manual Testing): **
+- Go to the docs to find a copy of the Excel sheet/ table for manual testing. 
+- Or Go to the docs in unit 5 to get the link to the Excel sheet / table for manual testing.
+- This is 20 Manual Tests using the Excel method that was proven in the Unit Week Learning Resources.
+- Specifically, it will demonstrate the Main Menu(5 manual testing), Trivia(5 manual testing), Tic-Tac-Toe(5 manual testing), and Breakout(5 manual testing).
+- This makes a total of 20 Manual Tests for this manual testing.xlsx file.
+- **Steps/Procedures:**
+- Command line, terminal or powershell steps: 
+- Download the code from github in the “james” branch. Refer to README.md for help.
+- Navigate to the project directory
+- Ensure installation of pygame, numpy and pyautogui using “pip install pygame numpy pyautogui” or install dependencies through the requirements.txt like shown in README.md
+- Run main menu with: python MainMenu.py
+- From there test Main Menu and each linked game (Tic Tac Toe, Trivia, Breakout)
+- Follow the steps provided from the CMSC 495 Project Test Plan.xlsx file
+- For each test Perform the Input/Action
+- Observe the result
+- Compare it against the Expected Result
+- Log pass/fail status
+- Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
+- **Testing in IDE: **
+- Download the code from github in the “james” branch. Refer to README.md for help.
+- Open IDE and open project from where it was saved
+- Install all needed libraries (IDE should prompt to do this automatically)
+- Select and run MainMenu.py
+- From there test Main Menu and each linked game (Tic Tac Toe, Trivia, Breakout)
+- Follow the steps provided from the CMSC 495 Project Test Plan.xlsx file
+- For each test Perform the Input/Action
+- Observe the result
+- Compare it against the Expected Result
+- Log pass/fail status
+- Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
+- **Test Data preparation:**
+- Old Unit Testing will be done through the “main” branch of the github, test.py.
+- New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
+- Manual Testing will be done through the “james” and “main” branches.
+- Questions.json data must be valid and located in the directory the Trivia module expects it
+- brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
+- Breakout mechanics depend on default positions and attributes defined in the code—ensure these are not modified before testing.
+- **Test Environment Configuration:**
+- Operating System: Windows, macOS, or Linux
+- Python Version: 3.9 or later
+- Terminal Tools: Command line, powershell, terminal or IDE
+- Required Libraries: Pygame, json, math, random, sys, time, unnittest, numpy, pyautogui
+- Audio: Ensure audio output is enabled to validate sound-related tests.
+- Display: Use a resolution of at least 600x400 for consistent rendering.
 #### Testing Overview:
 Automated testing was implemented using Python’s `unittest` framework to validate critical components of the Tic Tac Toe, Trivia, and Breakout modules. The test suite verifies game mechanics such as win detection, board state, and AI behavior in Tic Tac Toe. For Trivia, tests were written to inspect the structure of the question data loaded from JSON, as well as correctness of answer indexing. The Breakout tests include health reduction of blocks, ball reset logic, paddle boundaries, and collision detection between game elements. In other words, all 14 tests focus on critical game mechanics like win detection, board state, and AI behavior (Tic Tac Toe), question structure and answer indexing (Trivia), and collision detection and block health (Breakout).
 Following the Waterfall development methodology, future testing will be structured as a distinct phase conducted after the completion of full system implementation. This dedicated testing phase will begin with unit testing, targeting each module, Tic Tac Toe, Trivia, and Breakout to verify core functionalities such as AI decisions, answer validation, collision detection, and object behavior. Once unit-level verification is complete, the process will move into integration testing to ensure smooth interaction between components, including menu navigation, game transitions, and audio/visual responses. System testing will follow, simulating real-world usage scenarios to confirm that the application performs reliably under typical and extreme conditions. Lastly, acceptance testing will be performed to validate that all project requirements have been met and the application aligns with stakeholder expectations. Testing outcomes will be documented in detail, and any issues uncovered will be addressed through a feedback loop prior to final deployment. This structured approach ensures a thorough and sequential validation of the system’s readiness for delivery. Through the testing approach we will also use the software engineering techniques of unit Testing to ensure that each part is tested and debugged correctly.
