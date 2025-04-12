@@ -137,21 +137,32 @@ python MainMenu.py
 - Options on how to play are below...
 ### Tic-Tac-Toe
 - Select Tic-Tac-Toe from the main menu.
-- Choose whether to play against the AI or a second player.
+- This game, the AI is the X and the player is you O.
 - Use mouse clicks to place X's and O's on the board.
+- AI will automaiticly make decisions.
+- You as the user as O make a move after AI who is X.
+- Three X's or O's means you win, else you either lose or a tie if neither.
 - The game will automatically check for win/loss/draw conditions after each move.
 - Once the game is over, you can choose to play again or return to the main menu.
 ### Trivia
 - Select Trivia from the main menu.
+- The user has the option for 1 player (human) or 2 player (human vs. human)
+- The user will input thier name
+- The user can select 1 of the differnt subjects for the Trivia
 - The game will display a multiple-choice question with four options.
-- Answer the question before the time runs out (indicated by the timer).
+- Answer the question before the time runs out (indicated by the timer and music).
+- The timer is green when it's more time, yellow, getting closer to end time, and red, means end of time to select an answer.
+- When you answer, it will quickly flash if you got it wrong (red), or correct(green)
 - The score will increase for each correct answer.
+- If doing 2 player, it will show the scores and tell who wins.
 - Once all questions are answered, you will see your final score and can choose to play again or return to the main menu.
 ### Breakout
 - Select Breakout from the main menu.
 - Control the paddle with the left and right arrow keys.
 - Try to break all the blocks with the bouncing ball.
-- If you lose all your lives, you can restart the game or return to the main menu.
+- Some blocks require the ball to hit it more than 1 to destry the block.
+- You have three lives, and it counts the score based on the blocks you destroyed with the ball with sound effects.
+- If you lose all your lives, you will hear the game over sound, and you can restart the game or return to the main menu.
 ### Exit
 - Select Exit from the main menu.
 - It will Exit the Python Game Hub and exit the Python Application.
