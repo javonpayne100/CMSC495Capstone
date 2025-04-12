@@ -1,6 +1,5 @@
 import pygame
 import random
-import pyautogui
 
 pygame.init()
 WIDTH, HEIGHT = 750, 450
@@ -29,8 +28,8 @@ losing_sound = pygame.mixer.Sound("media/mixkit-player-losing-or-failing-2042.wa
 class Striker:
     def __init__(self, posx, posy, width, height, speed, color):
         self.posx, self.posy = posx, posy
-        self.width = width  # Assign width correctly
-        self.height = height  # Assign height correctly
+        self.width = width
+        self.height = height
         self.speed = speed
         self.color = color
         self.strikerRect = pygame.Rect(self.posx, self.posy, self.width, self.height)
@@ -114,6 +113,40 @@ def populateBlocks(blockWidth, blockHeight, horizontalGap, verticalGap):
             for i in range(0, WIDTH, blockWidth + horizontalGap)
             for j in range(0, HEIGHT // 2, blockHeight + verticalGap)]
 
+def draw_message(screen, message, font, box_color=(0, 0, 0), text_color=(255, 255, 255)):
+    box_width, box_height = 500, 200
+    box_x = (WIDTH - box_width) // 2
+    box_y = (HEIGHT - box_height) // 2
+
+    # Dim background
+    overlay = pygame.Surface((WIDTH, HEIGHT))
+    overlay.set_alpha(180)
+    overlay.fill((0, 0, 0))
+    screen.blit(overlay, (0, 0))
+
+    # Draw message box
+    pygame.draw.rect(screen, box_color, (box_x, box_y, box_width, box_height))
+    pygame.draw.rect(screen, text_color, (box_x, box_y, box_width, box_height), 3)
+
+    # Render message (supports \n for multiple lines)
+    lines = message.split("\n")
+    for i, line in enumerate(lines):
+        text_surface = font.render(line, True, text_color)
+        text_rect = text_surface.get_rect(center=(WIDTH // 2, box_y + 40 + i * 30))
+        screen.blit(text_surface, text_rect)
+
+    pygame.display.flip()
+
+    # Wait for keypress
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                waiting = False
+
 def gameOver():
     while True:
         for event in pygame.event.get():
@@ -121,12 +154,12 @@ def gameOver():
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:  # Restart game
+                if event.key == pygame.K_SPACE:
                     return "restart"
-                elif event.key == pygame.K_ESCAPE:  # Quit game
+                elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     exit()
-                elif event.key == pygame.K_m:  # Go to main menu
+                elif event.key == pygame.K_m:
                     return "main_menu"
 
 def main():
@@ -135,14 +168,14 @@ def main():
     lives = 3
     score = 0
 
-    striker = Striker(0, HEIGHT - 50, 100, 20, 10, WHITE)
+    striker = Striker((WIDTH - 100) // 2, HEIGHT - 50, 100, 20, 10, WHITE)
     strikerXFac = 0
 
     ball = Ball(0, HEIGHT - 150, 7, 5, WHITE)
     listOfBlocks = populateBlocks(40, 15, 10, 10)
 
-    pyautogui.alert('Move the paddle to hit the blocks with the ball.', "Notification")
-    pyautogui.alert('You only have 3 lives!', "Notification")
+    draw_message(screen, "Move the paddle to hit the blocks with the ball.\nPress any key to continue.", font)
+    draw_message(screen, "You only have 3 lives!\nPress any key to continue.", font)
 
     while running:
         screen.fill(BLACK)
@@ -154,15 +187,16 @@ def main():
             listOfBlocks = populateBlocks(40, 15, 10, 10)
 
         if lives <= 0:
-            pyautogui.alert('Press SPACE to restart, ESC to quit, or M for the main menu!', "Game Over!")
+            draw_message(screen, "GAME OVER\nPress SPACE to restart\nESC to quit\nM for main menu", font)
             losing_sound.play()
             result = gameOver()
             if result == "restart":
                 lives, score = 3, 0
                 listOfBlocks = populateBlocks(40, 15, 10, 10)
+                striker = Striker((WIDTH - 100) // 2, HEIGHT - 50, 100, 20, 10, WHITE)
             elif result == "main_menu":
                 pygame.display.set_mode((600, 600))
-                return  # Exit and return to the main menu or main program
+                return
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
