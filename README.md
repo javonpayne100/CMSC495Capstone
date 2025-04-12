@@ -14,7 +14,7 @@ Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is desi
 
 ## Authors / Team
   - Note: These roles are what the majority of the time each person is completing, but the team is willing to swap out roles to help out in other sections.
-  - **Victoria** - *Project Manager / Technical Writer / Tester*  
+  - **Victoria** - *Project Manager / Technical Writer / Tester (GitHub Actions / GitHub Repo)*  
     [VictoriaRaven](https://github.com/VictoriaRaven)
   - **James** - *Technical Writer / Tester*  
     [jamesmutry](https://github.com/jamesmutry)
@@ -201,8 +201,8 @@ This project uses Git for version control. Git will be used to track the progres
 - Go to the file **"test.py"** in the main branch and Run it. It should test 13 unit tests all in that file for the games.
 - Go to the file **"test.py"** in the james branch and run it through his branch. It should test 24 unit tests all in that file for the games.
 - If it doesn't work, click on each method section for the game and run it one by one.
-- **Steps/Procedures:**
-- **GitHub Actions (24 unittest) (new test.py) (Skip if you do not have access to the Repo):**
+- **Steps/Procedures**:
+- **GitHub Actions (24 unittest) (new test.py) (Skip if you do not have access to the Repo)**:
 - Go to https://github.com/javonpayne100/CMSC495Capstone
 - Go to Actions Tab
 - If Workflow is Disabled, Enable it
@@ -226,14 +226,14 @@ This project uses Git for version control. Git will be used to track the progres
 - Install all needed libraries (IDE should prompt to do this automatically)
 - Select the test.py
 - Run test.py
-- **Test Data preparation:**
+- **Test Data preparation**:
 - Old Unit Testing will be done through the “main” branch of the github, test.py.
 - New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
 - Manual Testing will be done through the “james” and “main” branches.
 - Questions.json data must be valid and located in the directory the Trivia module expects it
 - brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
 - Breakout mechanics depend on default positions and attributes defined in the code—ensure these are not modified before testing.
-- **Test Environment Configuration: **
+- **Test Environment Configuration**:
 - Operating System: Windows, macOS, or Linux
 - Python Version: 3.9 or later
 - Terminal Tools: Command line, powershell, terminal or IDE
@@ -247,7 +247,7 @@ This project uses Git for version control. Git will be used to track the progres
 - This is 20 Manual Tests using the Excel method that was proven in the Unit Week Learning Resources.
 - Specifically, it will demonstrate the Main Menu(5 manual testing), Trivia(5 manual testing), Tic-Tac-Toe(5 manual testing), and Breakout(5 manual testing).
 - This makes a total of 20 Manual Tests for this manual testing.xlsx file.
-- **Steps/Procedures:**
+- **Steps/Procedures**:
 - Command line, terminal or powershell steps: 
 - Download the code from github in the “james” branch. Refer to README.md for help.
 - Navigate to the project directory
@@ -260,7 +260,7 @@ This project uses Git for version control. Git will be used to track the progres
 - Compare it against the Expected Result
 - Log pass/fail status
 - Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
-- **Testing in IDE: **
+- **Testing in IDE**:
 - Download the code from github in the “james” branch. Refer to README.md for help.
 - Open IDE and open project from where it was saved
 - Install all needed libraries (IDE should prompt to do this automatically)
@@ -272,14 +272,14 @@ This project uses Git for version control. Git will be used to track the progres
 - Compare it against the Expected Result
 - Log pass/fail status
 - Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
-- **Test Data preparation:**
+- **Test Data preparation**:
 - Old Unit Testing will be done through the “main” branch of the github, test.py.
 - New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
 - Manual Testing will be done through the “james” and “main” branches.
 - Questions.json data must be valid and located in the directory the Trivia module expects it
 - brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
 - Breakout mechanics depend on default positions and attributes defined in the code—ensure these are not modified before testing.
-- **Test Environment Configuration:**
+- **Test Environment Configuration**:
 - Operating System: Windows, macOS, or Linux
 - Python Version: 3.9 or later
 - Terminal Tools: Command line, powershell, terminal or IDE
