@@ -16,9 +16,9 @@ Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is desi
   - Note: These roles are what the majority of the time each person is completing, but the team is willing to swap out roles to help out in other sections.
   - **Victoria** - *Project Manager / Technical Writer / Tester (GitHub Actions / GitHub Repo)*  
     [VictoriaRaven](https://github.com/VictoriaRaven)
-  - **James** - *Technical Writer / Tester*  
+  - **James** - *Technical Writer / Tester (Unit Tests & Manual Tests)*  
     [jamesmutry](https://github.com/jamesmutry)
-  - **Javon** - *Git Lead / Developer / Sub Tester*  
+  - **Javon** - *Git Lead (.py files) / Developer / Sub Tester*  
     [javonpayne](https://github.com/javonpayne100)
   - **Todasha** - *Developer / Sub Tester*  
     [DatFoster123](https://github.com/DayFoster123)
