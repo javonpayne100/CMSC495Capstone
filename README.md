@@ -18,13 +18,13 @@ Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is desi
     [VictoriaRaven](https://github.com/VictoriaRaven)
   - **James** - *Technical Writer / Tester (Unit Tests & Manual Tests)*  
     [jamesmutry](https://github.com/jamesmutry)
-  - **Javon** - *Git Lead (.py files) / Developer / Sub Tester*  
+  - **Javon** - *Git Lead (.py files) / Developer (MainMenu & Trivia) / Sub Tester*  
     [javonpayne](https://github.com/javonpayne100)
-  - **Todasha** - *Developer / Sub Tester*  
+  - **Todasha** - *Developer (Breakout) / Sub Tester / Sub Debugger*  
     [DatFoster123](https://github.com/DayFoster123)
-  - **Jin** - *Developer / Sub Tester*  
+  - **Jin** - *Developer (TicTacToe) / Sub Tester*  
     [dajinchung](https://github.com/dajinchung)
-  - **Oluwatumininu** - *Developer / Sub Tester*  
+  - **Oluwatumininu** - *Developer (Breakout) / Sub Tester*  
     [tumiwiththewave](https://github.com/tumiwiththewave)
 
 # **Quick Project Overview**
