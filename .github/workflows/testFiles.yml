@@ -1,5 +1,5 @@
 ---
-name: Check Required Game Files Push/Pull (Mac, Win, Ubu)
+name: Check Required Game Files Push/Pull (Mac, Win, Ubu) with Node.js
 
 on:
   push:
@@ -28,40 +28,56 @@ jobs:
       - name: Check required .py files with Node.js
         run: |
           node -e "
-            const fs = require('fs');
+          const fs = require('fs');
+          const path = require('path');
+          const requiredFiles = [
+        'README.md',
+        'requirements.txt',
+        'Breakout.py',
+        'MainMenu.py',
+        'Questions.json',
+        'TicTacToe.py',
+        'Trivia.py',
+        'media/Jeopardy_Music.wav',
+        'media/brick.wav',
+        'media/mixkit-game-level-music-689.wav.wav',
+        'media/mixkit-player-losing-or-failing-2042.wav',
+        'media/mouse-click.wav',
+        'media/paddle.wav',
+        'media/wall.wav'
+      ].map(f => f.toLowerCase());
 
-            const requiredFiles = [
-              'README.md',
-              'requirements.txt',
-              'Breakout.py',
-              'MainMenu.py',
-              'Questions.json',
-              'TicTacToe.py',
-              'Trivia.py',
-              'media/Jeopardy_Music.wav',
-              'media/brick.wav',
-              'media/mixkit-game-level-music-689.wav.wav',
-              'media/mixkit-player-losing-or-failing-2042.wav',
-              'media/mouse-click.wav',
-              'media/paddle.wav',
-              'media/wall.wav'
-            ];
+      // Get all files in the repo recursively
+      function getAllFiles(dir, allFiles = []) {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            getAllFiles(fullPath, allFiles);
+          } else {
+            allFiles.push(fullPath.replace(/\\/g, '/').toLowerCase()); // Normalize Windows paths & lowercase
+          }
+        }
+        return allFiles;
+      }
 
-            let missing = false;
+      const repoFiles = getAllFiles('.');
+      let missing = false;
 
-            for (const file of requiredFiles) {
-              if (!fs.existsSync(file)) {
-                console.error(`❌ Missing: ${file}`);
-                missing = true;
-              } else {
-                console.log(`✅ Found: ${file}`);
-              }
-            }
+      for (const requiredFile of requiredFiles) {
+        const found = repoFiles.some(repoFile => repoFile.endsWith(requiredFile));
+        if (!found) {
+          console.error('❌ Missing:', requiredFile);
+          missing = true;
+        } else {
+          console.log('✅ Found:', requiredFile);
+        }
+      }
 
-            if (missing) {
-              console.error('❗ One or more required files are missing.');
-              process.exit(1);
-            } else {
-              console.log('🎉 All required files are present!');
-            }
-          "
+      if (missing) {
+        console.error('❗ One or more required files are missing.');
+        process.exit(1);
+      } else {
+        console.log('🎉 All required files are present!');
+      }
+    "
