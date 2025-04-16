@@ -1,0 +1,80 @@
+name: Check Required Game Files Push/Pull (Windows) with Node.js
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  check-files:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Check required .py files with Node.js
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+
+            const requiredFiles = [
+              'README.md',
+              'requirements.txt',
+              'Breakout.py',
+              'MainMenu.py',
+              'Questions.json',
+              'TicTacToe.py',
+              'Trivia.py',
+              'media/Jeopardy_Music.wav',
+              'media/brick.wav',
+              'media/mixkit-game-level-music-689.wav',
+              'media/mixkit-player-losing-or-failing-2042.wav',
+              'media/mouse-click.wav',
+              'media/paddle.wav',
+              'media/wall.wav'
+            ].map(f => f.toLowerCase());
+
+            // Get all files in the repo recursively
+            function getAllFiles(dir, allFiles = []) {
+              const entries = fs.readdirSync(dir, { withFileTypes: true });
+              for (const entry of entries) {
+                const fullPath = path.join(dir, entry.name);
+                if (entry.isDirectory()) {
+                  getAllFiles(fullPath, allFiles);
+                } else {
+                  allFiles.push(fullPath.replace(/\\/g, '/').toLowerCase());  // Handle Windows paths
+                }
+              }
+              return allFiles;
+            }
+
+            const repoFiles = getAllFiles('.');
+            let missing = false;
+
+            for (const requiredFile of requiredFiles) {
+              const found = repoFiles.some(repoFile => repoFile.endsWith(requiredFile));
+              if (!found) {
+                console.error('❌ Missing:', requiredFile);
+                missing = true;
+              } else {
+                console.log('✅ Found:', requiredFile);
+              }
+            }
+
+            if (missing) {
+              console.error('❗ One or more required files are missing.');
+              process.exit(1);
+            } else {
+              console.log('🎉 All required files are present!');
+            }
+          "
