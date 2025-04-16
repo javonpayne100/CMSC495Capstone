@@ -1,5 +1,5 @@
 # CMSC495Capstone: Python-Game-Hub (Group 1)
-[![Static Badge](https://img.shields.io/badge/Documents-Units-green)](https://github.com/javonpayne100/CMSC495Capstone/doc)
+[![Static Badge](https://img.shields.io/badge/Documents-Units-green)](https://github.com/javonpayne100/CMSC495Capstone/tree/main/doc)
 ## Copyright Usage and License
 Regarding Copyright laws by GitHub, it states that a public repository without a license means that others must fork the repository to utilize and modify the code as the team retains all proprietary rights.
 Links:  
