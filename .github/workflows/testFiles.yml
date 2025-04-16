@@ -41,7 +41,7 @@ jobs:
               'Trivia.py',
               'media/Jeopardy_Music.wav',
               'media/brick.wav',
-              'media/mixkit-game-level-music-689.wav.wav',
+              'media/mixkit-game-level-music-689.wav',
               'media/mixkit-player-losing-or-failing-2042.wav',
               'media/mouse-click.wav',
               'media/paddle.wav',
