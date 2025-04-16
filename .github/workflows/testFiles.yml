@@ -1,0 +1,67 @@
+---
+name: Check Required Game Files Push/Pull (Mac, Win, Ubu)
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+jobs:
+  check-files:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Check required .py files with Node.js
+        run: |
+          node -e "
+            const fs = require('fs');
+
+            const requiredFiles = [
+              'README.md',
+              'requirements.txt',
+              'Breakout.py',
+              'MainMenu.py',
+              'Questions.json',
+              'TicTacToe.py',
+              'Trivia.py',
+              'media/Jeopardy_Music.wav',
+              'media/brick.wav',
+              'media/mixkit-game-level-music-689.wav.wav',
+              'media/mixkit-player-losing-or-failing-2042.wav',
+              'media/mouse-click.wav',
+              'media/paddle.wav',
+              'media/wall.wav'
+            ];
+
+            let missing = false;
+
+            for (const file of requiredFiles) {
+              if (!fs.existsSync(file)) {
+                console.error(`❌ Missing: ${file}`);
+                missing = true;
+              } else {
+                console.log(`✅ Found: ${file}`);
+              }
+            }
+
+            if (missing) {
+              console.error('❗ One or more required files are missing.');
+              process.exit(1);
+            } else {
+              console.log('🎉 All required files are present!');
+            }
+          "
