@@ -56,7 +56,7 @@ jobs:
                 if (entry.isDirectory()) {
                   getAllFiles(fullPath, allFiles);
                 } else {
-                  allFiles.push(fullPath.replace(/\\/g, '/').toLowerCase()); // Normalize Windows paths & lowercase
+                  allFiles.push(fullPath.replace(/\\\\/g, '/').toLowerCase());
                 }
               }
               return allFiles;
