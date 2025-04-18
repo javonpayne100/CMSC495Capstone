@@ -176,8 +176,8 @@ def main():
     ball = Ball(0, HEIGHT - 150, 7, 5, WHITE)
     listOfBlocks = populateBlocks(40, 15, 10, 10)
 
-    draw_message(screen, "Move the paddle to hit the blocks with the ball. Some blocks make need more hits!\nPress any key to continue.", font)
-    draw_message(screen, "You only have 3 lives!\nPress any key to continue.", font)
+    draw_message(screen, "Move the paddle to hit the blocks with the ball.\nSome blocks make need more hits!\nKeys: < >, A D, Hold the mouse on paddle!\nPress any key to continue.", font)
+    draw_message(screen, "You only have 3 lives!\nAnd it will keep track of your score!\nHave Fun!\nPress any key to continue.", font)
 
     while running:
         screen.fill(BLACK)
