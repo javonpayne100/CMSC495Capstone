@@ -5,6 +5,7 @@ from TicTacToe import tic_tac_toe
 from Trivia import trivia_game
 from Breakout import main
 import numpy as np
+import webbrowser
 
 # Initialize pygame
 pygame.init()
@@ -49,14 +50,16 @@ def draw_gradient_background(screen, width, height):
 # Function to handle menu navigation
 def navigate(option):
     if option == 1:
-        tic_tac_toe()
+        webbrowser.open(r"https://github.com/javonpayne100/CMSC495Capstone")
     elif option == 2:
+        tic_tac_toe()
+    elif option == 3:
         pygame.display.set_mode((600, 500))  # change this here to keep the game scrren trvia size.
         trivia_game()
-    elif option == 3:
+    elif option == 4:
         pygame.display.set_mode((750, 450))  # change this here to keep the game scrren breakout.
         main()
-    elif option == 4:
+    elif option == 5:
         pygame.mixer.music.stop()
         print("Exiting program...")
         pygame.quit()
@@ -74,10 +77,11 @@ def draw_main_menu(screen, font, mouse_pos):
 
     # Define menu options (positioned dynamically)
     options = [
-        "1. Tic-Tac-Toe",
-        "2. Trivia",
-        "3. Breakout",
-        "4. Exit"
+        "1. Information",
+        "2. Tic-Tac-Toe",
+        "3. Trivia",
+        "4. Breakout",
+        "5. Exit"
     ]
 
     start_y = 130  # First option position
@@ -117,7 +121,7 @@ def main_menu():
                 mouse_x, mouse_y = event.pos
 
                 # Check which option was clicked
-                for index, text in enumerate(["1. Tic-Tac-Toe", "2. Trivia", "3. TBD", "4. Exit"]):
+                for index, text in enumerate(["1. Information", "2. Tic-Tac-Toe", "3. Trivia", "4. TBD", "5. Exit"]):
                     x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2
                     y = 130 + index * 60  # Match positions
                     if check_hover((mouse_x, mouse_y), x, y, font, text):
