@@ -27,6 +27,16 @@ Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is desi
   - **Oluwatumininu** - *Developer (Breakout) / Sub Tester*  
     [tumiwiththewave](https://github.com/tumiwiththewave)
 
+## Table of Contents (Key Parts Only)
+  * [**How to Set Up the Game**](#how-to-set-up-the-game)
+  * [**How to Play the Games & Navigate the Game Hub's Main Menu**](#how-to-play-the-games--navigate-the-game-hubs-main-menu)
+  * [**History of the Game Hub and Games**](#history-of-the-game-hub-and-games)
+  * [**Python Game Hub Introduction, Requirements, and Objectives**](#python-game-hub-introduction-requirements-and-objectives)
+    + [Unit Testing and Manual Testing Instructions](#unit-testing-and-manual-testing-instructions)
+    + [Overview of Unit 1-8 Progress Conclusion](#overview-of-unit-1-8-progress-conclusion)
+    + [User Guide](#user-guide-before-deployment)
+  * [**Acknowledgements / Resources / References**](#acknowledgements--resources--references)
+
 # **Quick Project Overview**
 The **Python Game Hub** provides a Game Hub to host three games: **Tic-Tac-Toe**, **Trivia**, and **Breakout**. It uses **Python** and **Pygame** to deliver a rich, interactive user interface with seamless transitions between games. The hub also integrates Git for version control to manage the development lifecycle.
 
@@ -390,7 +400,7 @@ The activity diagram shows the flow of actions, starting from the application la
 - Develop early functional modules like the main menu and working versions of the games.
 - Ensure alignment between project objectives and technical execution.
 - Set a foundation for reliable, maintainable development in subsequent phases.
-## Testing Goals:
+### Testing Goals:
 - Implement automated unit tests using Python’s `unittest` framework to validate core game mechanics.
 - Perform unit testing for game logic, UI components, high score tracking, error handling, and performance.
 - Follow a structured testing approach including unit, integration, system, and acceptance testing.
@@ -404,6 +414,7 @@ The activity diagram shows the flow of actions, starting from the application la
 - Develop a clear and concise **User Guide** detailing how to navigate the Game Hub.
 - Provide instructions for starting the application, selecting games, and using UI features (e.g., scoreboards, game controls).
 - Include troubleshooting tips, known issues, and any additional features or options available in the game hub.
+- Refer to the docs folder section in the unit 7 folder to access our User Guide version.
 ### Deployment Goals:
 - Finalize the application after testing and bug fixes.
 - Ensure cross-platform compatibility and smooth performance on different devices.
