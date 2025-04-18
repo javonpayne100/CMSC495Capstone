@@ -52,12 +52,13 @@ def navigate(option):
     if option == 1:
         webbrowser.open(r"https://github.com/javonpayne100/CMSC495Capstone")
     elif option == 2:
+        pygame.display.set_mode((600, 600))  # change this here to keep the game screen ttt size
         tic_tac_toe()
     elif option == 3:
-        pygame.display.set_mode((600, 500))  # change this here to keep the game scrren trvia size.
+        pygame.display.set_mode((600, 500))  # change this here to keep the game screen trivia size.
         trivia_game()
     elif option == 4:
-        pygame.display.set_mode((750, 450))  # change this here to keep the game scrren breakout.
+        pygame.display.set_mode((750, 450))  # change this here to keep the game screen breakout.
         main()
     elif option == 5:
         pygame.mixer.music.stop()
