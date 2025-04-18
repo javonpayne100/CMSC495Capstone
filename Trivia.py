@@ -11,7 +11,7 @@ pygame.init()
 pygame.mixer.init()
 
 SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 400
+SCREEN_HEIGHT = 450
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Trivia Game")
 
@@ -56,7 +56,7 @@ questions_data = load_questions()
 # Utility Functions
 # ----------------------------
 def play_trivia_music():
-    pygame.mixer.music.load("media/Jeopardy_Music.wav")
+    pygame.mixer.music.load("Jeopardy_Music.wav")
     pygame.mixer.music.play(-1)
 
 
@@ -64,9 +64,33 @@ def stop_trivia_music():
     pygame.mixer.music.stop()
 
 
-def render_text(text, x, y, font, color):
-    rendered_text = font.render(text, True, color)
-    screen.blit(rendered_text, (x, y))
+def render_text(text, x, y, font, color, max_width):
+    # Split the text into lines that fit within the max width
+    words = text.split(' ')
+    lines = []
+    current_line = ""
+
+    for word in words:
+        # Check the width of the current line with the new word
+        test_line = current_line + (" " if current_line else "") + word
+        if font.size(test_line)[0] <= max_width:
+            # If the line is within the max width, add the word
+            current_line = test_line
+        else:
+            # If it exceeds the max width, start a new line
+            lines.append(current_line)
+            current_line = word
+
+    # Add the last line
+    if current_line:
+        lines.append(current_line)
+
+    # Render and display each line of text
+    y_offset = y
+    for line in lines:
+        rendered_text = font.render(line, True, color)
+        screen.blit(rendered_text, (x, y_offset))
+        y_offset += font.get_height()
 
 
 def draw_background_gradient():
@@ -104,9 +128,9 @@ def add_player_screen():
     # Draw the gradient background (same as in trivia question screen)
     draw_background_gradient()
 
-    render_text("Select the number of players:", SCREEN_WIDTH // 2 - 150, 50, font, YELLOW)
-    render_text("1. One Player", SCREEN_WIDTH // 2 - 100, 150, font, WHITE)
-    render_text("2. Two Players", SCREEN_WIDTH // 2 - 100, 200, font, WHITE)
+    render_text("Select the number of players:", SCREEN_WIDTH // 2 - 150, 50, font, YELLOW, max_width=550)
+    render_text("1. One Player", SCREEN_WIDTH // 2 - 100, 150, font, WHITE, max_width=550)
+    render_text("2. Two Players", SCREEN_WIDTH // 2 - 100, 200, font, WHITE, max_width=550)
     pygame.display.flip()
 
     selected_mode = None
@@ -127,7 +151,7 @@ def add_player_screen():
         # Single player mode
         screen.fill(BLACK)
         draw_background_gradient()  # Use gradient background
-        render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW)
+        render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW, max_width=550)
         pygame.display.flip()
 
         input_box = pygame.Rect(SCREEN_WIDTH // 2 - 150, 200, 300, 50)
@@ -151,7 +175,7 @@ def add_player_screen():
 
             screen.fill(BLACK)
             draw_background_gradient()  # Use gradient background
-            render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW)
+            render_text("Enter Your Name:", SCREEN_WIDTH // 2 - 140, 100, font, YELLOW, max_width=550)
             pygame.draw.rect(screen, box_color, input_box, 2)
             text_surface = font.render(text, True, WHITE)
             screen.blit(text_surface, (input_box.x + 10, input_box.y + 10))
@@ -161,7 +185,7 @@ def add_player_screen():
         # Two players mode
         screen.fill(BLACK)
         draw_background_gradient()  # Use gradient background
-        render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+        render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW, max_width=550)
         pygame.display.flip()
 
         input_box_1 = pygame.Rect(SCREEN_WIDTH // 2 - 150, 200, 300, 50)
@@ -183,7 +207,7 @@ def add_player_screen():
 
             screen.fill(BLACK)
             draw_background_gradient()  # Use gradient background
-            render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+            render_text("Enter Player 1 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW, max_width=550)
             pygame.draw.rect(screen, WHITE, input_box_1, 2)
             text_surface_1 = font.render(text_1, True, WHITE)
             screen.blit(text_surface_1, (input_box_1.x + 10, input_box_1.y + 10))
@@ -192,7 +216,7 @@ def add_player_screen():
         # Now for Player 2
         screen.fill(BLACK)
         draw_background_gradient()  # Use gradient background
-        render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+        render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW, max_width=550)
         pygame.display.flip()
 
         input_box_2 = pygame.Rect(SCREEN_WIDTH // 2 - 150, 200, 300, 50)
@@ -214,7 +238,7 @@ def add_player_screen():
 
             screen.fill(BLACK)
             draw_background_gradient()  # Use gradient background
-            render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW)
+            render_text("Enter Player 2 Name:", SCREEN_WIDTH // 2 - 150, 100, font, YELLOW, max_width=550)
             pygame.draw.rect(screen, WHITE, input_box_2, 2)
             text_surface_2 = font.render(text_2, True, WHITE)
             screen.blit(text_surface_2, (input_box_2.x + 10, input_box_2.y + 10))
@@ -232,11 +256,11 @@ def select_category():
     screen.fill(BLACK)
     draw_background_gradient()  # Call the gradient function to create the background
 
-    render_text("Select a Category:", SCREEN_WIDTH // 2 - 140, 50, font, YELLOW)
+    render_text("Select a Category:", SCREEN_WIDTH // 2 - 140, 50, font, YELLOW, max_width=550)
 
     # Render the categories
     for index, category in enumerate(categories):
-        render_text(f"{index + 1}. {category}", SCREEN_WIDTH // 2 - 100, 150 + (index * 50), font, WHITE)
+        render_text(f"{index + 1}. {category}", SCREEN_WIDTH // 2 - 100, 150 + (index * 50), font, WHITE, max_width=550)
 
     pygame.display.flip()
 
@@ -271,7 +295,7 @@ def trivia_game():
 
         if len(question_pool) < 5 * len(players):
             screen.fill(BLACK)
-            render_text("Not enough questions in this category!", 50, SCREEN_HEIGHT // 2, font, RED)
+            render_text("Not enough questions in this category!", 50, SCREEN_HEIGHT // 2, font, RED, max_width=550)
             pygame.display.flip()
             time.sleep(3)
             return "menu"
@@ -284,6 +308,12 @@ def trivia_game():
             session_score = 0
             questions = random.sample(question_pool, 5)
             clock = pygame.time.Clock()
+
+            screen.fill(BLACK)
+            draw_background_gradient()
+            render_text(f"{player}, get ready!", SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50, font, YELLOW, max_width=550)
+            pygame.display.flip()
+            time.sleep(3)  # Pause for 2 seconds (adjust as needed)
 
             for q in questions:
                 current_question = q["question"]
@@ -312,8 +342,8 @@ def trivia_game():
 
                     screen.fill(BLACK)
                     draw_background_gradient()
-                    render_text(f"{player}'s Turn", SCREEN_WIDTH // 2 - 100, 20, font, YELLOW)
-                    render_text(current_question, 50, 100, question_font, WHITE)
+                    render_text(f"{player}'s Turn", SCREEN_WIDTH // 2 - 100, 20, font, YELLOW, max_width=550)
+                    render_text(current_question, 50, 100, question_font, WHITE, max_width=550)
 
                     for i, a in enumerate(answers):
                         color = (
@@ -321,10 +351,10 @@ def trivia_game():
                             RED if i == selected_index else
                             WHITE
                         ) if selected_index is not None else WHITE
-                        render_text(f"{i + 1}. {a}", 50, 150 + i * 50, question_font, color)
+                        render_text(f"{i + 1}. {a}", 50, 150 + i * 50, question_font, color, max_width=550)
 
                     draw_timer((SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60), 40, time_left, 10.0)
-                    render_text(f"Score: {session_score}", SCREEN_WIDTH - 200, 20, font, WHITE)
+                    render_text(f"Score: {session_score}", SCREEN_WIDTH - 200, 20, font, WHITE, max_width=550)
                     pygame.display.flip()
                     time_left -= dt
 
@@ -367,18 +397,18 @@ def show_final_results(scores):
         mouse_pos = pygame.mouse.get_pos()
         screen.fill(BLACK)
         draw_background_gradient()
-        render_text("Final Results", SCREEN_WIDTH // 2 - 100, 40, font, YELLOW)
+        render_text("Final Results", SCREEN_WIDTH // 2 - 100, 40, font, YELLOW, max_width=550)
         # score display
         y_offset = 100
         for player in scores:
-            render_text(f"{player}: {scores[player]}", SCREEN_WIDTH // 2 - 100, y_offset, font, WHITE)
+            render_text(f"{player}: {scores[player]}", SCREEN_WIDTH // 2 - 100, y_offset, font, WHITE, max_width=550)
             y_offset += 40
 
         # Show winner or tie
         if len(winners) == 1:
-            render_text(f"{winners[0]} wins!", SCREEN_WIDTH // 2 - 100, y_offset + 10, font, GREEN)
+            render_text(f"{winners[0]} wins!", SCREEN_WIDTH // 2 - 100, y_offset + 10, font, GREEN, max_width=550)
         else:
-            render_text("It's a Tie!", SCREEN_WIDTH // 2 - 100, y_offset + 10, font, GREEN)
+            render_text("It's a Tie!", SCREEN_WIDTH // 2 - 100, y_offset + 10, font, GREEN, max_width=550)
 
         # Button hover colors
         play_color = (80, 220, 170) if play_again_rect.collidepoint(mouse_pos) else BUTTON_COLOR
