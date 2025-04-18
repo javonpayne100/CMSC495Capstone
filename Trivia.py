@@ -372,6 +372,7 @@ def trivia_game():
         if result == "restart":
             continue
         elif result == "menu":
+            pygame.display.set_caption("Main Menu")
             pygame.display.set_mode((600, 500))  # change this here to keep the mainmenu screen
             return "menu"
         elif result == "quit":
