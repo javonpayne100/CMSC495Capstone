@@ -245,6 +245,7 @@ def tic_tac_toe():
                     if check_win(1):
                         result = display_result("You Win!")
                         if result == "menu":
+                            pygame.display.set_caption("Main Menu")
                             pygame.display.set_mode((600, 500))  # change this here to keep the main menu screen size
                             return "menu"
                         elif result == "restart":
@@ -253,6 +254,7 @@ def tic_tac_toe():
                     elif is_board_full():
                         result = display_result("It's a Draw!")
                         if result == "menu":
+                            pygame.display.set_caption("Main Menu")
                             pygame.display.set_mode((600, 500))  # change this here to keep the main menu screen size
                             return "menu"
                         elif result == "restart":
@@ -269,6 +271,7 @@ def tic_tac_toe():
             if check_win(2):
                 result = display_result("You Lose!")
                 if result == "menu":
+                    pygame.display.set_caption("Main Menu")
                     pygame.display.set_mode((600, 500))  # change this here to keep the main menu screen size
                     return "menu"
                 elif result == "restart":
@@ -277,6 +280,7 @@ def tic_tac_toe():
             elif is_board_full():
                 result = display_result("It's a Draw!")
                 if result == "menu":
+                    pygame.display.set_caption("Main Menu")
                     pygame.display.set_mode((600, 500))  # change this here to keep the main menu screen size
                     return "menu"
                 elif result == "restart":
