@@ -160,6 +160,8 @@ def gameOver():
                     pygame.quit()
                     exit()
                 elif event.key == pygame.K_m:
+                    pygame.display.set_caption("Main Menu")
+                    pygame.display.set_mode((600, 500))
                     return "main_menu"
 
 def main():
@@ -174,7 +176,7 @@ def main():
     ball = Ball(0, HEIGHT - 150, 7, 5, WHITE)
     listOfBlocks = populateBlocks(40, 15, 10, 10)
 
-    draw_message(screen, "Move the paddle to hit the blocks with the ball.\nPress any key to continue.", font)
+    draw_message(screen, "Move the paddle to hit the blocks with the ball. Some blocks make need more hits!\nPress any key to continue.", font)
     draw_message(screen, "You only have 3 lives!\nPress any key to continue.", font)
 
     while running:
@@ -195,7 +197,8 @@ def main():
                 listOfBlocks = populateBlocks(40, 15, 10, 10)
                 striker = Striker((WIDTH - 100) // 2, HEIGHT - 50, 100, 20, 10, WHITE)
             elif result == "main_menu":
-                pygame.display.set_mode((600, 600))
+                pygame.display.set_caption("Main Menu")
+                pygame.display.set_mode((600, 500))
                 return
 
         for event in pygame.event.get():
