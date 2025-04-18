@@ -252,6 +252,7 @@ def tic_tac_toe():
                     elif is_board_full():
                         result = display_result("It's a Draw!")
                         if result == "menu":
+                            pygame.display.set_mode((600, 500))  # change this here to keep the mainmenu screen
                             return "menu"
                         elif result == "restart":
                             return tic_tac_toe()
