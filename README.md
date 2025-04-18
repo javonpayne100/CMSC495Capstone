@@ -1,5 +1,5 @@
 # CMSC495Capstone: Python-Game-Hub (Group 1)
-[![Static Badge](https://img.shields.io/badge/Documents-Units-green)](https://github.com/javonpayne100/CMSC495Capstone/tree/main/doc)
+[![Static Badge](https://img.shields.io/badge/Documents-Units-blue)](https://github.com/javonpayne100/CMSC495Capstone/tree/main/doc) [![Static Badge](https://img.shields.io/badge/History-GameHub-purple)](https://www.samsung.com/us/apps/gaming-hub/) [![Static Badge](https://img.shields.io/badge/History-TicTacToe-purple)](https://en.wikipedia.org/wiki/Tic-tac-toe) [![Static Badge](https://img.shields.io/badge/History-Trivia-purple)](https://en.wikipedia.org/wiki/Trivia) [![Static Badge](https://img.shields.io/badge/History-Breakout-purple)](https://en.wikipedia.org/wiki/Breakout_(video_game))
 ## Copyright Usage and License
 Regarding Copyright laws by GitHub, it states that a public repository without a license means that others must fork the repository to utilize and modify the code as the team retains all proprietary rights.
 Links:  
@@ -166,7 +166,22 @@ python MainMenu.py
 ### Exit
 - Select Exit from the main menu.
 - It will Exit the Python Game Hub and exit the Python Application.
-
+## History of the Game Hub and Games
+### Gaming Hub  
+- This Gaming Hub is similar to the Samsung Gaming Hub, where it lets users access mutliple games (like a libarary) without needing a console.
+- For this case the only thing that needs internet is the **Information** selection. The rest are all offline games as it's been integreated to the game hub.
+### Tic-Tac-Toe
+- Tic-Tac-Toe is an ancient game, going back to Roman times. It’s simple—just a 3x3 grid where players try to get three Xs or Os in a row.
+- It became popular worldwide because it’s easy to learn and quick to play.
+### Trivia
+- Trivia games took off in the 20th century, especially with board games like *Trivial Pursuit* in the 1980s.
+- The idea is simple: answer questions on random topics. Now it's everywhere—from bar nights to mobile apps like HQ Trivia.
+### Breakout
+- Breakout was created by Atari in 1976. Players control a paddle to bounce a ball and break bricks at the top of the screen.
+- It helped shape the arcade gaming boom and inspired many block-breaking games afterward.
+### More History Details?
+- Refer to the History links at the top of the **README.md** file.
+- It will send you hyperlinks to a Wikipedia page of the whole history behind it per each topic.
 ## **Python Game Hub Introduction, Requirements, and Objectives**
 This document outlines the deliverables for a CMSC Capstone project: a multi-game application developed with Python and Pygame, featuring games like Tic-Tac-Toe, Trivia, and Breakout within a unified GUI. The project follows the Waterfall development model, progressing through defined phases: Requirements Analysis, System Design, Implementation, Testing, and Maintenance. This focuses on gathering detailed requirements, initial design, and prototyping, as well as developing functional modules like the main menu and early versions of the games. The project’s purpose is to create a centralized Game Hub, allowing users to select and play various games in one application. Git will be used for version control, and unit testing will ensure each component meets requirements. Deliverables include a fully functional game hub with an intuitive GUI, featuring modular game components and, optionally, an SQLite database for tracking user profiles and high scores. The development will be tracked through version control and tested using unit testing.
 ### Testing/Debugging Requirements:
@@ -201,8 +216,8 @@ This project uses Git for version control. Git will be used to track the progres
 - Go to the file **"test.py"** in the main branch and Run it. It should test 13 unit tests all in that file for the games.
 - Go to the file **"test.py"** in the james branch and run it through his branch. It should test 24 unit tests all in that file for the games.
 - If it doesn't work, click on each method section for the game and run it one by one.
-- **Steps/Procedures**:
-- **GitHub Actions (24 unittest) (new test.py) (Skip if you do not have access to the Repo)**:
+0)  **Steps/Procedures**:
+1) **GitHub Actions (24 unittest) (new test.py) (Skip if you do not have access to the Repo)**:
 - Go to https://github.com/javonpayne100/CMSC495Capstone
 - Go to Actions Tab
 - If Workflow is Disabled, Enable it
@@ -220,20 +235,20 @@ This project uses Git for version control. Git will be used to track the progres
 - Navigate to the project directory
 - Ensure installation of pygame, numpy and pyautogui using “pip install pygame numpy pyautogui” or install dependencies through the requirements.txt like shown in README.md
 - Run python -m unnitest test.py
-- **Testing in IDE**:
+2) **Testing in IDE**:
 - Download the code from github in the “james” branch. 
 - Open IDE and open project from where it was saved
 - Install all needed libraries (IDE should prompt to do this automatically)
 - Select the test.py
 - Run test.py
-- **Test Data preparation**:
+3) **Test Data preparation**:
 - Old Unit Testing will be done through the “main” branch of the github, test.py.
 - New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
 - Manual Testing will be done through the “james” and “main” branches.
 - Questions.json data must be valid and located in the directory the Trivia module expects it
 - brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
 - Breakout mechanics depend on default positions and attributes defined in the code—ensure these are not modified before testing.
-- **Test Environment Configuration**:
+4) **Test Environment Configuration**:
 - Operating System: Windows, macOS, or Linux
 - Python Version: 3.9 or later
 - Terminal Tools: Command line, powershell, terminal or IDE
@@ -241,13 +256,13 @@ This project uses Git for version control. Git will be used to track the progres
 - Audio: Ensure audio output is enabled to validate sound-related tests.
 - Display: Use a resolution of at least 600x400 for consistent rendering.
 - GitHub Actions:  Required you have access to the Repositry and can go to the Actions tab
-- **CMSC 495 Project Test Plan.xlsx (Manual Testing): **
+0) **CMSC 495 Project Test Plan.xlsx (Manual Testing):**
 - Go to the docs to find a copy of the Excel sheet/ table for manual testing. 
 - Or Go to the docs in unit 5 to get the link to the Excel sheet / table for manual testing.
 - This is 20 Manual Tests using the Excel method that was proven in the Unit Week Learning Resources.
 - Specifically, it will demonstrate the Main Menu(5 manual testing), Trivia(5 manual testing), Tic-Tac-Toe(5 manual testing), and Breakout(5 manual testing).
 - This makes a total of 20 Manual Tests for this manual testing.xlsx file.
-- **Steps/Procedures**:
+1) **Steps/Procedures**:
 - Command line, terminal or powershell steps: 
 - Download the code from github in the “james” branch. Refer to README.md for help.
 - Navigate to the project directory
@@ -260,7 +275,7 @@ This project uses Git for version control. Git will be used to track the progres
 - Compare it against the Expected Result
 - Log pass/fail status
 - Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
-- **Testing in IDE**:
+2) **Testing in IDE**:
 - Download the code from github in the “james” branch. Refer to README.md for help.
 - Open IDE and open project from where it was saved
 - Install all needed libraries (IDE should prompt to do this automatically)
@@ -272,14 +287,14 @@ This project uses Git for version control. Git will be used to track the progres
 - Compare it against the Expected Result
 - Log pass/fail status
 - Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
-- **Test Data preparation**:
+3) **Test Data preparation**:
 - Old Unit Testing will be done through the “main” branch of the github, test.py.
 - New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
 - Manual Testing will be done through the “james” and “main” branches.
 - Questions.json data must be valid and located in the directory the Trivia module expects it
 - brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
 - Breakout mechanics depend on default positions and attributes defined in the code—ensure these are not modified before testing.
-- **Test Environment Configuration**:
+4) **Test Environment Configuration**:
 - Operating System: Windows, macOS, or Linux
 - Python Version: 3.9 or later
 - Terminal Tools: Command line, powershell, terminal or IDE
