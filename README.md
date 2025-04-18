@@ -130,11 +130,19 @@ python MainMenu.py
 ## **How to Play the Games & Navigate the Game Hub's Main Menu**
 ### Main Menu (Game Hub)
 - Once *"MainMenu.py"* is running, the user can select the following options:
+    - Information
     - Tic Tac Toe
     - Trivia
     - Breakout
     - Exit
 - Options on how to play are below...
+### Information
+- Select Information from the main menu.
+- This redirects the user to a hyperlink of our Python Game Hub Repository on GitHub.
+- The user can select the history at the top of the README.md file and other information on the README.md file.
+- The user can use the README.md file to learn how the game works/how to play.
+- The user can see our development/testing/documentation process.
+- This options requires internet (not offline) and the other games are offline.
 ### Tic-Tac-Toe
 - Select Tic-Tac-Toe from the main menu.
 - This game, the AI is the X and the player is you O.
@@ -160,7 +168,7 @@ python MainMenu.py
 - Select Breakout from the main menu.
 - Control the paddle with the left and right arrow keys.
 - Try to break all the blocks with the bouncing ball.
-- Some blocks require the ball to hit it more than 1 to destry the block.
+- Some blocks require the ball to hit it more than 1 to destroy the block.
 - You have three lives, and it counts the score based on the blocks you destroyed with the ball with sound effects.
 - If you lose all your lives, you will hear the game over sound, and you can restart the game or return to the main menu.
 ### Exit
