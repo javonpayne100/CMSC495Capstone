@@ -122,7 +122,7 @@ def main_menu():
                 mouse_x, mouse_y = event.pos
 
                 # Check which option was clicked
-                for index, text in enumerate(["1. Information", "2. Tic-Tac-Toe", "3. Trivia", "4. TBD", "5. Exit"]):
+                for index, text in enumerate(["1. Information", "2. Tic-Tac-Toe", "3. Trivia", "4. Breakout", "5. Exit"]):
                     x = SCREEN_WIDTH // 2 - font.size(text)[0] // 2
                     y = 130 + index * 60  # Match positions
                     if check_hover((mouse_x, mouse_y), x, y, font, text):
