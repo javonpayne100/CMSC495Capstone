@@ -417,6 +417,7 @@ The activity diagram shows the flow of actions, starting from the application la
 - Provide instructions for starting the application, selecting games, and using UI features (e.g., scoreboards, game controls).
 - Include troubleshooting tips, known issues, and any additional features or options available in the game hub.
 - Refer to the docs folder section in the unit 7 folder to access our User Guide version.
+- Link is here: [User Guide (docs/Unit7)](https://github.com/javonpayne100/CMSC495Capstone/tree/main/doc/Unit7)
 ### Deployment Goals:
 - Finalize the application after testing and bug fixes.
 - Ensure cross-platform compatibility and smooth performance on different devices.
