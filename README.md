@@ -7,10 +7,10 @@ Links:
 - [GitHub Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)
 
 ## Information
-Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is designed to create a centralized platform for multiple mini-games, including **Tic-Tac-Toe**, **Trivia**, and **Breakout**. The application is developed using **Python** and **Pygame**, providing an engaging and interactive user interface. This project focuses on integrating games into one platform with a smooth user experience, modular game logic, and easy-to-understand code structure. The project’s purpose is to create a centralized Offline Game Hub, allowing users to select and play various games in one application. Git will be used for version control, and unit testing will ensure each component meets requirements. Deliverables include a fully functional game hub with an intuitive GUI, featuring modular game components and, an interative **Information** Button (requires internet access) to the README.md file for the history and other infomration about the game. The development will be tracked through version control and tested using unit testing.
+Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is designed to create a centralized platform for multiple mini-games, including **Tic-Tac-Toe**, **Trivia**, and **Breakout**. The application is developed using **Python** and **Pygame**, providing an engaging and interactive user interface. This project focuses on integrating games into one platform with a smooth user experience, modular game logic, and easy-to-understand code structure. The project’s purpose is to create a centralized Offline Game Hub, allowing users to select and play various games in one application. Git will be used for version control, and unit testing will ensure each component meets requirements. Deliverables include a fully functional game hub with an intuitive GUI, featuring modular game components and, an interactive **Information** Button (requires internet access) to the README.md file for the history and other information about the game. The development will be tracked through version control and tested using unit testing.
 
 ### Contact and Outside Contributing
-- Feel free to reach out to our team on GitHub if you want to use our code under a specific license, without needing to fork this repository, or want to be apart of the contribution team.
+- Feel free to reach out to our team on GitHub if you want to use our code under a specific license, without needing to fork this repository, or want to be a part of the contribution team.
 
 ## Authors / Team
   - Note: These roles are what the majority of the time each person is completing, but the team is willing to swap out roles to help out in other sections.
@@ -41,8 +41,8 @@ Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is desi
 The **Python Game Hub** provides a Game Hub to host three games: **Tic-Tac-Toe**, **Trivia**, and **Breakout**. It uses **Python** and **Pygame** to deliver a rich, interactive user interface with seamless transitions between games. The hub also integrates Git for version control to manage the development lifecycle.
 
 ## **How to Set Up the Game**
-### 0. Forking Repositry
-This option is **ONLY** if you have a Git Account and are comfortable using Git to run the application. This is also for users who would like to add contributions to our game as well as per the GitHub policies previously mentined in the Copyright / License Section. **Skip to 1)** if you do not want to use this method.
+### 0. Forking Repository
+This option is **ONLY** if you have a Git Account and are comfortable using Git to run the application. This is also for users who would like to add contributions to our game as well as per the GitHub policies previously mentioned in the Copyright / License Section. **Skip to 1)** if you do not want to use this method.
 - First, Login with your Git account
 - Go to the repository page of this project
 - Then click **Fork**
@@ -51,35 +51,35 @@ This option is **ONLY** if you have a Git Account and are comfortable using Git 
 - Then Go to the step of *2) Options to Run Application* **part c**
 
 ### 1. Download the Zip / Clone Repository
-To get started with the project, first go to the repository page of this project. Then CLICK in this order at the top right hand green button:
+To get started with the project, first go to the repository page of this project. Then CLICK in this order at the top right-hand green button:
 ```bash
 <>Code -> Download Zip
 OR
 <>Code -> $ git clone https://github.com/javonpayne100/CMSC495Capstone.git
 ```
-This will allow you to donwload the Zip file or clone the repository successfully. If you had the Zip file extract it onto an Python IDE Directory folder of the new project, but you must have Python installed onto your machine.
+This will allow you to download the Zip file or clone the repository successfully. If you have the Zip file extract it onto a Python IDE Directory folder of the new project, but you must have Python installed on your machine.
 ## **2. Options to Run Application**
 - a) Run through a Python IDE
-- b) Run through Python Terminal after setting up virtual environment
+- b) Run through Python Terminal after setting up the virtual environment
 - c) Run through Python IDE after Forking Repository
 
-### **a. Set up PyCharm, Set up virtual environment, Install dependencies, Run Application**
+### **a. Set up PyCharm, Set up a virtual environment, Install dependencies, Run Application**
 Before running the application, make sure you have **Python** installed on your machine. You can download Python from the official website: [Download Python](https://www.python.org/downloads/).
 Once Python is installed, you'll need to install the dependencies for the project either through the PYTHON IDE terminal that you installed PyCharm [Download PyCharm Community for Windows](https://www.jetbrains.com/pycharm/download/?section=windows) OR [Download PyCharm Community for Mac](https://www.jetbrains.com/pycharm/download/?section=mac) OR [Download PyCharm Community for Linux](https://www.jetbrains.com/pycharm/download/?section=linux).
 Then you must open PyCharm:
   - Make a new Project with these instructions: [Create a Python Project](https://www.jetbrains.com/help/pycharm/creating-empty-project.html)
   - Follow all steps including making sure a virtual environment is set up with the Python you installed.
   - Close the project and exit the application.
-  - Go to the Directory of that project you created
+  - Go to the Directory of the project you created
   - Extract the Zip files into that folder
-  - Open PyCharm again and access the project you created and it should have all the files into the Project
-  - 2) Option would be to use the Git clone but you *must* clone it to the new project's directory. See this link: [Git Clone to Project](https://www.jetbrains.com/help/pycharm/set-up-a-git-repository.html#put-existing-project-under-Git)
-  - Next once Python and Pycharm is setup and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commands to navigate to them and install them:
+  - Open PyCharm again and access the project you created as it should have all the files in the Project
+  - 2) This option would be to use the Git clone but you *must* clone it to the new project's directory. See this link: [Git Clone to Project](https://www.jetbrains.com/help/pycharm/set-up-a-git-repository.html#put-existing-project-under-Git)
+  - Next, once Python and Pycharm are set up and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commands to navigate to them and install them:
 ```bash
 python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-  - Next, if this does not work, you will have to install the imports one by one clicking on all the **MainMenu.py**, **test.py**, **Breakout.py**, **TicTacToe.py**, **Trivia.py** and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages search bar for each one and install them there.
+  - Next, if this does not work, you will have to install the imports one by one by clicking on all the **MainMenu.py**, **test.py**, **Breakout.py**, **TicTacToe.py**, **Trivia.py**, and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages search bar for each one and install them there.
   - Then once done, **Run** the Python application:
 ```bash
 python MainMenu.py
@@ -88,7 +88,7 @@ python MainMenu.py
   - Then go to the top left corner near the arrow run button and click on the **tab** -> **CurrentFile**.
   - Then while staying on that file click on the **Run** button which is the Green Arrow.
 
-### **b. Set up virtual environment, Install dependencies, Run Application**
+### **b. Set up a virtual environment, Install dependencies, Run Application**
 Before running the application, make sure you have **Python** installed on your machine. You can download Python from the official website: [Download Python](https://www.python.org/downloads/).
 Once Python is installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Use these commands to navigate to them and install them:
 ```bash
@@ -122,13 +122,13 @@ Then you must open PyCharm:
   - Make a new Project with these instructions: [Create a Python Project](https://www.jetbrains.com/help/pycharm/creating-empty-project.html)
   - Follow all steps including making sure a virtual environment is set up with the Python you installed.
   - Login the Git into the Python and use the Git Clone or fetch the repository of the Forked repository you made. [Forking PyCharm Help](https://www.jetbrains.com/help/pycharm/fork-github-projects.html)
-  - 2) Option would be to use the Git clone but you *must* clone it to the new project's directory. See this link: [Git Clone to Project](https://www.jetbrains.com/help/pycharm/set-up-a-git-repository.html#put-existing-project-under-Git)
-  - Next once Python and Pycharm is setup and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commands to navigate to them and install them:
+  - 2) This option would be to use the Git clone but you *must* clone it to the new project's directory. See this link: [Git Clone to Project](https://www.jetbrains.com/help/pycharm/set-up-a-git-repository.html#put-existing-project-under-Git)
+  - Next, once Python and Pycharm are set up and installed, you'll need to install the dependencies for the project either through the Python terminal that you installed. Make sure pip is updated. Use these commands to navigate to them and install them:
 ```bash
 python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-  - Next, if this does not work, you will have to install the imports one by one clicking on all the **MainMenu.py**, **test.py**, **Breakout.py**, **TicTacToe.py**, **Trivia.py** and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages search bar for each one and install them there.
+  - Next, if this does not work, you will have to install the imports one by one by clicking on all the **MainMenu.py**, **test.py**, **Breakout.py**, **TicTacToe.py**, **Trivia.py**, and at the top of the imports, click on every imports so that they can be automatically downloaded through PyCharm's Python. Or go to each of them and then type in the Python Packages search bar for each one and install them there.
   - Then once done, **Run** the Python application:
 ```bash
 python MainMenu.py
@@ -152,33 +152,33 @@ python MainMenu.py
 - The user can select the history at the top of the README.md file and other information on the README.md file.
 - The user can use the README.md file to learn how the game works/how to play.
 - The user can see our development/testing/documentation process.
-- This options requires internet (not offline) and the other games are offline.
+- This option requires internet (not offline) and the other games are offline.
 ### Tic-Tac-Toe
 - Select Tic-Tac-Toe from the main menu.
-- This game, the AI is the X and the player is you O.
+- In this game, the AI is the X, and the player is you O.
 - Use mouse clicks to place X's and O's on the board.
-- AI will automaiticly make decisions.
+- AI will automatically make decisions.
 - You as the user as O make a move after AI who is X.
-- Three X's or O's means you win, else you either lose or a tie if neither.
+- Three X's or O's means you win, else you either lose or tie.
 - The game will automatically check for win/loss/draw conditions after each move.
 - Once the game is over, you can choose to play again or return to the main menu.
 ### Trivia
 - Select Trivia from the main menu.
 - The user has the option for 1 player (human) or 2 player (human vs. human)
-- The user will input thier name
-- The user can select 1 of the differnt subjects for the Trivia
+- The user will input their name
+- The user can select 1 of the different subjects for the Trivia
 - The game will display a multiple-choice question with four options.
 - Answer the question before the time runs out (indicated by the timer and music).
-- The timer is green when it's more time, yellow, getting closer to end time, and red, means end of time to select an answer.
+- The timer is green when it's more time, yellow when getting closer to the end time, and it turns red, meaning it is the end of time to select an answer.
 - When you answer, it will quickly flash if you got it wrong (red), or correct(green)
 - The score will increase for each correct answer.
-- If doing 2 player, it will show the scores and tell who wins.
+- If doing 2 players, it will show the scores and tell who wins.
 - Once all questions are answered, you will see your final score and can choose to play again or return to the main menu.
 ### Breakout
 - Select Breakout from the main menu.
 - Control the paddle with the left and right arrow keys.
 - Try to break all the blocks with the bouncing ball.
-- Some blocks require the ball to hit it more than 1 to destroy the block.
+- Some blocks require the ball to hit more than 1 to destroy the block.
 - You have three lives, and it counts the score based on the blocks you destroyed with the ball with sound effects.
 - If you lose all your lives, you will hear the game over sound, and you can restart the game or return to the main menu.
 ### Exit
@@ -186,8 +186,8 @@ python MainMenu.py
 - It will Exit the Python Game Hub and exit the Python Application.
 ## History of the Game Hub and Games
 ### Gaming Hub  
-- This Gaming Hub is similar to the Samsung Gaming Hub, where it lets users access mutliple games (like a libarary) without needing a console.
-- For this case the only thing that needs internet is the **Information** selection. The rest are all offline games as it's been integreated to the game hub.
+- This Gaming Hub is similar to the Samsung Gaming Hub, which lets users access multiple games (like a library) without needing a console.
+- For this case, the only thing that needs the internet is the **Information** selection. The rest are all offline games as it's been integrated into the game hub.
 ### Tic-Tac-Toe
 - Tic-Tac-Toe is an ancient game, going back to Roman times. It’s simple—just a 3x3 grid where players try to get three Xs or Os in a row.
 - It became popular worldwide because it’s easy to learn and quick to play.
@@ -212,7 +212,7 @@ This project uses Git for version control. Git will be used to track the progres
 #### Branching and Commit Process
 - Create a Branch: Each developer creates a separate feature branch for a specific task (e.g., name-of-team-member/MainMenu; name-of-team-member/TicTacToe.py, etc.).
 - Commit Changes: Developers commit incremental changes with descriptive commit messages (e.g., Added game over condition for TicTacToe.py, Triva.py, Breakout.py).
-- Push Changes: After completing a tasks in a remote branch that was created, developers push the branch to GitHub.
+- Push Changes: After completing tasks in a remote branch that was created, developers push the branch to GitHub.
 - Pull Request (PR): Create a Pull Request for code review. Once approved, the changes are merged into the main branch.
 ### Code Review and Merge
 - If changing major game files `.py`, the Git Leader will get approvals from the PR and ensure code quality and functionality.
@@ -223,8 +223,10 @@ This project uses Git for version control. Git will be used to track the progres
 - If any merge conflicts arise, the developer will resolve them before pushing their changes, ensuring that the codebase remains functional and consistent.
 #### See Git History Progress
   - To see the Progress go to the project repository [CMSC495Capstone](https://github.com/javonpayne100/CMSC495Capstone)
-  - Click on Branches to see all Branches. Then click on Each branch individual to see the changes in each branch. Once finished, go back to the project
-  - Click on Pull Requests to see all the branches that were merged into the main. opens are the ones not merged but able to compare, the closed one should show the branches that were merged into main after approval and comparison. This method protects the main final and makes sure that the main files are not touched. Once, finished, go back to the project.
+  - Click on Branches to see all Branches. Then click on Each branch individually to see the changes in each branch. Once finished, go back to the project
+  - Click on Pull Requests to see all the branches that were merged into the main. Opens are the ones not merged but able to be compared, the closed ones should show the branches that were merged into the main after approval and comparison. This method protects the main final and makes sure that the main files are not touched. Once, finished, go back to the project.
+- Click on the Issues to see all the open and closed issues per milestones and tags.
+- Click on the Actions to see all the Unit Tests run through GitHub actions by the (.yml) files.
   - Note: You can also see each Weekly Unit progress on Git through the "docs" folder where it shows per each week.
 ### Testing and Debugging
 - Unit Testing: Test each game module (Tic-Tac-Toe, Trivia, Breakout) for correctness.
@@ -232,36 +234,36 @@ This project uses Git for version control. Git will be used to track the progres
 - System Testing: Test the full application to ensure the overall user experience is smooth.
 ### **Unit Testing and Manual Testing Instructions:**
 - Go to the file **"test.py"** in the main branch and Run it. It should test 13 unit tests all in that file for the games.
-- Go to the file **"test.py"** in the james branch and run it through his branch. It should test 24 unit tests all in that file for the games.
+- Go to the file **"test.py"** in the James branch and run it through his branch. It should test 24 unit tests all in that file for the games.
 - If it doesn't work, click on each method section for the game and run it one by one.
 0)  **Steps/Procedures**:
-1) **GitHub Actions (24 unittest) (new test.py) (Skip if you do not have access to the Repo)**:
+1) **GitHub Actions (24 unit tests) (new test.py) (Skip if you do not have access to the Repo)**:
 - Go to https://github.com/javonpayne100/CMSC495Capstone
 - Go to Actions Tab
 - If Workflow is Disabled, Enable it
 - Click on the Workflow [1) Run Unit Tests For Mac with all push (James Branch); 2) Run Unit Tests For Windows with all push (James Branch); 3) Run Unit Tests For Ubuntu with all push (James Branch)]
 - Go to the right side of “This workflow has a workflow_dispatch event trigger.”
 - Click on Run Workflow
-- Make sure it’s on Main branch (the yml files auto runs on separate branches even if run through main)
+- Make sure it’s on Main branch (the .yml files autoruns on separate branches even if run through main)
 - Click Run Workflow (green to confirm)
-- Refresh page to see the GitHub Action process and if green it passes
+- Refresh the page to see the GitHub Action process and if green it passes
 - Environments runs (Win, Mac, Linux), but Ubuntu has glitches due to Git’s ongoing issue.
-- Now Repeat Steps (1-10) ONLY if you want to test out the old test.py with 13 unittest. 
+- Now Repeat Steps (1-10) ONLY if you want to test out the old test.py with 13 unit tests. 
 - On step 4 choose these workflows: [ Run Unit Tests For Mac with all push; Run Unit Tests For Windows with all push; Run Unit Tests For Ubuntu with all push ]
-- Command line, terminal or powershell steps: 
-- Download the code from github in the “james” branch. Refer to README.md for help.
+- Command line, terminal or PowerShell steps: 
+- Download the code from GitHub in the “james” branch. Refer to README.md for help.
 - Navigate to the project directory
 - Ensure installation of pygame, numpy and pyautogui using “pip install pygame numpy pyautogui” or install dependencies through the requirements.txt like shown in README.md
 - Run python -m unnitest test.py
 2) **Testing in IDE**:
-- Download the code from github in the “james” branch. 
-- Open IDE and open project from where it was saved
+- Download the code from GitHub in the “james” branch. 
+- Open IDE and open the project from where it was saved
 - Install all needed libraries (IDE should prompt to do this automatically)
 - Select the test.py
 - Run test.py
 3) **Test Data preparation**:
-- Old Unit Testing will be done through the “main” branch of the github, test.py.
-- New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
+- Old Unit Testing will be done through the “main” branch of the GitHub, test.py.
+- New Unit Testing will be done through the “james” branch of the GitHub, test.py will not work properly in another branch
 - Manual Testing will be done through the “james” and “main” branches.
 - Questions.json data must be valid and located in the directory the Trivia module expects it
 - brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
@@ -269,11 +271,11 @@ This project uses Git for version control. Git will be used to track the progres
 4) **Test Environment Configuration**:
 - Operating System: Windows, macOS, or Linux
 - Python Version: 3.9 or later
-- Terminal Tools: Command line, powershell, terminal or IDE
+- Terminal Tools: Command line, PowerShell, terminal, or IDE
 - Required Libraries: Pygame, json, math, random, sys, time, unnittest, numpy, pyautogui
 - Audio: Ensure audio output is enabled to validate sound-related tests.
 - Display: Use a resolution of at least 600x400 for consistent rendering.
-- GitHub Actions:  Required you have access to the Repositry and can go to the Actions tab
+- GitHub Actions:  Required you have access to the Repository and can go to the Actions tab
 0) **CMSC 495 Project Test Plan.xlsx (Manual Testing):**
 - Go to the docs to find a copy of the Excel sheet/ table for manual testing. 
 - Or Go to the docs in unit 5 to get the link to the Excel sheet / table for manual testing.
@@ -281,33 +283,33 @@ This project uses Git for version control. Git will be used to track the progres
 - Specifically, it will demonstrate the Main Menu(5 manual testing), Trivia(5 manual testing), Tic-Tac-Toe(5 manual testing), and Breakout(5 manual testing).
 - This makes a total of 20 Manual Tests for this manual testing.xlsx file.
 1) **Steps/Procedures**:
-- Command line, terminal or powershell steps: 
+- Command line, terminal or PowerShell steps: 
 - Download the code from github in the “james” branch. Refer to README.md for help.
 - Navigate to the project directory
 - Ensure installation of pygame, numpy and pyautogui using “pip install pygame numpy pyautogui” or install dependencies through the requirements.txt like shown in README.md
-- Run main menu with: python MainMenu.py
+- Run the main menu with: python MainMenu.py
 - From there test Main Menu and each linked game (Tic Tac Toe, Trivia, Breakout)
-- Follow the steps provided from the CMSC 495 Project Test Plan.xlsx file
+- Follow the steps provided in the CMSC 495 Project Test Plan.xlsx file
 - For each test Perform the Input/Action
 - Observe the result
 - Compare it against the Expected Result
 - Log pass/fail status
-- Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
+- Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unit tests.
 2) **Testing in IDE**:
-- Download the code from github in the “james” branch. Refer to README.md for help.
-- Open IDE and open project from where it was saved
+- Download the code from GitHub in the “james” branch. Refer to README.md for help.
+- Open IDE and open the project from where it was saved
 - Install all needed libraries (IDE should prompt to do this automatically)
 - Select and run MainMenu.py
 - From there test Main Menu and each linked game (Tic Tac Toe, Trivia, Breakout)
-- Follow the steps provided from the CMSC 495 Project Test Plan.xlsx file
+- Follow the steps provided in the CMSC 495 Project Test Plan.xlsx file
 - For each test Perform the Input/Action
 - Observe the result
 - Compare it against the Expected Result
 - Log pass/fail status
-- Repeat (steps 1-6) but download the code from github in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unittest.
+- Repeat (steps 1-6) but download the code from GitHub in the “main” branch. Refer to README.md for help. This is only for manual, you cannot do this for unit tests.
 3) **Test Data preparation**:
-- Old Unit Testing will be done through the “main” branch of the github, test.py.
-- New Unit Testing will be done through the “james” branch of the github, test.py will not work properly in another branch
+- Old Unit Testing will be done through the “main” branch of the GitHub, test.py.
+- New Unit Testing will be done through the “james” branch of the GitHub, test.py will not work properly in another branch
 - Manual Testing will be done through the “james” and “main” branches.
 - Questions.json data must be valid and located in the directory the Trivia module expects it
 - brick.wav, wall.wav, paddle.wav, and any other required .wav files in the same directory as the game files.
@@ -315,13 +317,13 @@ This project uses Git for version control. Git will be used to track the progres
 4) **Test Environment Configuration**:
 - Operating System: Windows, macOS, or Linux
 - Python Version: 3.9 or later
-- Terminal Tools: Command line, powershell, terminal or IDE
+- Terminal Tools: Command line, PowerShell, terminal or IDE
 - Required Libraries: Pygame, json, math, random, sys, time, unnittest, numpy, pyautogui
 - Audio: Ensure audio output is enabled to validate sound-related tests.
 - Display: Use a resolution of at least 600x400 for consistent rendering.
 #### Testing Overview:
-Automated testing was implemented using Python’s `unittest` framework to validate critical components of the Tic Tac Toe, Trivia, and Breakout modules. The test suite verifies game mechanics such as win detection, board state, and AI behavior in Tic Tac Toe. For Trivia, tests were written to inspect the structure of the question data loaded from JSON, as well as correctness of answer indexing. The Breakout tests include health reduction of blocks, ball reset logic, paddle boundaries, and collision detection between game elements. In other words, all 14 tests focus on critical game mechanics like win detection, board state, and AI behavior (Tic Tac Toe), question structure and answer indexing (Trivia), and collision detection and block health (Breakout).
-Following the Waterfall development methodology, future testing will be structured as a distinct phase conducted after the completion of full system implementation. This dedicated testing phase will begin with unit testing, targeting each module, Tic Tac Toe, Trivia, and Breakout to verify core functionalities such as AI decisions, answer validation, collision detection, and object behavior. Once unit-level verification is complete, the process will move into integration testing to ensure smooth interaction between components, including menu navigation, game transitions, and audio/visual responses. System testing will follow, simulating real-world usage scenarios to confirm that the application performs reliably under typical and extreme conditions. Lastly, acceptance testing will be performed to validate that all project requirements have been met and the application aligns with stakeholder expectations. Testing outcomes will be documented in detail, and any issues uncovered will be addressed through a feedback loop prior to final deployment. This structured approach ensures a thorough and sequential validation of the system’s readiness for delivery. Through the testing approach we will also use the software engineering techniques of unit Testing to ensure that each part is tested and debugged correctly.
+Automated testing was implemented using Python’s `unittest` framework to validate critical components of the Tic Tac Toe, Trivia, and Breakout modules. The test suite verifies game mechanics such as win detection, board state, and AI behavior in Tic Tac Toe. For Trivia, tests were written to inspect the structure of the question data loaded from JSON, as well as the correctness of answer indexing. The Breakout tests include health reduction of blocks, ball reset logic, paddle boundaries, and collision detection between game elements. In other words, all 14 tests focus on critical game mechanics like win detection, board state, and AI behavior (Tic Tac Toe), question structure and answer indexing (Trivia), and collision detection and block health (Breakout).
+Following the Waterfall development methodology, future testing will be structured as a distinct phase conducted after the completion of full system implementation. This dedicated testing phase will begin with unit testing, targeting each module, Tic Tac Toe, Trivia, and Breakout to verify core functionalities such as AI decisions, answer validation, collision detection, and object behavior. Once unit-level verification is complete, the process will move into integration testing to ensure smooth interaction between components, including menu navigation, game transitions, and audio/visual responses. System testing will follow, simulating real-world usage scenarios to confirm that the application performs reliably under typical and extreme conditions. Lastly, acceptance testing will be performed to validate that all project requirements have been met and the application aligns with stakeholder expectations. Testing outcomes will be documented in detail, and any issues uncovered will be addressed through a feedback loop prior to final deployment. This structured approach ensures a thorough and sequential validation of the system’s readiness for delivery. Through the testing approach, we will also use the software engineering techniques of unit Testing to ensure that each part is tested and debugged correctly.
 - **Next Phase Testing (Breakdown)**:
   - Future testing will follow the Waterfall methodology, starting after full system implementation.
   - **Unit Testing**: Verify core functionalities (AI decisions, answer validation, collision detection).
@@ -382,7 +384,7 @@ The activity diagram shows the flow of actions, starting from the application la
 - Tic-Tac-Toe: Contains classes like Board, Player, and AI.
 - Trivia: Includes classes such as QuestionManager, Timer, and Score.
 - Breakout: Utilizes classes like Ball, Paddle, and Block.
-- MainMenu: Contains the Game Hub main files so that user can acess this and it will select the games to be played.
+- MainMenu: Contains the Game Hub main files so that the user can access this and it will select the games to be played.
 
 ## Overview of Unit 1-8 Progress Conclusion
 ### Project Plan Goals:
