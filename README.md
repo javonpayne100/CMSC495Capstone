@@ -14,17 +14,17 @@ Based on our CMSC 495 CS Capstone class, the **Python Game Hub** project is desi
 
 ## Authors / Team
   - Note: These roles are what the majority of the time each person is completing, but the team is willing to swap out roles to help out in other sections.
-  - **Victoria** - *Project Manager / Technical Writer / Tester (GitHub Actions / Repo)*  
+  - **Victoria Lee** - *Project Manager / Technical Writer / Tester (GitHub Actions / Repo)*  
     [VictoriaRaven](https://github.com/VictoriaRaven)
-  - **James** - *Technical Writer / Tester (Unit Tests & Manual Tests)*  
+  - **James Mutry** - *Technical Writer / Tester (Unit Tests & Manual Tests)*  
     [jamesmutry](https://github.com/jamesmutry)
-  - **Javon** - *Git Lead (.py files) / Developer (MainMenu & Trivia) / Sub Tester*  
+  - **Javon Payne** - *Git Lead (.py files) / Developer (MainMenu & Trivia) / Sub Tester*  
     [javonpayne100](https://github.com/javonpayne100)
-  - **Todasha** - *Developer (Breakout) / Sub Tester*  
+  - **Todasha Foster** - *Developer (Breakout) / Sub Tester*  
     [DatFoster123](https://github.com/DayFoster123)
-  - **Jin** - *Developer (TicTacToe) / Sub Tester*  
+  - **Dajin Chung** - *Developer (TicTacToe) / Sub Tester*  
     [dajinchung](https://github.com/dajinchung)
-  - **Oluwatumininu** - *Developer (Breakout) / Sub Tester*  
+  - **Oluwatumininu Ipaye** - *Developer (Breakout) / Sub Tester*  
     [tumiwiththewave](https://github.com/tumiwiththewave)
 
 ## Table of Contents (Key Parts Only)
